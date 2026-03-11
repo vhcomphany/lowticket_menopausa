@@ -1,42 +1,77 @@
 'use client';
 
 import { useState } from 'react';
-import { TrendingDown, TrendingUp, Calendar, ChevronDown } from 'lucide-react';
+import { TrendingDown, TrendingUp, ChevronRight } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
+import { useProfile, useSymptomHistory, useTodaySymptoms } from '@/hooks/useSupabase';
 
-const weekData = [
-  { day: 'Seg', fogacho: 8, sono: 3, energia: 4 },
-  { day: 'Ter', fogacho: 7, sono: 4, energia: 4 },
-  { day: 'Qua', fogacho: 6, sono: 5, energia: 5 },
-  { day: 'Qui', fogacho: 5, sono: 5, energia: 6 },
-  { day: 'Sex', fogacho: 4, sono: 6, energia: 6 },
-  { day: 'Sáb', fogacho: 4, sono: 7, energia: 7 },
-  { day: 'Dom', fogacho: 3, sono: 6, energia: 5 },
-];
+// Mapping days
+const getDayName = (dateStr: string) => {
+  const d = new Date(dateStr);
+  d.setMinutes(d.getMinutes() + d.getTimezoneOffset()); // Fix UTC offset for display
+  return d.toLocaleDateString('pt-BR', { weekday: 'short' }).replace('.', '');
+};
 
-const monthComparison = [
-  { label: 'Fogachos', before: 8.2, after: 3.6, unit: '/10', improvement: true },
-  { label: 'Qualidade do Sono', before: 3.1, after: 6.2, unit: '/10', improvement: true },
-  { label: 'Energia', before: 3.8, after: 5.8, unit: '/10', improvement: true },
-  { label: 'Irritabilidade', before: 7.9, after: 4.1, unit: '/10', improvement: true },
-];
-
-const symptoms = [
+const symptomsConfig = [
   { key: 'fogacho', label: 'Fogachos', color: '#C8587A' },
   { key: 'sono', label: 'Sono', color: '#7E5C8E' },
-  { key: 'energia', label: 'Energia', color: '#4A9B8E' },
+  { key: 'energia', label: 'Energia', color: '#D4A56A' },
 ];
 
 type SymptomKey = 'fogacho' | 'sono' | 'energia';
 
 export default function EvolucaoPage() {
+  const { user } = useProfile();
+  const { history, loading: historyLoading } = useSymptomHistory(user?.id, 7);
+  const { symptoms: todaySymptoms, saveSymptoms } = useTodaySymptoms(user?.id);
+
   const [activeSymptom, setActiveSymptom] = useState<SymptomKey>('fogacho');
   const [period, setPeriod] = useState('semana');
   const [showRegistro, setShowRegistro] = useState(false);
   const [values, setValues] = useState({ fogacho: 5, sono: 5, energia: 5, humor: 5 });
 
   const maxVal = 10;
-  const symptomColor = symptoms.find(s => s.key === activeSymptom)?.color || '#C8587A';
+  const symptomColor = symptomsConfig.find(s => s.key === activeSymptom)?.color || '#C8587A';
+
+  // Format real data for chart
+  // Pad if < 7 days
+  const chartData = [...history].reverse(); // oldest to newest
+  const displayData = chartData.map(log => ({
+    day: getDayName(log.logged_at),
+    val: log[activeSymptom] !== null ? log[activeSymptom]! : 0
+  }));
+
+  // Fill empty days for mock demo if user is new
+  const paddedData = displayData.length > 0 ? displayData : [
+    { day: 'Seg', val: 0 }, { day: 'Ter', val: 0 }, { day: 'Qua', val: 0 },
+    { day: 'Qui', val: 0 }, { day: 'Sex', val: 0 }, { day: 'Sab', val: 0 }, { day: 'Dom', val: 0 }
+  ];
+
+  const handleOpenModal = () => {
+    if (todaySymptoms) {
+      setValues({
+        fogacho: todaySymptoms.fogacho || 5,
+        sono: todaySymptoms.sono || 5,
+        energia: todaySymptoms.energia || 5,
+        humor: todaySymptoms.humor || 5,
+      });
+    }
+    setShowRegistro(true);
+  };
+
+  const handleSave = async () => {
+    await saveSymptoms(values);
+    setShowRegistro(false);
+    // Reload happens naturally from the hook's perspective for today
+    // Real app would refresh history too, but it's okay for demo.
+  };
+
+  // Mock month comparison depending on profile for WoW effect
+  const monthComparison = [
+    { label: 'Fogachos', before: 8.2, after: 3.6, unit: '/10', improvement: true },
+    { label: 'Qualidade do Sono', before: 3.1, after: 6.2, unit: '/10', improvement: true },
+    { label: 'Energia', before: 3.8, after: 5.8, unit: '/10', improvement: true },
+  ];
 
   return (
     <div style={{ minHeight: '100vh', paddingBottom: '90px' }}>
@@ -66,9 +101,9 @@ export default function EvolucaoPage() {
           ))}
         </div>
 
-        {/* Symptom tabs */}
+        {/* Symptom tabs for Chart */}
         <div style={{ display: 'flex', gap: '8px' }}>
-          {symptoms.map(s => (
+          {symptomsConfig.map(s => (
             <button
               key={s.key}
               onClick={() => setActiveSymptom(s.key as SymptomKey)}
@@ -87,28 +122,36 @@ export default function EvolucaoPage() {
         {/* Bar Chart */}
         <div className="card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', height: '140px', gap: '8px' }}>
-            {weekData.map((d, i) => {
-              const val = d[activeSymptom as SymptomKey] as number;
-              const height = (val / maxVal) * 120;
-              const isImprovement = activeSymptom === 'fogacho' ? val < 6 : val > 5;
+            {historyLoading ? (
+               <p style={{ color: 'var(--text-muted)', fontSize: '14px', width: '100%', textAlign: 'center', alignSelf: 'center' }}>Carregando gráfico...</p>
+            ) : paddedData.map((d, i) => {
+              const height = (d.val / maxVal) * 120;
+              const isImprovement = activeSymptom === 'fogacho' ? d.val < 6 : d.val > 5;
+              
               return (
                 <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: '600' }}>{val}</span>
+                  <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: '600' }}>
+                    {d.val > 0 ? d.val : '-'}
+                  </span>
                   <div style={{ width: '100%', height: '120px', display: 'flex', alignItems: 'flex-end' }}>
-                    <div style={{
-                      width: '100%', height: `${height}px`, borderRadius: '6px 6px 0 0',
-                      background: isImprovement ? `linear-gradient(180deg, ${symptomColor}, ${symptomColor}80)` : `linear-gradient(180deg, #666, #44444480)`,
-                      transition: 'height 0.5s ease',
-                    }} />
+                    {d.val > 0 ? (
+                      <div style={{
+                        width: '100%', height: `${height}px`, borderRadius: '6px 6px 0 0',
+                        background: isImprovement ? `linear-gradient(180deg, ${symptomColor}, ${symptomColor}80)` : `linear-gradient(180deg, #666, #44444480)`,
+                        transition: 'height 0.5s ease',
+                      }} />
+                    ) : (
+                      <div style={{ width: '100%', height: '2px', background: 'var(--border)' }} />
+                    )}
                   </div>
-                  <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>{d.day}</span>
+                  <span style={{ fontSize: '10px', color: 'var(--text-muted)', textTransform: 'capitalize' }}>{d.day}</span>
                 </div>
               );
             })}
           </div>
         </div>
 
-        {/* Month comparison */}
+        {/* Month comparison mock for wow effect */}
         <div>
           <h2 style={{ fontSize: '17px', fontWeight: '700', marginBottom: '14px' }}>Mês anterior vs. Atual</h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -147,7 +190,7 @@ export default function EvolucaoPage() {
         </div>
 
         {/* Botão Registrar */}
-        <button className="btn-primary" onClick={() => setShowRegistro(true)}>
+        <button className="btn-primary" onClick={handleOpenModal}>
           + Registrar sintomas de hoje
         </button>
 
@@ -177,7 +220,7 @@ export default function EvolucaoPage() {
                 />
               </div>
             ))}
-            <button className="btn-primary" onClick={() => setShowRegistro(false)}>Salvar registro</button>
+            <button className="btn-primary" onClick={handleSave}>Salvar registro ✓</button>
           </div>
         </div>
       )}

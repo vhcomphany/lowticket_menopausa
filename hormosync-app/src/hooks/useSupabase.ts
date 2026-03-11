@@ -38,6 +38,25 @@ export interface ChecklistEntry {
   completed_at: string | null;
 }
 
+export interface JournalEntry {
+  id: string;
+  user_id: string;
+  prompt: string;
+  content: string;
+  created_at: string;
+}
+
+export interface ChallengeProgress {
+  id: string;
+  user_id: string;
+  challenge_id: string;
+  current_day: number;
+  status: string;
+  started_at: string | null;
+  completed_at: string | null;
+}
+
+
 export function useProfile() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [user, setUser] = useState<{ id: string; email: string } | null>(null);
@@ -158,4 +177,104 @@ export function useTodaySymptoms(userId: string | undefined) {
   };
 
   return { symptoms, saveSymptoms };
+}
+
+export function useJournalEntries(userId: string | undefined) {
+  const [entries, setEntries] = useState<JournalEntry[]>([]);
+  const [loading, setLoading] = useState(true);
+  const supabase = createClient();
+
+  useEffect(() => {
+    if (!userId) { setLoading(false); return; }
+    supabase
+      .from('journal_entries')
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+      .then(({ data }) => {
+        setEntries(data || []);
+        setLoading(false);
+      });
+  }, [userId]);
+
+  const addEntry = async (prompt: string, content: string) => {
+    if (!userId) return;
+    const { data } = await supabase
+      .from('journal_entries')
+      .insert([{ user_id: userId, prompt, content }])
+      .select()
+      .single();
+    if (data) setEntries(prev => [data, ...prev]);
+  };
+
+  return { entries, loading, addEntry };
+}
+
+export function useChallenges(userId: string | undefined) {
+  const [challenges, setChallenges] = useState<ChallengeProgress[]>([]);
+  const [loading, setLoading] = useState(true);
+  const supabase = createClient();
+
+  useEffect(() => {
+    if (!userId) { setLoading(false); return; }
+    supabase
+      .from('challenge_progress')
+      .select('*')
+      .eq('user_id', userId)
+      .then(({ data }) => {
+        setChallenges(data || []);
+        setLoading(false);
+      });
+  }, [userId]);
+
+  const startChallenge = async (challengeId: string) => {
+    if (!userId) return;
+    const { data } = await supabase
+      .from('challenge_progress')
+      .upsert({ user_id: userId, challenge_id: challengeId, current_day: 0, status: 'in_progress', started_at: new Date().toISOString() }, { onConflict: 'user_id,challenge_id' })
+      .select()
+      .single();
+    if (data) setChallenges(prev => [...prev.filter(c => c.challenge_id !== challengeId), data]);
+  };
+
+  const advanceChallenge = async (challengeId: string, currentDay: number, totalDays: number) => {
+    if (!userId) return;
+    const nextDay = currentDay + 1;
+    const isCompleted = nextDay >= totalDays;
+    const status = isCompleted ? 'completed' : 'in_progress';
+    const completedAt = isCompleted ? new Date().toISOString() : null;
+
+    const { data } = await supabase
+      .from('challenge_progress')
+      .update({ current_day: nextDay, status, completed_at: completedAt })
+      .eq('user_id', userId)
+      .eq('challenge_id', challengeId)
+      .select()
+      .single();
+    if (data) setChallenges(prev => prev.map(c => c.challenge_id === challengeId ? data : c));
+  };
+
+  return { challenges, loading, startChallenge, advanceChallenge };
+}
+
+export function useSymptomHistory(userId: string | undefined, limit: number = 7) {
+  const [history, setHistory] = useState<SymptomLog[]>([]);
+  const [loading, setLoading] = useState(true);
+  const supabase = createClient();
+
+  useEffect(() => {
+    if (!userId) { setLoading(false); return; }
+    supabase
+      .from('symptom_logs')
+      .select('*')
+      .eq('user_id', userId)
+      .order('logged_at', { ascending: false })
+      .limit(limit)
+      .then(({ data }) => {
+        setHistory(data || []);
+        setLoading(false);
+      });
+  }, [userId, limit]);
+
+  return { history, loading };
 }
