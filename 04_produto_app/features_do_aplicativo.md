@@ -26,21 +26,28 @@ A usuária paga o ticket baixo inicial para *desbloquear* o resultado detalhado 
 * Uma aba simples com receitas ágeis (Café, Almoço, Jantar).
 * **O diferencial:** As receitas devem indicar para qual sintoma elas são boas. Ex: *"Suco Verde Anti-Fogacho"*, *"Sopa Leve Indutora de Sono"*, *"Chá da Libido"*.
 
-### 4. Tracker de Sintomas (A Ferramenta de Retenção)
-* Uma funcionalidade onde ela arrasta sliders (barrinhas de 1 a 10) toda semana:
-  * Intensidade do Fogacho: 8/10
-  * Qualidade do Sono: 4/10
-  * Nível de Energia: 5/10
-* O app gera um gráfico mostrando a evolução dela com o passar das semanas. **Isso é o que vai mantê-la pagando a recorrência.**
+### 4. Novo Diagnóstico (Re-Aferição de Perfil)
+* Por mais que o quiz inicial tenha dado "Cortisol Alto", a mulher pode melhorar isso e passar a se incomodar mais com o peso com o passar dos meses. 
+* O App permitirá que ela **refaça o Quiz/Diagnóstico** após um certo período para reajustar o seu "Perfil Atual" e mudar a trilha de rotinas e receitas dela para a nova realidade. Isso evita que ela fique presa num diagnóstico obsoleto e abandone o uso.
+
+### 5. Tracker de Sintomas e Histórico (A Ferramenta de Retenção)
+* Uma funcionalidade onde ela entra todo dia (ou semana) para registrar como estão os controles:
+  * Como você acordou? (Energia)
+  * Como foi a qualidade do sono?
+  * Teve fogachos hoje ou alguma observação específica?
+* **Gráficos de Evolução:** O App consolida esses inputs num gráfico de fácil visualização. Ela consegue puxar o histórico "Mês Anterior vs. Mês Atual" ou "Semana Anterior vs. Semana Atual" para ver em uma linha de tendência clara que ela **está melhorando**. 
+* **Por que isso importa:** Sem ver resultado tangível (o gráfico descendo na dor), ela cancela a assinatura. Essa visualização gráfica dos próprios dados é o maior gerador de LTV do SaaS.
 
 ---
 
-## Como o App se conecta com a Oferta de Upsell (Acesso Vitalício)
-Como o usuário mencionou, o modelo principal da empresa é de assinaturas/recorrência. 
-Portanto:
-* O produto Front-End (R$ 27) dá acesso **Anual ou Semestral** ao App.
-* O Upsell 1 (A Oferta Principal de R$ 147) é a venda do **Acesso PREMIUM VITALÍCIO**, que desbloqueia abas extras dentro do próprio App (ex: Aba "Comunidade VIP", Aba "Imersão Zero Reposição Guias Completos"). 
-* Se ela não compra o Upsell, essas abas ficam com um cadeado visual dentro do App, gerando desejo futuro.
+## Como o App se conecta com a Oferta de Upsell (Maximização de LTV Interno)
+Como o usuário mencionou, o modelo principal da empresa é construir um MVP validado para rodar em assinaturas/recorrência e aumentar o "Ganho por Lead" ao máximo.
+Portanto, a monetização não para no funil inicial:
+
+* O produto Front-End (R$ 27) dá acesso ao App base.
+* Se ela **não comprou** o Upsell (As Mentorias, Guias Avançados ou a Comunidade VIP) no checkout inicial, essas áreas aparecerão no App com um **Cadeado Visual**.
+* **Compra in-app (Fricção Zero):** Ao clicar no cadeado, a usuária é direcionada para um link de checkout interno direto do App. Mesmo que seja um pouco mais caro ou mais barato dependendo da promoção, a oferta vive ali.
+* **Automação de Descontos:** O sistema deve estar preparado para identificar as usuárias que não compraram o produto "X" (ex: Acesso Vitalício) e, em dias específicos da semana, enviar uma mensagem in-app ou notificação oferecendo aquele módulo extra com um desconto relâmpago para forçar a nova conversão e elevar o LTV.
 
 ## Requisitos Técnicos Mínimos (Construção via IA)
 * **Frontend:** PWA (Progressive Web App) gerado via Lovable ou v0.dev. Ele roda direto no navegador (Safari/Chrome), mas ela pode "Adicionar à Tela de Início" para parecer um App nativo, sem precisarmos passar pela aprovação burocrática da Apple Store/Play Store (que rejeita muitos apps de saúde/DR).
