@@ -1,55 +1,74 @@
-# Estrutura do Produto Final (O "App" SaaS)
+# Arquitetura e Estrutura do Produto Final (App SaaS)
 
-Com base no áudio, o entregável não será um PDF estático ou um Notion. Será um **Aplicativo real (Web App / SaaS)** construído via IA (Lovable, Cursor, Bolt, etc.), projetado para rodar no modelo de **Recorrência (Assinatura)**. 
+O aplicativo será um **SaaS fechado de acompanhamento hormonal para menopausa**, desenhado para retenção mensal, upsell interno e baixo custo operacional (sem consumir tokens de IA dentro do app).
 
-Para que a promessa do Quiz ("Descubra seu Perfil Hormonal e receba um plano de 15 minutos") seja cumprida com alta percepção de valor, o App precisa ter funcionalidades visuais e de acompanhamento claras.
-
-## Nome Provisório do App
-* **"HormoSync"** ou **"Reage 40+"** ou **"BalanceApp"** (A definir)
-
-## Core Features (O que a usuária recebe no Front-End de R$ 27)
-A usuária paga o ticket baixo inicial para *desbloquear* o resultado detalhado do Quiz e acessar a rotina diária dela.
-
-### 1. Dashboard Personalizado (O "Uau" instantâneo)
-* Quando ela loga pela primeira vez, a tela inicial não pode ser genérica. Tem que dizer: *"Bem-vinda, [Nome]. Seu perfil é **Cortisol Alto**. Aqui está o seu plano de hoje."*
-* Deve haver um gráfico visual ou barra de progresso mostrando "Nível de Desequilíbrio Atual" vs "Meta em 30 dias".
-
-### 2. A Rotina Diária de 15 Minutos (Checklist Interativo)
-* **O que é:** Uma lista de 3 a 5 tarefas simples por dia, focadas no perfil dela, que ela pode marcar um "Check" (✅).
-* **Exemplo (Perfil Insônia/Cortisol):**
-  * Manhã (3 min): Shot matinal de limão + pitada de sal integral (Apoio adrenal).
-  * Tarde (5 min): Respiração 4-7-8 (Redução de pico de stress).
-  * Noite (7 min): Chá de Mulungu e desligar telas 30 min antes de dormir.
-* **Gatilho de Dopamina:** Toda vez que ela completa o checklist, um tracker de "Ofensiva" (Streak, igual Duolingo) aumenta. Isso força ela a abrir o app todo dia.
-
-### 3. Banco de Refeições "Pró-Hormônio" (Filtro por Perfil)
-* Uma aba simples com receitas ágeis (Café, Almoço, Jantar).
-* **O diferencial:** As receitas devem indicar para qual sintoma elas são boas. Ex: *"Suco Verde Anti-Fogacho"*, *"Sopa Leve Indutora de Sono"*, *"Chá da Libido"*.
-
-### 4. Novo Diagnóstico (Re-Aferição de Perfil)
-* Por mais que o quiz inicial tenha dado "Cortisol Alto", a mulher pode melhorar isso e passar a se incomodar mais com o peso com o passar dos meses. 
-* O App permitirá que ela **refaça o Quiz/Diagnóstico** após um certo período para reajustar o seu "Perfil Atual" e mudar a trilha de rotinas e receitas dela para a nova realidade. Isso evita que ela fique presa num diagnóstico obsoleto e abandone o uso.
-
-### 5. Tracker de Sintomas e Histórico (A Ferramenta de Retenção)
-* Uma funcionalidade onde ela entra todo dia (ou semana) para registrar como estão os controles:
-  * Como você acordou? (Energia)
-  * Como foi a qualidade do sono?
-  * Teve fogachos hoje ou alguma observação específica?
-* **Gráficos de Evolução:** O App consolida esses inputs num gráfico de fácil visualização. Ela consegue puxar o histórico "Mês Anterior vs. Mês Atual" ou "Semana Anterior vs. Semana Atual" para ver em uma linha de tendência clara que ela **está melhorando**. 
-* **Por que isso importa:** Sem ver resultado tangível (o gráfico descendo na dor), ela cancela a assinatura. Essa visualização gráfica dos próprios dados é o maior gerador de LTV do SaaS.
+A lógica central do produto é:
+**Quiz na Inlead → Compra → Criação automática via n8n → App Personalizado no 1º login → Acompanhamento Diário → Recuperação/Recorrência**
 
 ---
 
-## Como o App se conecta com a Oferta de Upsell (Maximização de LTV Interno)
-Como o usuário mencionou, o modelo principal da empresa é construir um MVP validado para rodar em assinaturas/recorrência e aumentar o "Ganho por Lead" ao máximo.
-Portanto, a monetização não para no funil inicial:
+## 1. Arquitetura Ideal, Simples e Estável
+* **Frontend:** Next.js / React (PWA)
+* **Backend / Banco / Auth:** Supabase
+* **Automação (Middleware):** n8n
+* **Quiz Externo (Top of Funnel):** Inlead
+* **Checkout:** Kiwify/Yampi/PerfectPay (A definir)
 
-* O produto Front-End (R$ 27) dá acesso ao App base.
-* Se ela **não comprou** o Upsell (As Mentorias, Guias Avançados ou a Comunidade VIP) no checkout inicial, essas áreas aparecerão no App com um **Cadeado Visual**.
-* **Compra in-app (Fricção Zero):** Ao clicar no cadeado, a usuária é direcionada para um link de checkout interno direto do App. Mesmo que seja um pouco mais caro ou mais barato dependendo da promoção, a oferta vive ali.
-* **Automação de Descontos:** O sistema deve estar preparado para identificar as usuárias que não compraram o produto "X" (ex: Acesso Vitalício) e, em dias específicos da semana, enviar uma mensagem in-app ou notificação oferecendo aquele módulo extra com um desconto relâmpago para forçar a nova conversão e elevar o LTV.
+**Regra Principal:** O app depende de poucas automações externas. O n8n cuida estritamente de acessos (criação de conta após compra), sincronização do diagnóstico do quiz com o Supabase e disparo de webhook de renovação/bloqueio de pagamento. O restante das mecânicas roda internamente.
 
-## Requisitos Técnicos Mínimos (Construção via IA)
-* **Frontend:** PWA (Progressive Web App) gerado via Lovable ou v0.dev. Ele roda direto no navegador (Safari/Chrome), mas ela pode "Adicionar à Tela de Início" para parecer um App nativo, sem precisarmos passar pela aprovação burocrática da Apple Store/Play Store (que rejeita muitos apps de saúde/DR).
-* **Backend:** Supabase (Como mencionado pelo Xisto). Vai guardar a autenticação, os perfis cruzados do Inlead e salvar o progresso dos Checklists Diários.
-* **Automação:** Webhook direto do Checkout (Kiwify ou similar) -> Cria usuário no Supabase -> Envia e-mail ou WhatsApp com o "Link Mágico" de login do App.
+---
+
+## 2. Funções Completas do App
+
+### Acesso e Segurança
+* **Login Mínimo:** Apenas email, senha e botão "Entrar". **Não há botão de Criar Conta** (conta só existe se comprar o produto).
+* **Recuperação de Senha:** Botão "Esqueci minha senha" que verifica o email e envia link de redefinição com trava de 60 segundos para evitar spam.
+
+### Personalização Inicial (O Efeito "Uau")
+* A usuária **não entra zerada**. A automação do n8n injeta as respostas da Inlead atreladas ao email da compra direto no Supabase.
+* No primeiro login, o painel já carrega o Nome, Fase/Perfil Hormonal diagnosticado, Sintoma Principal e a Rotina Inicial parametrizada.
+
+### Dashboard (Home)
+* Saudação personalizada ("Olá, Ana. Hoje sua fase principal é Fogacho Intenso").
+* Indicador visual de equilíbrio.
+* Atalhos rápidos e mini-resumo de progresso semanal.
+
+### A Rotina Diária
+* Geração de 3 a 5 ações por dia (Manhã, Tarde, Noite) baseadas na Fase/Perfil atual.
+* Cada item tem um "Check" (✅).
+* Gamificação via **Ofensiva Diária** (dias seguidos de check completos), criando hábito.
+
+### Registro e Evolução (Retenção)
+* **Sintomas:** Mapeamento diário simples (ex: 1 a 5 ou Leve/Moderado/Intenso) focado no humor, fogacho, sono e energia.
+* **Evolução:** Gráficos visuais mostrando a melhora em porcentagem (Diária, Semanal, Mensal ou Comparativo Mês X vs Y). "Seus fogachos reduziram 28%". É a principal ferramenta de retenção de LTV.
+* **Resumo Semanal:** Pop-up ou aba que resume o desempenho dela (Sintomas que melhoraram, fórmulas mais usadas).
+
+### SOS Sintoma (Resposta Imediata)
+* Botão na home correspondente ao perfil dela. Se perfil = Ansiedade, o botão é "SOS Ansiedade" e carrega um áudio de respiração ou orientação prática quase instantânea.
+
+### Protocolos, Fórmulas e Receitas
+* O app não fala em "dietas". Usa termos proprietários: **Fórmulas Naturais** ou **Protocolos**.
+* **Banco Fixo em Supabase:** Cerca de 50+ receitas/protocolos cadastrados com TAGS (ex: anti-inchaço, sono, fogacho). O dashboard dela apenas prioriza/filtra a exibição baseada na tag do perfil dela, sem gastar com IA gerativa.
+
+### Complementos Terapêuticos e Diário
+* **Desafios:** Trilhas gamificadas de 7 ou 15 dias (ex: Desafio Anti-Fogacho).
+* **Áudios Terapêuticos:** Player Mínimo (MP3 direto do bucket) com sons para dormir, ruído marrom ou meditação.
+* **Diário Emocional:** Caixa de texto com "Prompts" do dia (journaling) para gerar acolhimento.
+
+### Novo Diagnóstico (Mantendo o App Vivo)
+* De tempos em tempos, o App libera a função "Refazer Diagnóstico". Um reteste rápido interno para recalcular a fase atual da usuária e alterar os protocolos exibidos.
+
+### LTV e Fricção de Cobrança
+* **Área Premium:** Módulos de Upsell (Comunidade, Biblioteca extra) visíveis mas trancados com cadeado. Clicar leva ao checkout interno (One-Click/Pix) pra elevar o LTV.
+* **Tela de Assinatura:** Aba no perfil listando o Plano, Data de Vencimento e Botão de Regularização. Sem botão nativo fácil de "Cancelar Assinatura" (cancelamento fica por conta do Gateway de Pagamento, reduzindo impulsos).
+
+---
+
+## 3. Gestão de Recuperação e Inadimplência (O "Rescue" Flow)
+
+A estratégia de cancelamento por não-pagamento no fim do ciclo / chargeback é desenhada para **Recuperar** antes de Chutar.
+
+1. **Período de Carência (Pendente):** Assinatura venceu e não rodou. O n8n altera o status no Supabase de "ativo" para "pendente". A usuária **não perde o acesso de imediato**. O App exibe banners como *"Seu pagamento está pendente. Seu acesso será limitado em X dias."*
+2. **Aviso Fixo / Recuperação Interna:** Mensagens in-app com botão "Regularizar agora" chamando para a página de checkout.
+3. **Bloqueio Hard (A Ideia do Desconto):** Passando a carência (ex: 7 dias), o acesso é bloqueado. Quando ela tenta logar no App com a assinatura vencida, ela não entra no Dashboard. A **tela de login redireciona obrigatoriamente para uma Tela de Regularização**. 
+4. **Trigger de Conversão:** Essa tela de Regularização Bloqueada deve disparar uma oferta agressiva: *"Sentimos sua falta! Retome sua jornada hormonal hoje com [30% de desconto] na renovação anual."* (Elevando consideravelmente a repescaria).
