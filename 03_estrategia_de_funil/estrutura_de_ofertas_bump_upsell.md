@@ -42,12 +42,12 @@ Para maximizar o LTV inicial no tráfego frio e aproveitar o ímpeto de compra p
 *Estratégia:* Aqui já passou o Pix do produto principal + Bumps. O Upsell entra com *One Click Buy* (se pagou de cartão) ou via página de obrigado forçando um Pix parcelado/segundo Pix.
 
 ### UPSELL 1 (A Oferta Principal de Escala)
-* **O que é:** O Acesso Vitalício + Comunidade VIP + Mentoria Gravada (O ecossistema completo).
-* **Pitch:** "Parabéns, seu Aplicativo foi liberado. Mas hoje você comprou acesso por apenas 1 ano. 90% das mulheres voltam aos sintomas graves no segundo ano porque o corpo muda. Como você já é aluna, clique no botão e leve o *Acesso Vitalício ao App*, acesso livre a nossa *Comunidade Fechada* e o curso *Imersão Zero Reposição Hormonal Sintética* com R$ 200 de desconto."
+* **O que é:** O Acesso Vitalício + Comunidade VIP de Mulheres + Protocolo Escrito "Imersão Anti-Hormônios Sintéticos". (Tudo em formato texto/app, sem dependência de aulas em vídeo).
+* **Pitch:** "Parabéns, seu Aplicativo foi liberado. Mas hoje você comprou acesso por apenas 1 ano. 90% das mulheres voltam aos sintomas graves no segundo ano porque o corpo muda. Como você já é aluna, clique no botão e leve o *Acesso Vitalício ao App*, acesso livre a nossa *Comunidade Fechada* e o guia completo *Zero Reposição Hormonal Sintética* com R$ 200 de desconto."
 * **Preço sugerido:** R$ 97,00 ou R$ 147,00
-* **Fricção de pagamento:** Como o ticket aumenta, o cartão parcela melhor que o Pix. Mas em checkouts maduros as plataformas já permitem geração do "Upsell via Pix", estendendo o tempo da página.
+* **Fricção de pagamento:** Como o ticket aumenta, o cartão parcela melhor que o Pix. Mas em checkouts maduros as plataformas já permitem geração do "Upsell via Pix", estendendo o tempo da página. Além disso, a Comunidade e o Acesso Vitalício possuem alto valor percebido sem exigir um "expert em vídeo".
 
 ### DOWNSELL 1 (A Recuperação para quem negou o Upsell)
 * **O que é:** Parte do benefício do Upsell por um preço cortado pela metade.
-* **Pitch:** "Entendo que R$ 147 pode estar pesado hoje. Eu não quero que você fique sem a Comunidade. Clique aqui e leve APENAS o Acesso Vitalício + Comunidade (sem as mentorias extras) por apenas R$ 47."
+* **Pitch:** "Entendo que R$ 147 pode estar pesado hoje. Eu não quero que você fique sem a Comunidade. Clique aqui e leve APENAS o Acesso Vitalício + Comunidade (sem os guias e protocolos extras) por apenas R$ 47."
 * **Preço sugerido:** R$ 47,00
