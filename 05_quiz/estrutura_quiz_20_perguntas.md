@@ -16,7 +16,7 @@ Baseado no framework de Victor Xisto e na dor do público-alvo (mulheres de 35 a
 ## FASE 2: Conexão com a Dor Física (O que mais incomoda no dia a dia)
 *-> TELA DE TRANQUILIZAÇÃO 1: "Analisando seus dados, [Nome]... Sabia que mulheres na faixa dos [Variável: Idade] anos sofrem quedas bruscas de Estradiol que causam sintomas silenciosos? Vamos descobrir os seus."*
 
-6. **[Nome], você tem sentido ondas de calor repentinas (fogachos) ou suores noturnos?** (*Sim, quase todo dia / Às vezes / Não sinto*)
+6. **[Nome], você tem sentido fogachos (ondas súbitas de calor intenso que atingem o peito, pescoço e rosto) ou suores noturnos?** (*Sim, quase todo dia / Às vezes / Não sinto*)
 7. **Como você descreveria a qualidade do seu sono hoje?** (*Acordo de madrugada e não volto a dormir / Demoro muito a pegar no sono / Durmo bem, mas acordo exausta / Excelente*)
 8. **Você tem notado ganho de gordura, especialmente na região da barriga, mesmo sem mudar a alimentação?** (*Sim, muita diferença / Um pouco / Não notei mudança*)
 9. **Você sente dores articulares ou musculares (sensação de corpo "moído") ao acordar?** (*Sim, todos os dias / Às vezes / Raramente*)
