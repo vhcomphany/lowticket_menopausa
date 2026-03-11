@@ -1,0 +1,183 @@
+'use client';
+
+import { useState } from 'react';
+import { ChevronRight, CheckCircle } from 'lucide-react';
+import BottomNav from '@/components/BottomNav';
+
+const prompts = [
+  'Como você se sentiu hoje em relação ao seu corpo?',
+  'Qual sintoma te incomodou mais hoje?',
+  'O que te deu prazer ou alegria hoje?',
+  'Que pequena melhora você percebeu?',
+  'O que você faria diferente amanhã?',
+];
+
+const challenges = [
+  {
+    id: 1, title: 'Desafio Anti-Fogacho', days: 7, currentDay: 4, emoji: '🔥',
+    color: '#C8587A',
+    desc: 'Protocolo diário de 7 dias para reduzir a intensidade e frequência dos fogachos.',
+    todayTask: 'Tome o Shot Anti-Fogacho e faça a respiração 4-7-8 após o almoço.',
+  },
+  {
+    id: 2, title: 'Desafio do Sono', days: 15, currentDay: 0, emoji: '🌙',
+    color: '#7E5C8E',
+    desc: '15 dias de rituais noturnos para regular o ciclo do sono e acabar com a insônia.',
+    todayTask: 'Inicie sua rotina 1h mais cedo que o normal hoje.',
+  },
+  {
+    id: 3, title: 'Desafio Anti-Inchaço', days: 7, currentDay: 0, emoji: '💧',
+    color: '#4A9B8E',
+    desc: '7 dias de alimentação linfática para desinchar e sentir o corpo leve.',
+    todayTask: null,
+  },
+];
+
+export default function DiarioPage() {
+  const [activeTab, setActiveTab] = useState<'diario' | 'desafios'>('diario');
+  const [entry, setEntry] = useState('');
+  const [saved, setSaved] = useState(false);
+  const [promptIdx, setPromptIdx] = useState(0);
+  const [expandedChallenge, setExpandedChallenge] = useState<number | null>(null);
+
+  const saveEntry = () => {
+    if (!entry.trim()) return;
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2500);
+    setEntry('');
+  };
+
+  return (
+    <div style={{ minHeight: '100vh', paddingBottom: '90px' }}>
+      <div style={{ padding: '20px 20px 0' }}>
+        <h1 style={{ fontSize: '24px', fontWeight: '800', marginBottom: '16px' }}>Jornada</h1>
+
+        {/* Tabs */}
+        <div style={{ display: 'flex', background: 'rgba(255,255,255,0.04)', borderRadius: '12px', padding: '4px', gap: '4px' }}>
+          {[['diario', '📔 Diário'], ['desafios', '🏆 Desafios']].map(([key, label]) => (
+            <button
+              key={key}
+              onClick={() => setActiveTab(key as 'diario' | 'desafios')}
+              style={{
+                flex: 1, padding: '10px', borderRadius: '10px', fontSize: '13px', fontWeight: '700',
+                border: 'none', cursor: 'pointer',
+                background: activeTab === key ? 'linear-gradient(135deg, var(--brand-rose), var(--brand-purple))' : 'transparent',
+                color: activeTab === key ? 'white' : 'var(--text-muted)',
+              }}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+
+        {activeTab === 'diario' && (
+          <>
+            {/* Prompt do dia */}
+            <div className="card-glow" style={{ padding: '20px' }}>
+              <p style={{ fontSize: '11px', fontWeight: '700', color: 'var(--brand-rose)', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '10px' }}>Reflexão de hoje</p>
+              <p style={{ fontSize: '17px', fontWeight: '600', lineHeight: '1.5', marginBottom: '20px' }}>
+                {prompts[promptIdx]}
+              </p>
+              <textarea
+                className="input-field"
+                placeholder="Escreva aqui o que você está sentindo..."
+                value={entry}
+                onChange={e => setEntry(e.target.value)}
+                rows={5}
+                style={{ resize: 'none', lineHeight: '1.6' }}
+              />
+              <div style={{ display: 'flex', gap: '10px', marginTop: '12px' }}>
+                <button
+                  className="btn-secondary"
+                  style={{ flex: 1 }}
+                  onClick={() => setPromptIdx((promptIdx + 1) % prompts.length)}
+                >
+                  Outra pergunta
+                </button>
+                <button className="btn-primary" style={{ flex: 1 }} onClick={saveEntry}>
+                  {saved ? '✓ Salvo!' : 'Salvar'}
+                </button>
+              </div>
+            </div>
+
+            {/* Entradas anteriores (mockadas) */}
+            <h2 style={{ fontSize: '17px', fontWeight: '700' }}>Entradas anteriores</h2>
+            {[
+              { date: 'Ontem', text: 'Hoje os fogachos foram menos intensos. Acho que o chá de camomila ajudou muito à noite.' },
+              { date: '9 Mar', text: 'Acordei às 3h da manhã de novo, mas consegui voltar a dormir com a respiração 4-7-8.' },
+            ].map((e, i) => (
+              <div key={i} className="card" style={{ padding: '16px' }}>
+                <p style={{ fontSize: '12px', color: 'var(--brand-rose)', fontWeight: '600', marginBottom: '8px' }}>{e.date}</p>
+                <p style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: '1.6' }}>{e.text}</p>
+              </div>
+            ))}
+          </>
+        )}
+
+        {activeTab === 'desafios' && (
+          <>
+            {challenges.map(c => (
+              <div key={c.id} className="card" style={{ padding: '0', overflow: 'hidden', border: c.currentDay > 0 ? `1px solid ${c.color}40` : '1px solid var(--border)' }}>
+                <div style={{ padding: '18px', cursor: 'pointer' }} onClick={() => setExpandedChallenge(expandedChallenge === c.id ? null : c.id)}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+                    <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                      <div style={{ width: '46px', height: '46px', borderRadius: '14px', background: `${c.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px' }}>
+                        {c.emoji}
+                      </div>
+                      <div>
+                        <p style={{ fontWeight: '700', fontSize: '15px', marginBottom: '2px' }}>{c.title}</p>
+                        <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{c.days} dias · Dia {c.currentDay} de {c.days}</p>
+                      </div>
+                    </div>
+                    {c.currentDay > 0 && (
+                      <span style={{ padding: '4px 10px', borderRadius: '100px', background: `${c.color}20`, color: c.color, fontSize: '11px', fontWeight: '700', border: `1px solid ${c.color}40` }}>
+                        ATIVO
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Progress dots */}
+                  <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
+                    {Array.from({ length: c.days }).map((_, i) => (
+                      <div
+                        key={i}
+                        style={{
+                          width: `${90 / c.days}%`, minWidth: '8px', height: '8px', borderRadius: '100px',
+                          background: i < c.currentDay ? c.color : 'rgba(255,255,255,0.1)',
+                          transition: 'background 0.3s',
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {expandedChallenge === c.id && (
+                  <div style={{ borderTop: '1px solid var(--border)', padding: '18px' }}>
+                    <p style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: '1.6', marginBottom: '16px' }}>{c.desc}</p>
+                    {c.todayTask && (
+                      <div style={{ padding: '14px', background: `${c.color}10`, borderRadius: '12px', border: `1px solid ${c.color}30`, marginBottom: '14px' }}>
+                        <p style={{ fontSize: '12px', color: c.color, fontWeight: '700', marginBottom: '6px' }}>TAREFA DE HOJE</p>
+                        <p style={{ fontSize: '14px', lineHeight: '1.5' }}>{c.todayTask}</p>
+                      </div>
+                    )}
+                    <button
+                      className="btn-primary"
+                      style={{ background: `linear-gradient(135deg, ${c.color}, ${c.color}aa)` }}
+                    >
+                      {c.currentDay === 0 ? 'Iniciar Desafio' : 'Marcar dia como concluído ✓'}
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))}
+          </>
+        )}
+      </div>
+
+      <BottomNav active="protocolos" />
+    </div>
+  );
+}
