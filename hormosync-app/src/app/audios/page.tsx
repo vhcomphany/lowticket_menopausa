@@ -115,7 +115,7 @@ export default function AudiosPage() {
         ))}
       </div>
 
-      <BottomNav active="audios" />
+      <BottomNav active="home" />
     </div>
   );
 }

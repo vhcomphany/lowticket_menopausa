@@ -90,13 +90,6 @@ export function useTodayChecklist(userId: string | undefined) {
   const supabase = createClient();
   const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
 
-  const defaultTasks = [
-    { task_id: 'morning_shot', task_label: 'Shot de limão + sal rosa (3 min)', time: 'Manhã' },
-    { task_id: 'morning_breath', task_label: 'Respiração 4-7-8 ao acordar (3 min)', time: 'Manhã' },
-    { task_id: 'afternoon_tea', task_label: 'Chá de Camomila com Mulungu (5 min)', time: 'Tarde' },
-    { task_id: 'night_protocol', task_label: 'Protocolo Noturno Anti-Cortisol (7 min)', time: 'Noite' },
-  ];
-
   useEffect(() => {
     if (!userId) { setLoading(false); return; }
 
@@ -111,14 +104,53 @@ export function useTodayChecklist(userId: string | undefined) {
       if (existing && existing.length > 0) {
         setEntries(existing);
       } else {
-        // Cria as tarefas do dia se não existirem ainda
-        const toInsert = defaultTasks.map(t => ({
+        // Compute today's tasks based on localStorage plan
+        let dynamicTasks = [
+          { task_id: 'morning_breath', task_label: '🌬️ Respiração 4-7-8 ao acordar' },
+        ];
+
+        if (typeof window !== 'undefined') {
+          try {
+            const planStr = localStorage.getItem('hormosync_weekly_plan');
+            if (planStr) {
+              const plan = JSON.parse(planStr);
+              // JS getDay: 0=Sun, 1=Mon, ..., 6=Sat
+              // Array: 0=Seg, 1=Ter, 2=Qua, 3=Qui, 4=Sex, 5=Sab, 6=Dom
+              const dayOfWeek = new Date().getDay();
+              const idx = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+              const todayPlan = plan[idx];
+
+              if (todayPlan) {
+                if (todayPlan.lanche_manha) dynamicTasks.push({ task_id: 'morning_shot', task_label: '💉 ' + todayPlan.lanche_manha.name });
+                if (todayPlan.cafe) dynamicTasks.push({ task_id: 'morning_cafe', task_label: '🥤 ' + todayPlan.cafe.name });
+                if (todayPlan.almoco) dynamicTasks.push({ task_id: 'afternoon_almoco', task_label: '🍽️ ' + todayPlan.almoco.name });
+                if (todayPlan.lanche_tarde) dynamicTasks.push({ task_id: 'afternoon_lanche', task_label: '🌮 ' + todayPlan.lanche_tarde.name });
+                if (todayPlan.jantar) dynamicTasks.push({ task_id: 'night_jantar', task_label: '🍲 ' + todayPlan.jantar.name });
+                if (todayPlan.cha) dynamicTasks.push({ task_id: 'night_cha', task_label: '🍵 ' + todayPlan.cha.name });
+              }
+            }
+          } catch (e) {}
+        }
+
+        // Se plan falhou ou não existe, cai pro padrão longo
+        if (dynamicTasks.length <= 2) {
+          dynamicTasks = [
+            { task_id: 'morning_shot', task_label: '💉 Shot anti-inflamatório (3 min)' },
+            { task_id: 'morning_breath', task_label: '🌬️ Respiração 4-7-8 ao acordar' },
+            { task_id: 'afternoon_tea', task_label: '🍵 Chá da tarde relaxante' },
+          ];
+        }
+
+        dynamicTasks.push({ task_id: 'night_protocol', task_label: '🌙 Higiene do sono (Luz baixa 30m antes)' });
+
+        const toInsert = dynamicTasks.map((t, idx) => ({
           user_id: userId,
           entry_date: today,
-          task_id: t.task_id,
+          task_id: `${t.task_id}_${idx}`, // Garante uniqueness pro DB hj
           task_label: t.task_label,
           completed: false,
         }));
+
         const { data: created } = await supabase
           .from('checklist_entries')
           .insert(toInsert)
@@ -149,7 +181,7 @@ export function useTodayChecklist(userId: string | undefined) {
       .eq('task_id', taskId);
   };
 
-  return { entries, loading, toggleTask, defaultTasks };
+  return { entries, loading, toggleTask };
 }
 
 export function useTodaySymptoms(userId: string | undefined, dateStr?: string) {

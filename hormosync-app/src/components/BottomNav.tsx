@@ -1,17 +1,17 @@
 'use client';
 
 import Link from 'next/link';
-import { Home, TrendingUp, UtensilsCrossed, Headphones, User } from 'lucide-react';
+import { Home, TrendingUp, UtensilsCrossed, Pill, User } from 'lucide-react';
 
 interface BottomNavProps {
-  active: 'home' | 'evolucao' | 'protocolos' | 'audios' | 'perfil';
+  active: 'home' | 'evolucao' | 'protocolos' | 'suplementos' | 'perfil';
 }
 
 const items = [
   { key: 'home', label: 'Início', icon: Home, href: '/dashboard' },
   { key: 'evolucao', label: 'Evolução', icon: TrendingUp, href: '/evolucao' },
   { key: 'protocolos', label: 'Receitas', icon: UtensilsCrossed, href: '/receitas' },
-  { key: 'audios', label: 'Áudios', icon: Headphones, href: '/audios' },
+  { key: 'suplementos', label: 'Cápsulas', icon: Pill, href: '/suplementos' },
   { key: 'perfil', label: 'Perfil', icon: User, href: '/perfil' },
 ];
 

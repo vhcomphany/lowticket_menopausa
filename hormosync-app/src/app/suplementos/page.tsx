@@ -193,8 +193,7 @@ export default function SuplementosPage() {
           }
         </div>
       </div>
-
-      <BottomNav active="protocolos" />
+      <BottomNav active="suplementos" />
     </div>
   );
 }

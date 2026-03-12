@@ -5,11 +5,11 @@ import { Flame, Moon, Zap, ChevronRight, Star, Lock, Bell } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
 import { useProfile, useTodayChecklist, useTodaySymptoms } from '@/hooks/useSupabase';
 
-const taskTimeMap: Record<string, string> = {
-  morning_shot: 'Manhã',
-  morning_breath: 'Manhã',
-  afternoon_tea: 'Tarde',
-  night_protocol: 'Noite',
+const getTaskTime = (taskId: string) => {
+  if (taskId.startsWith('morning_')) return 'Manhã';
+  if (taskId.startsWith('afternoon_')) return 'Tarde';
+  if (taskId.startsWith('night_')) return 'Noite';
+  return 'Qualquer hora';
 };
 
 export default function Dashboard() {
@@ -123,7 +123,7 @@ export default function Dashboard() {
                     </div>
                     <div style={{ flex: 1 }}>
                       <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '2px' }}>
-                        {taskTimeMap[entry.task_id] || 'Qualquer hora'}
+                        {getTaskTime(entry.task_id)}
                       </p>
                       <p style={{
                         fontSize: '14px', fontWeight: '500',
