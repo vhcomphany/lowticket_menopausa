@@ -14,19 +14,83 @@ const PLAN_LEVELS = [
 
 type PlanLevel = 'adaptativo' | 'intermediario' | 'avancado';
 
-const IMAGE_MAP: Record<RecipeCategory, string> = {
-  shot: 'https://images.unsplash.com/photo-1542282811-943ef1a977f5?q=80&w=400&h=400&fit=crop',
-  suco: 'https://images.unsplash.com/photo-1622597467836-f30b912c9b2d?q=80&w=400&h=400&fit=crop',
-  cha: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?q=80&w=400&h=400&fit=crop',
-  vitamina: 'https://images.unsplash.com/photo-1623065422900-30fc0406c1fa?q=80&w=400&h=400&fit=crop',
-  comida: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=400&h=400&fit=crop',
-  lanche: 'https://images.unsplash.com/photo-1559561853-08451507cbe7?q=80&w=400&h=400&fit=crop',
-  caldo: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?q=80&w=400&h=400&fit=crop',
+// Unique curated images per recipe ID — falls back to category image
+const RECIPE_IMAGES: Record<string, string> = {
+  // Shots
+  S01: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&h=400&fit=crop&q=80',
+  S02: 'https://images.unsplash.com/photo-1622597467836-f30b912c9b2d?w=400&h=400&fit=crop&q=80',
+  S03: 'https://images.unsplash.com/photo-1502741224143-90386d7f8c82?w=400&h=400&fit=crop&q=80',
+  S04: 'https://images.unsplash.com/photo-1518843875459-f738682238a6?w=400&h=400&fit=crop&q=80',
+  S05: 'https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=400&h=400&fit=crop&q=80',
+  S06: 'https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?w=400&h=400&fit=crop&q=80',
+  S07: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=400&fit=crop&q=80',
+  S08: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=400&h=400&fit=crop&q=80',
+  S09: 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=400&h=400&fit=crop&q=80',
+  S10: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&q=80',
+  // Sucos
+  SU01: 'https://images.unsplash.com/photo-1568158879083-c42860933ed7?w=400&h=400&fit=crop&q=80',
+  SU02: 'https://images.unsplash.com/photo-1534353436294-0dbd4bdac845?w=400&h=400&fit=crop&q=80',
+  SU03: 'https://images.unsplash.com/photo-1610970882406-4b76e459d77e?w=400&h=400&fit=crop&q=80',
+  SU04: 'https://images.unsplash.com/photo-1600718374662-0483d2b9da44?w=400&h=400&fit=crop&q=80',
+  SU05: 'https://images.unsplash.com/photo-1582169296194-e4d644c48063?w=400&h=400&fit=crop&q=80',
+  SU06: 'https://images.unsplash.com/photo-1546173159-315724a31696?w=400&h=400&fit=crop&q=80',
+  SU07: 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=400&h=400&fit=crop&q=80',
+  SU08: 'https://images.unsplash.com/photo-1554579360-c83e75c2f7cc?w=400&h=400&fit=crop&q=80',
+  // Chás
+  C01: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=400&h=400&fit=crop&q=80',
+  C02: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&h=400&fit=crop&q=80',
+  C03: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&h=400&fit=crop&q=80',
+  C04: 'https://images.unsplash.com/photo-1565799993513-c0ca52de53b4?w=400&h=400&fit=crop&q=80',
+  C05: 'https://images.unsplash.com/photo-1516916759473-600c07bc12d4?w=400&h=400&fit=crop&q=80',
+  C06: 'https://images.unsplash.com/photo-1594631252845-29fc4cc8cde9?w=400&h=400&fit=crop&q=80',
+  C07: 'https://images.unsplash.com/photo-1557844352-761f2565b576?w=400&h=400&fit=crop&q=80',
+  C08: 'https://images.unsplash.com/photo-1567706235968-45e96da99a38?w=400&h=400&fit=crop&q=80',
+  // Vitaminas
+  V01: 'https://images.unsplash.com/photo-1623065422900-30fc0406c1fa?w=400&h=400&fit=crop&q=80',
+  V02: 'https://images.unsplash.com/photo-1478145046317-81bae6810773?w=400&h=400&fit=crop&q=80',
+  V03: 'https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400&h=400&fit=crop&q=80',
+  V04: 'https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?w=400&h=400&fit=crop&q=80',
+  V05: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&h=400&fit=crop&q=80',
+  V06: 'https://images.unsplash.com/photo-1464500369799-7154ac40eb43?w=400&h=400&fit=crop&q=80',
+  // Comidas
+  CO01: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&h=400&fit=crop&q=80',
+  CO02: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=400&fit=crop&q=80',
+  CO03: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&h=400&fit=crop&q=80',
+  CO04: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=400&fit=crop&q=80',
+  CO05: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=400&fit=crop&q=80',
+  CO06: 'https://images.unsplash.com/photo-1513185158878-8d8c2a2a3da3?w=400&h=400&fit=crop&q=80',
+  // Lanches
+  L01: 'https://images.unsplash.com/photo-1484723091791-0092515cb613?w=400&h=400&fit=crop&q=80',
+  L02: 'https://images.unsplash.com/photo-1481070414801-51fd732d7184?w=400&h=400&fit=crop&q=80',
+  L03: 'https://images.unsplash.com/photo-1559561853-08451507cbe7?w=400&h=400&fit=crop&q=80',
+  L04: 'https://images.unsplash.com/photo-1506084868230-bb9d95c24759?w=400&h=400&fit=crop&q=80',
+  L05: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&h=400&fit=crop&q=80',
+  L06: 'https://images.unsplash.com/photo-1606913084603-3e7702b01627?w=400&h=400&fit=crop&q=80',
+  // Caldos
+  CA01: 'https://images.unsplash.com/photo-1481671703460-040cb8a2d909?w=400&h=400&fit=crop&q=80',
+  CA02: 'https://images.unsplash.com/photo-1604152135912-04a022e23696?w=400&h=400&fit=crop&q=80',
+  CA03: 'https://images.unsplash.com/photo-1617093727343-374698b1b08d?w=400&h=400&fit=crop&q=80',
+  CA04: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=400&h=400&fit=crop&q=80',
+  CA05: 'https://images.unsplash.com/photo-1603105037880-880cd4edfb0d?w=400&h=400&fit=crop&q=80',
 };
+
+const CATEGORY_FALLBACK: Record<RecipeCategory, string> = {
+  shot: 'https://images.unsplash.com/photo-1542282811-943ef1a977f5?w=400&h=400&fit=crop&q=80',
+  suco: 'https://images.unsplash.com/photo-1622597467836-f30b912c9b2d?w=400&h=400&fit=crop&q=80',
+  cha: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=400&h=400&fit=crop&q=80',
+  vitamina: 'https://images.unsplash.com/photo-1623065422900-30fc0406c1fa?w=400&h=400&fit=crop&q=80',
+  comida: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=400&fit=crop&q=80',
+  lanche: 'https://images.unsplash.com/photo-1559561853-08451507cbe7?w=400&h=400&fit=crop&q=80',
+  caldo: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&h=400&fit=crop&q=80',
+};
+
+function getRecipeImage(id: string, category: RecipeCategory): string {
+  return RECIPE_IMAGES[id] || CATEGORY_FALLBACK[category];
+}
 
 function RecipeCard({ recipe }: { recipe: Recipe }) {
   const [open, setOpen] = useState(false);
-  const imageUrl = IMAGE_MAP[recipe.category];
+  const imageUrl = getRecipeImage(recipe.id, recipe.category);
 
   return (
     <div
@@ -306,7 +370,7 @@ export default function ReceitasPage() {
             borderTop: '1px solid var(--border)'
           }} onClick={e => e.stopPropagation()}>
               <div style={{ position: 'relative', height: '200px', margin: '-24px -24px 20px -24px', flexShrink: 0 }}>
-                <img src={IMAGE_MAP[selectedRecipe.category]} alt={selectedRecipe.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={getRecipeImage(selectedRecipe.id, selectedRecipe.category)} alt={selectedRecipe.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 <div className="image-overlay-dark" />
                 <button onClick={() => setSelectedRecipe(null)} style={{ position: 'absolute', top: '24px', right: '24px', background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.2)', color: 'white', borderRadius: '50%', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', zIndex: 10 }}>
                   ✕

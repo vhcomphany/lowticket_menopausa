@@ -8,7 +8,6 @@ export interface Supplement {
   timing: string;
   timeToResult: string;
   whereToBuy: string;
-  costRange: string;
   contraindications: string[];
   safeFor?: string;
   tip?: string;
@@ -24,7 +23,6 @@ export const SUPPLEMENTS: Supplement[] = [
     timing: 'Após o café da manhã e após o almoço',
     timeToResult: '3 a 8 semanas de uso contínuo',
     whereToBuy: 'Farmácia de manipulação ou lojas de suplementos',
-    costRange: 'R$40–60/mês',
     contraindications: ['Diabetes — pode reduzir levemente a glicemia'],
     safeFor: 'Histórico de câncer de mama (não estimula receptores de estrogênio diretamente)',
     manipulationFormula: `PEDIDO DE MANIPULAÇÃO — EXTRATO DE AMORA:
@@ -33,7 +31,6 @@ Excipiente vegetal q.s.p. 1 cápsula HPMC (vegana)
 Quantidade: 60 cápsulas
 Posologia: 1 cápsula 2x ao dia (manhã e tarde) com alimento
 Durabilidade: 30 dias
-Custo estimado: R$40–60
 
 ✅ Segura para histórico de câncer de mama
 ⚠️ Diabéticas: monitorar glicemia`,
@@ -46,7 +43,6 @@ Custo estimado: R$40–60
     timing: '',
     timeToResult: '4 a 12 semanas',
     whereToBuy: 'Farmácias (Isofitol, Nattoflor) ou manipulação',
-    costRange: 'R$30–70/mês',
     contraindications: ['Histórico de câncer de mama ER+ — CONSULTAR MÉDICO', 'Hipotireoidismo — tomar 4h separado da levotiroxina'],
     tip: 'Não adianta tomar mais que 80mg/dia — receptores ficam saturados.',
     manipulationFormula: `PEDIDO DE MANIPULAÇÃO — ISOFLAVONAS:
@@ -55,7 +51,6 @@ Excipiente vegetal q.s.p. 1 cápsula
 Quantidade: 30 cápsulas
 Posologia: 1 cápsula ao dia com o café da manhã
 Durabilidade: 30 dias
-Custo estimado: R$35–55
 
 ⚠️ Câncer de mama ER+: consultar médico obrigatório`,
   },
@@ -67,7 +62,6 @@ Custo estimado: R$35–55
     timing: 'À noite, antes de dormir',
     timeToResult: '2 a 4 semanas',
     whereToBuy: 'Farmácia de manipulação',
-    costRange: 'R$25–45/mês',
     contraindications: ['Epilepsia', 'Gravidez', 'Amamentação'],
     manipulationFormula: `PEDIDO DE MANIPULAÇÃO — EXTRATO DE SÁLVIA:
 Extrato seco de Salvia officinalis (folhas) 280mg
@@ -75,7 +69,6 @@ Excipiente vegetal q.s.p. 1 cápsula
 Quantidade: 30 cápsulas
 Posologia: 1 cápsula à noite
 Durabilidade: 30 dias
-Custo estimado: R$25–45
 
 ⚠️ Contraindicada em epilepsia`,
   },
@@ -87,7 +80,6 @@ Custo estimado: R$25–45
     timing: 'Com o jantar ou antes de dormir',
     timeToResult: '1 a 2 semanas para sono; ansiedade melhora em dias',
     whereToBuy: 'Farmácia de manipulação (pedir bisglicinato ou glicinato)',
-    costRange: 'R$40–80/mês',
     contraindications: ['Doença renal grave'],
     tip: 'O óxido de magnésio que vem em produtos baratos tem absorção de apenas 4% — praticamente inútil.',
     manipulationFormula: `PEDIDO DE MANIPULAÇÃO — MAGNÉSIO BISGLICINATO:
@@ -96,7 +88,6 @@ Excipiente vegetal q.s.p. 1 cápsula
 Quantidade: 30 cápsulas
 Posologia: 1 cápsula à noite com o jantar
 Durabilidade: 30 dias
-Custo estimado: R$40–65
 
 ⚠️ IMPORTANTE: Pedir especificamente 'bisglicinato' ou 'glicinato'.
 NÃO substituir por Magnésio Óxido (absorção ruim, causa diarreia)`,
@@ -109,7 +100,6 @@ NÃO substituir por Magnésio Óxido (absorção ruim, causa diarreia)`,
     timing: '',
     timeToResult: 'Primeira noite já apresenta resultado',
     whereToBuy: 'Farmácias e manipulação',
-    costRange: 'R$15–35/mês',
     contraindications: ['Não combinar com antidepressivos sedativos sem orientação médica'],
     tip: 'Mais não é melhor. 0,5mg já é eficaz. Dose alta deixa grogue de manhã.',
     manipulationFormula: `PEDIDO DE MANIPULAÇÃO — MELATONINA:
@@ -118,7 +108,6 @@ Excipiente sublingual q.s.p. 1 comprimido sublingual (SLIC)
 Quantidade: 30 unidades
 Posologia: 1 unidade sublingual 30 min antes de dormir
 Durabilidade: 30 dias
-Custo estimado: R$15–30
 
 💡 Se quiser começar com dose menor: pedir 0,5mg`,
   },
@@ -130,7 +119,6 @@ Custo estimado: R$15–30
     timing: '',
     timeToResult: '2 a 4 semanas de uso contínuo (efeito acumula)',
     whereToBuy: 'Farmácia de manipulação ou Valdispert (pronto)',
-    costRange: 'R$30–60/mês',
     contraindications: ['Não dirigir após tomar', 'Não combinar com álcool'],
     manipulationFormula: `PEDIDO DE MANIPULAÇÃO — SONO REPARADOR:
 Extrato seco de Valeriana officinalis (0,8% ácido valerénico) 300mg
@@ -139,7 +127,6 @@ Excipiente vegetal q.s.p. 1 cápsula
 Quantidade: 30 cápsulas
 Posologia: 1 cápsula 45 min antes de dormir
 Durabilidade: 30 dias
-Custo estimado: R$35–55
 
 ⚠️ Não dirigir após tomar. Não combinar com álcool.`,
   },
@@ -151,7 +138,6 @@ Custo estimado: R$35–55
     timing: 'Com o café da manhã',
     timeToResult: '1 a 3 semanas',
     whereToBuy: 'Qualquer farmácia ou manipulação',
-    costRange: 'R$20–60/mês',
     contraindications: ['B6 acima de 200mg/dia por meses pode causar neuropatia — manter dose recomendada'],
     tip: 'Pedir Metilcobalamina (B12 ativa) e Metilfolato (B9 ativa) para maior eficácia.',
     manipulationFormula: `PEDIDO DE MANIPULAÇÃO — COMPLEXO B ATIVO:
@@ -166,7 +152,7 @@ Vitamina B12 (Metilcobalamina) 1.000mcg
 Excipiente vegetal q.s.p. 1 cápsula
 Quantidade: 30 cápsulas
 Posologia: 1 cápsula ao dia com o café da manhã
-Custo estimado: R$45–65`,
+`,
   },
   {
     id: 'SUP08', group: 'energia',
@@ -176,7 +162,6 @@ Custo estimado: R$45–65`,
     timing: 'Com a refeição mais gordurosa do dia (vitamina D é lipossolúvel)',
     timeToResult: '4 a 8 semanas; fazer exame de 25(OH)D para confirmar',
     whereToBuy: 'Farmácias e manipulação',
-    costRange: 'R$30–70/mês',
     contraindications: ['Hipercalcemia — fazer exame de cálcio a cada 6 meses em dose alta'],
     tip: 'A K2 direciona o cálcio para os ossos e evita calcificação das artérias. NUNCA tomar D3 alta dose sem K2.',
     manipulationFormula: `PEDIDO DE MANIPULAÇÃO — VITAMINA D3 + K2:
@@ -185,7 +170,6 @@ Vitamina K2 (Menaquinona MK7) 100mcg
 Excipiente oleoso q.s.p. 1 cápsula softgel
 Quantidade: 30 cápsulas
 Posologia: 1 cápsula ao dia com a refeição mais gordurosa
-Custo estimado: R$30–50
 
 ⚠️ Pedir obrigatoriamente MK7 (não MK4 — absorção menor)`,
   },
@@ -197,7 +181,6 @@ Custo estimado: R$30–50
     timing: 'Pela manhã (evitar à noite — dá energia)',
     timeToResult: '2 a 6 semanas',
     whereToBuy: 'Farmácia de manipulação ou lojas de suplementos',
-    costRange: 'R$40–80/mês',
     contraindications: ['Hipertensão descontrolada', 'Se piorar fogacho, reduzir dose ou parar'],
     tip: 'Maca Amarela = mais suave, uso geral. Maca Preta = mais potente para libido e memória.',
     manipulationFormula: `PEDIDO DE MANIPULAÇÃO — MACA PERUANA PRETA:
@@ -205,7 +188,6 @@ Extrato seco de Maca Peruana preta (Lepidium meyenii) 4:1 — 500mg
 Excipiente vegetal q.s.p. 1 cápsula
 Quantidade: 30 cápsulas
 Posologia: 1 cápsula pela manhã com o café
-Custo estimado: R$40–70
 
 💡 Para uso geral e energia: pedir Maca AMARELA
 Para libido e memória: pedir Maca PRETA`,
@@ -218,14 +200,13 @@ Para libido e memória: pedir Maca PRETA`,
     timing: 'Com a refeição gordurosa',
     timeToResult: '4 a 8 semanas para mucosa vaginal',
     whereToBuy: 'Farmácias e manipulação',
-    costRange: 'R$20–40/mês',
     contraindications: ['Acima de 1.000 UI/dia pode interferir na coagulação'],
     manipulationFormula: `PEDIDO DE MANIPULAÇÃO — VITAMINA E:
 Tocoferóis mistos (vitamina E) 400 UI
 Excipiente oleoso q.s.p. 1 cápsula softgel
 Quantidade: 30 cápsulas
 Posologia: 1 cápsula ao dia com o almoço
-Custo estimado: R$20–38`,
+`,
   },
   {
     id: 'SUP11', group: 'cabelo',
@@ -235,7 +216,6 @@ Custo estimado: R$20–38`,
     timing: 'Com o café da manhã',
     timeToResult: '3 a 6 meses (cabelo cresce devagar — persistência!)',
     whereToBuy: 'Farmácia de manipulação (juntos fica muito mais barato)',
-    costRange: 'R$45–75/mês (os 3 juntos em 1 cápsula)',
     contraindications: ['Biotina em dose alta interfere em TSH e troponina — avisar médico antes de exames'],
     tip: 'Resultados fotográficos em 90 dias. Marque antes e depois para se motivar.',
     manipulationFormula: `PEDIDO DE MANIPULAÇÃO — CABELO E UNHAS:
@@ -245,7 +225,6 @@ Selênio (L-selenometionina) 100mcg
 Excipiente vegetal q.s.p. 1 cápsula
 Quantidade: 30 cápsulas
 Posologia: 1 cápsula ao dia com o café
-Custo estimado: R$50–75
 
 ⚠️ Avisar médico sobre biotina antes de fazer exames de sangue`,
   },
@@ -257,7 +236,6 @@ Custo estimado: R$50–75
     timing: 'No café da manhã misturado no suco de laranja (vitamina C obrigatória)',
     timeToResult: '2 a 4 meses',
     whereToBuy: 'Farmácias e lojas de suplementos (pó ou sachê)',
-    costRange: 'R$40–80/mês',
     contraindications: ['Verificar origem: marinho (peixe) ou bovino — alergia específica'],
     tip: 'Sem vitamina C junto, o colágeno não é sintetizado. O suco de laranja é obrigatório.',
     manipulationFormula: `PEDIDO DE MANIPULAÇÃO — COLÁGENO + VITAMINA C:
@@ -265,7 +243,6 @@ Colágeno hidrolisado tipo 1 e 3 (pó) 5g por dose
 Vitamina C (ácido ascórbico) 500mg
 Quantidade: 30 sachês de 5g
 Posologia: 1 sachê ao dia misturado no suco de laranja
-Custo estimado: R$60–90/mês
 
 💡 Pode pedir somente o pó de colágeno (10g) e tomar com suco de laranja natural`,
   },
@@ -277,7 +254,6 @@ Custo estimado: R$60–90/mês
     timing: 'Com as refeições (almoço e jantar). Dividir as doses.',
     timeToResult: 'Densitometria a cada 2 anos para confirmar; sintomas em 3-6 meses',
     whereToBuy: 'Farmácia de manipulação',
-    costRange: 'R$60–90/mês',
     contraindications: ['Pedra nos rins de oxalato — usar citrato (mais seguro)', 'Hipercalcemia'],
     tip: 'NUNCA tomar mais de 500mg de cálcio de uma vez — absorção é limitada. Dividir sempre.',
     manipulationFormula: `PEDIDO DE MANIPULAÇÃO — STACK ÓSSEO COMPLETO:
@@ -289,7 +265,6 @@ Boro 3mg
 Excipiente oleoso/vegetal q.s.p. 1 cápsula
 Quantidade: 30 cápsulas
 Posologia: 1 cápsula ao dia com o almoço
-Custo estimado: R$70–100
 
 ⚠️ Histórico de pedra nos rins: confirmar citrato com médico`,
   },
@@ -301,7 +276,6 @@ Custo estimado: R$70–100
     timing: 'Com as refeições, dividido em 2 doses',
     timeToResult: '4 a 8 semanas',
     whereToBuy: 'Farmácias e lojas de suplementos',
-    costRange: 'R$50–120/mês',
     contraindications: ['Anticoagulantes (varfarina, heparina)', 'Suspender 7 dias antes de cirurgias'],
     manipulationFormula: `PEDIDO DE MANIPULAÇÃO — ÔMEGA-3 CONCENTRADO:
 Óleo de peixe concentrado fornecendo:
@@ -311,7 +285,6 @@ Total EPA+DHA por cápsula: 1.500mg
 Excipiente: óleo de peixe q.s.p. 1 cápsula softgel
 Quantidade: 60 cápsulas (2 ao dia)
 Posologia: 1 cápsula no almoço + 1 no jantar
-Custo estimado: R$55–85/mês
 
 ⚠️ Em uso de anticoagulante: consultar médico`,
   },
@@ -323,7 +296,6 @@ Custo estimado: R$55–85/mês
     timing: 'À noite com o jantar (tem efeito sedativo suave)',
     timeToResult: '4 a 8 semanas',
     whereToBuy: 'Farmácia de manipulação ou lojas de suplementos premium',
-    costRange: 'R$55–100/mês',
     contraindications: ['Gravidez — absolutamente proibido', 'Doenças autoimunes ativas', 'Hipertireoide'],
     tip: 'Pedir padronização KSM-66 ou Sensoril — são as únicas formas com estudo clínico. Genérica tem menos resultado.',
     manipulationFormula: `PEDIDO DE MANIPULAÇÃO — ASHWAGANDHA:
@@ -332,7 +304,6 @@ Extrato seco de Ashwagandha (Withania somnifera) KSM-66 padronizado 300mg
 Excipiente vegetal q.s.p. 1 cápsula
 Quantidade: 60 cápsulas
 Posologia: 1 cápsula 2x ao dia (manhã e noite com as refeições)
-Custo estimado: R$55–90
 
 ⚠️ Pedir especificamente KSM-66 ou Sensoril`,
   },
@@ -392,7 +363,6 @@ Vitamina C (ácido ascórbico) 500mg
 Excipiente vegetal q.s.p. 1 cápsula
 Quantidade: 30 cápsulas
 Posologia: 1 cápsula + 1 sachê de 5g de colágeno no suco de laranja ao dia
-Custo estimado: R$80–110/mês (cápsula + colágeno)
 
 ⚠️ Avisar médico sobre biotina antes de exames de sangue`,
   },
@@ -410,7 +380,7 @@ Coenzima Q10 (Ubiquinol) 100mg
 Excipiente vegetal q.s.p. 1 cápsula
 Quantidade: 30 cápsulas
 Posologia: 1 cápsula PELA MANHÃ (não à noite — estimulante)
-Custo estimado: R$90–130/mês`,
+`,
   },
   {
     id: 'STACK5',
@@ -425,7 +395,6 @@ Vitamina E (tocoferóis mistos) 200 UI
 Excipiente vegetal q.s.p. 1 cápsula
 Quantidade: 30 cápsulas
 Posologia: 1 cápsula ao dia com o almoço
-Custo estimado: R$80–120/mês
 
 ⚠️ Se sentir aumento de acne, reduzir Tribulus pela metade`,
   },
