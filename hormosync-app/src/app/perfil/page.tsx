@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { ChevronRight, LogOut, CreditCard, RefreshCw, Lock, Star, Bell } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { ChevronRight, LogOut, CreditCard, RefreshCw, Lock, Star, Bell, Edit2, Check, Camera } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
 import { useProfile } from '@/hooks/useSupabase';
 import { createClient } from '@/lib/supabase/client';
@@ -9,11 +9,74 @@ import { createClient } from '@/lib/supabase/client';
 export default function PerfilPage() {
   const { profile, loading } = useProfile();
   const [notifications, setNotifications] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editName, setEditName] = useState('');
+  const [localAvatar, setLocalAvatar] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  
   const supabase = createClient();
+
+  // Load avatar from localStorage initially to save DB space
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('hormosync_avatar');
+      if (saved) setLocalAvatar(saved);
+      if (profile?.name) setEditName(profile.name);
+    }
+  }, [profile]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
     window.location.href = '/';
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Client-side resize to prevent large files
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const maxSize = 200; // max width/height
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > maxSize) {
+            height *= maxSize / width;
+            width = maxSize;
+          }
+        } else {
+          if (height > maxSize) {
+            width *= maxSize / height;
+            height = maxSize;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(img, 0, 0, width, height);
+        
+        // Export to low quality JPEG (saves memory/DB space)
+        const compressedBase64 = canvas.toDataURL('image/jpeg', 0.6);
+        setLocalAvatar(compressedBase64);
+        localStorage.setItem('hormosync_avatar', compressedBase64);
+      };
+      img.src = event.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const saveProfile = async () => {
+    if (profile?.id && editName.trim()) {
+      await supabase.from('profiles').update({ name: editName.trim() }).eq('id', profile.id);
+      window.location.reload(); // Quick refresh to update state across app
+    }
+    setIsEditing(false);
   };
 
   if (loading) {
@@ -49,11 +112,44 @@ export default function PerfilPage() {
       <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
 
         {/* User card */}
-        <div className="card-glow" style={{ padding: '24px', textAlign: 'center' }}>
-          <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--brand-rose), var(--brand-purple))', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: '36px' }}>
-            🌸
+        <div className="card-glow" style={{ padding: '24px', textAlign: 'center', position: 'relative' }}>
+          
+          <button 
+            onClick={() => isEditing ? saveProfile() : setIsEditing(true)}
+            style={{ position: 'absolute', top: '16px', right: '16px', background: 'rgba(255,255,255,0.1)', border: 'none', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'white' }}
+          >
+            {isEditing ? <Check size={16} /> : <Edit2 size={16} />}
+          </button>
+
+          <div style={{ position: 'relative', width: '80px', height: '80px', margin: '0 auto 16px' }}>
+            <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--brand-rose), var(--brand-purple))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '36px', overflow: 'hidden' }}>
+              {localAvatar ? (
+                <img src={localAvatar} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              ) : '🌸'}
+            </div>
+            {isEditing && (
+              <button 
+                onClick={() => fileInputRef.current?.click()}
+                style={{ position: 'absolute', bottom: '-4px', right: '-4px', background: 'var(--brand-teal)', border: '2px solid var(--bg-card)', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'white' }}
+              >
+                <Camera size={14} />
+              </button>
+            )}
+            <input type="file" accept="image/*" ref={fileInputRef} onChange={handleImageUpload} style={{ display: 'none' }} />
           </div>
-          <h2 style={{ fontSize: '20px', fontWeight: '800', marginBottom: '4px' }}>{profile?.name || 'Usuária'}</h2>
+
+          {isEditing ? (
+            <input 
+              type="text" 
+              value={editName}
+              onChange={e => setEditName(e.target.value)}
+              placeholder="Seu nome"
+              style={{ fontSize: '20px', fontWeight: '800', marginBottom: '4px', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--brand-rose)', borderRadius: '8px', padding: '4px 12px', color: 'white', textAlign: 'center', width: '80%' }}
+            />
+          ) : (
+            <h2 style={{ fontSize: '20px', fontWeight: '800', marginBottom: '4px' }}>{profile?.name || 'Usuária'}</h2>
+          )}
+          
           <p style={{ color: 'var(--text-muted)', fontSize: '14px', marginBottom: '12px' }}>{profile?.email}</p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', flexWrap: 'wrap' }}>
             {profile?.hormonal_profile && profile.hormonal_profile !== 'pending' && (

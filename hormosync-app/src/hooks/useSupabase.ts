@@ -121,12 +121,12 @@ export function useTodayChecklist(userId: string | undefined) {
               const todayPlan = plan[idx];
 
               if (todayPlan) {
-                if (todayPlan.lanche_manha) dynamicTasks.push({ task_id: 'morning_shot', task_label: '💉 ' + todayPlan.lanche_manha.name });
-                if (todayPlan.cafe) dynamicTasks.push({ task_id: 'morning_cafe', task_label: '🥤 ' + todayPlan.cafe.name });
-                if (todayPlan.almoco) dynamicTasks.push({ task_id: 'afternoon_almoco', task_label: '🍽️ ' + todayPlan.almoco.name });
-                if (todayPlan.lanche_tarde) dynamicTasks.push({ task_id: 'afternoon_lanche', task_label: '🌮 ' + todayPlan.lanche_tarde.name });
-                if (todayPlan.jantar) dynamicTasks.push({ task_id: 'night_jantar', task_label: '🍲 ' + todayPlan.jantar.name });
-                if (todayPlan.cha) dynamicTasks.push({ task_id: 'night_cha', task_label: '🍵 ' + todayPlan.cha.name });
+                if (todayPlan.lanche_manha) dynamicTasks.push({ task_id: `morning_shot::${todayPlan.lanche_manha.id}`, task_label: '💉 ' + todayPlan.lanche_manha.name });
+                if (todayPlan.cafe) dynamicTasks.push({ task_id: `morning_cafe::${todayPlan.cafe.id}`, task_label: '🥤 ' + todayPlan.cafe.name });
+                if (todayPlan.almoco) dynamicTasks.push({ task_id: `afternoon_almoco::${todayPlan.almoco.id}`, task_label: '🍽️ ' + todayPlan.almoco.name });
+                if (todayPlan.lanche_tarde) dynamicTasks.push({ task_id: `afternoon_lanche::${todayPlan.lanche_tarde.id}`, task_label: '🌮 ' + todayPlan.lanche_tarde.name });
+                if (todayPlan.jantar) dynamicTasks.push({ task_id: `night_jantar::${todayPlan.jantar.id}`, task_label: '🍲 ' + todayPlan.jantar.name });
+                if (todayPlan.cha) dynamicTasks.push({ task_id: `night_cha::${todayPlan.cha.id}`, task_label: '🍵 ' + todayPlan.cha.name });
               }
             }
           } catch (e) {}

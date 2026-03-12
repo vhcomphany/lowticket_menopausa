@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { Flame, Moon, Zap, ChevronRight, Star, Lock, Bell } from 'lucide-react';
+import { Flame, Moon, Zap, ChevronRight, Star, Lock, Bell, ChevronDown } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
 import { useProfile, useTodayChecklist, useTodaySymptoms } from '@/hooks/useSupabase';
+import { RECIPES, type Recipe } from '@/data/recipes';
 
 const getTaskTime = (taskId: string) => {
   if (taskId.startsWith('morning_')) return 'Manhã';
@@ -18,6 +19,7 @@ export default function Dashboard() {
   const { symptoms, saveSymptoms } = useTodaySymptoms(user?.id);
   const [showSymptomsModal, setShowSymptomsModal] = useState(false);
   const [tempValues, setTempValues] = useState({ fogacho: 5, sono: 5, energia: 5, humor: 5 });
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
 
   const completedCount = entries.filter(e => e.completed).length;
   const progressPct = entries.length > 0 ? (completedCount / entries.length) * 100 : 0;
@@ -112,29 +114,49 @@ export default function Dashboard() {
               ? [1, 2, 3, 4].map(i => (
                   <div key={i} style={{ height: '64px', background: 'rgba(255,255,255,0.03)', borderRadius: '14px', border: '1px solid var(--border)', animation: 'pulse 1.5s infinite' }} />
                 ))
-              : entries.map(entry => (
-                  <div
-                    key={entry.id}
-                    className={`check-item ${entry.completed ? 'checked' : ''}`}
-                    onClick={() => toggleTask(entry.task_id, entry.completed)}
-                  >
-                    <div className="check-circle">
-                      {entry.completed && <span style={{ fontSize: '12px', color: 'white' }}>✓</span>}
+              : entries.map(entry => {
+                  const isRecipe = entry.task_id.includes('::');
+                  const recipeId = isRecipe ? entry.task_id.split('::')[1].split('_')[0] : null;
+
+                  return (
+                    <div
+                      key={entry.id}
+                      className={`check-item ${entry.completed ? 'checked' : ''}`}
+                      onClick={() => {
+                        if (recipeId) {
+                          const r = RECIPES.find(x => x.id === recipeId);
+                          if (r) setSelectedRecipe(r);
+                          else toggleTask(entry.task_id, entry.completed);
+                        } else {
+                          toggleTask(entry.task_id, entry.completed);
+                        }
+                      }}
+                    >
+                      <div className="check-circle" onClick={(e) => { e.stopPropagation(); toggleTask(entry.task_id, entry.completed); }}>
+                        {entry.completed && <span style={{ fontSize: '12px', color: 'white' }}>✓</span>}
+                      </div>
+                      <div style={{ flex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div>
+                          <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '2px' }}>
+                            {getTaskTime(entry.task_id)}
+                          </p>
+                          <p style={{
+                            fontSize: '14px', fontWeight: '500',
+                            color: entry.completed ? 'var(--text-muted)' : '#F0EAF5',
+                            textDecoration: entry.completed ? 'line-through' : 'none',
+                          }}>
+                            {entry.task_label}
+                          </p>
+                        </div>
+                        {isRecipe && (
+                           <button style={{ background: 'rgba(200,88,122,0.1)', border: 'none', color: 'var(--brand-rose)', padding: '6px 10px', borderRadius: '100px', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>
+                             Receita
+                           </button>
+                        )}
+                      </div>
                     </div>
-                    <div style={{ flex: 1 }}>
-                      <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '2px' }}>
-                        {getTaskTime(entry.task_id)}
-                      </p>
-                      <p style={{
-                        fontSize: '14px', fontWeight: '500',
-                        color: entry.completed ? 'var(--text-muted)' : '#F0EAF5',
-                        textDecoration: entry.completed ? 'line-through' : 'none',
-                      }}>
-                        {entry.task_label}
-                      </p>
-                    </div>
-                  </div>
-                ))
+                  );
+                })
             }
           </div>
         </div>
@@ -280,6 +302,78 @@ export default function Dashboard() {
       )}
 
       <BottomNav active="home" />
+
+      {/* MODAL DA RECEITA */}
+      {selectedRecipe && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(5px)',
+          zIndex: 1000, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end'
+        }} onClick={() => setSelectedRecipe(null)}>
+          <div style={{
+            background: 'var(--bg-card)', width: '100%', maxWidth: '430px', margin: '0 auto',
+            borderTopLeftRadius: '24px', borderTopRightRadius: '24px',
+            padding: '24px', paddingBottom: 'calc(24px + env(safe-area-inset-bottom))',
+            maxHeight: '85vh', overflowY: 'auto',
+            borderTop: '1px solid var(--border)'
+          }} onClick={e => e.stopPropagation()}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
+              <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(200,88,122,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px', flexShrink: 0 }}>
+                  {selectedRecipe.emoji}
+                </div>
+                <div>
+                  <h2 style={{ fontSize: '18px', fontWeight: '800', marginBottom: '4px' }}>{selectedRecipe.name}</h2>
+                  <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{selectedRecipe.subtitle}</p>
+                </div>
+              </div>
+              <button onClick={() => setSelectedRecipe(null)} style={{ background: 'rgba(255,255,255,0.1)', border: 'none', color: 'var(--text-muted)', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+                ✕
+              </button>
+            </div>
+
+            <p style={{ fontSize: '14px', color: '#F0EAF5', lineHeight: '1.6', marginBottom: '20px', background: 'rgba(255,255,255,0.04)', padding: '12px', borderRadius: '10px' }}>
+              {selectedRecipe.description}
+            </p>
+
+            <p style={{ fontSize: '12px', fontWeight: '700', color: 'var(--text-muted)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>🥣 Ingredientes</p>
+            <ul style={{ paddingLeft: '20px', marginBottom: '20px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              {selectedRecipe.ingredients.map((ing, i) => <li key={i} style={{ fontSize: '14px', lineHeight: '1.5' }}>{ing}</li>)}
+            </ul>
+
+            <p style={{ fontSize: '12px', fontWeight: '700', color: 'var(--text-muted)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>📝 Como Fazer</p>
+            <p style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: selectedRecipe.substitutions ? '20px' : '0' }}>{selectedRecipe.instructions}</p>
+
+            {selectedRecipe.substitutions && (
+              <div style={{ background: 'rgba(212,165,106,0.1)', borderLeft: '3px solid var(--brand-gold)', padding: '12px 14px', borderRadius: '0 8px 8px 0', marginBottom: selectedRecipe.scienceNote ? '16px' : '0' }}>
+                <p style={{ fontSize: '12px', fontWeight: '700', color: 'var(--brand-gold)', marginBottom: '4px' }}>🔄 Substituições</p>
+                <p style={{ fontSize: '13px', lineHeight: '1.5', color: '#F0EAF5' }}>{selectedRecipe.substitutions}</p>
+              </div>
+            )}
+
+            {selectedRecipe.scienceNote && (
+              <div style={{ background: 'rgba(126,92,142,0.1)', borderLeft: '3px solid var(--brand-purple)', padding: '12px 14px', borderRadius: '0 8px 8px 0', marginTop: '12px' }}>
+                <p style={{ fontSize: '12px', fontWeight: '700', color: 'var(--brand-purple)', marginBottom: '4px' }}>🔬 Por que funciona</p>
+                <p style={{ fontSize: '13px', lineHeight: '1.5', color: '#F0EAF5' }}>{selectedRecipe.scienceNote}</p>
+              </div>
+            )}
+
+            {selectedRecipe.restrictions && selectedRecipe.restrictions.length > 0 && (
+              <div style={{ background: 'rgba(200,88,122,0.08)', border: '1px solid rgba(200,88,122,0.3)', borderRadius: '10px', padding: '12px', marginTop: '16px' }}>
+                <p style={{ fontSize: '12px', fontWeight: '700', color: 'var(--brand-rose)', marginBottom: '6px' }}>⛔ Restrições</p>
+                {selectedRecipe.restrictions.map((r, i) => <p key={i} style={{ fontSize: '13px', color: '#F0EAF5' }}>• {r}</p>)}
+              </div>
+            )}
+
+            <div style={{ display: 'flex', gap: '12px', marginTop: '20px', color: 'var(--text-muted)', fontSize: '12px', fontWeight: '600' }}>
+              <span>⏱ Tempo: {selectedRecipe.prepTime} min</span>
+              <span>•</span>
+              <span>🎯 Dificuldade: {selectedRecipe.difficulty}</span>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

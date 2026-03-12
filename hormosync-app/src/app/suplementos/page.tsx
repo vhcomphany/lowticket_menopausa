@@ -49,12 +49,11 @@ function SupplementCard({ sup }: { sup: Supplement }) {
         <div style={{ borderTop: '1px solid var(--border)', padding: '16px', display: 'flex', flexDirection: 'column', gap: '14px' }} onClick={e => e.stopPropagation()}>
           <p style={{ fontSize: '13px', lineHeight: '1.6', color: '#F0EAF5' }}>{sup.forWhat}</p>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
             {[
               { label: '💊 Dose', val: sup.dose },
               { label: '⏰ Horário', val: sup.timing },
               { label: '⏱ Resultado em', val: sup.timeToResult },
-              { label: '💰 Custo médio', val: sup.costRange },
             ].map(({ label, val }) => (
               <div key={label} style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '10px', padding: '10px' }}>
                 <p style={{ fontSize: '10px', color: 'var(--text-muted)', fontWeight: '600', marginBottom: '4px' }}>{label}</p>
@@ -113,7 +112,6 @@ function StackCard({ stack }: { stack: typeof SUPPLEMENT_STACKS[number] }) {
             <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{stack.description}</p>
             <div style={{ display: 'flex', gap: '4px', marginTop: '4px' }}>
               {stack.symptoms.map(s => <span key={s} style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '100px', background: 'rgba(126,92,142,0.2)', color: 'var(--brand-purple)', fontWeight: '600' }}>Para: {s}</span>)}
-              <span style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '100px', background: 'rgba(74,155,142,0.2)', color: 'var(--brand-teal)', fontWeight: '600' }}>Economiza ~50%</span>
             </div>
           </div>
         </div>
@@ -123,7 +121,7 @@ function StackCard({ stack }: { stack: typeof SUPPLEMENT_STACKS[number] }) {
       {open && (
         <div style={{ borderTop: '1px solid var(--border)', padding: '16px' }} onClick={e => e.stopPropagation()}>
           <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '12px' }}>
-            💡 <strong>Vantagem do Stack:</strong> Todos os ativos em 1 cápsula diária. Até 50% mais barato que comprar cada um separado.
+            💡 <strong>Vantagem do Stack:</strong> Todos os ativos em 1 cápsula diária, facilitando sua rotina hormonal.
           </p>
           <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '12px', padding: '14px' }}>
             <p style={{ fontSize: '12px', fontWeight: '700', marginBottom: '10px', color: 'var(--text-muted)' }}>📋 FÓRMULA COMPLETA PARA FARMÁCIA</p>
@@ -163,7 +161,7 @@ export default function SuplementosPage() {
       <div style={{ padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
         {/* Tabs */}
         <div style={{ display: 'flex', gap: '8px' }}>
-          {([['stacks', '💊 Stacks (Combos)', 'Vários ativos em 1 cápsula, economia de até 50%'], ['individuais', '🔬 Individuais', 'Suplemento por sintoma']] as const).map(([key, label, sub]) => (
+          {([['stacks', '💊 Stacks (Combos)', 'Vários ativos em 1 cápsula'], ['individuais', '🔬 Individuais', 'Suplemento por sintoma']] as const).map(([key, label, sub]) => (
             <button key={key} onClick={() => setTab(key)} style={{
               flex: 1, padding: '12px 10px', borderRadius: '12px', textAlign: 'center', cursor: 'pointer',
               border: tab === key ? 'none' : '1px solid var(--border)',
