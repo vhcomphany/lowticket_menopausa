@@ -13,6 +13,37 @@ const getTaskTime = (taskId: string) => {
   return 'Qualquer hora';
 };
 
+const STATIC_PROTOCOLS: Record<string, { name: string, emoji: string, forWhat: string, instructions: string, time: string }> = {
+  morning_breath: {
+    name: 'Respiração 4-7-8',
+    emoji: '🌬️',
+    forWhat: 'Reduz instantaneamente o cortisol matinal e a ansiedade induzida pela menopausa.',
+    instructions: '1. Expire completamente pela boca, fazendo um som de "woosh".\n2. Feche a boca e inspire silenciosamente pelo nariz contando até 4.\n3. Prenda a respiração contando até 7.\n4. Expire completamente pela boca, fazendo o som de "woosh", contando até 8.\n5. Repita este ciclo 4 vezes assim que acordar.',
+    time: '3 min'
+  },
+  night_protocol: {
+    name: 'Protocolo Noturno Anti-Cortisol',
+    emoji: '🌙',
+    forWhat: 'Prepara seu corpo para produzir melatonina, evitando acordar de madrugada (insônia de manutenção).',
+    instructions: '1. Desligue telas (celular, TV) ou coloque no modo de luz amarela/noturna 30 minutos antes de deitar.\n2. Diminua as luzes da casa e evite luzes brancas no teto.\n3. Se possível, leia um livro físico ou ouça um som relaxante.\n4. Mantenha o quarto completamente escuro e fresco.',
+    time: '30 min'
+  },
+  morning_shot: {
+    name: 'Shot Anti-Inflamatório',
+    emoji: '💉',
+    forWhat: 'Desinflama as células e ativa o metabolismo lento da menopausa.',
+    instructions: '1. Esprema 1/2 limão em um copo.\n2. Adicione 1 colher de café de açafrão-da-terra (cúrcuma).\n3. Adicione 1 pitada de pimenta-do-reino preta (essencial para absorver o açafrão).\n4. Adicione um pouco de água em temperatura ambiente.\n5. Beba tudo de uma vez logo após acordar.',
+    time: '3 min'
+  },
+  afternoon_tea: {
+    name: 'Chá da Tarde Relaxante',
+    emoji: '🍵',
+    forWhat: 'Quebra o pico de estresse da tarde, preparando o sistema nervoso para a noite.',
+    instructions: '1. Esquente 200ml de água até ferver.\n2. Adicione 1 colher de sopa de flores de camomila e 1 colher de chá de mulungu.\n3. Abafe por 10 minutos.\n4. Coe e beba quente ou morno. Não adoce com açúcar (use um pouco de stevia se estritamente necessário).',
+    time: '5 min'
+  }
+};
+
 export default function Dashboard() {
   const { profile, user, loading: profileLoading } = useProfile();
   const { entries, loading: checklistLoading, toggleTask } = useTodayChecklist(user?.id);
@@ -20,6 +51,7 @@ export default function Dashboard() {
   const [showSymptomsModal, setShowSymptomsModal] = useState(false);
   const [tempValues, setTempValues] = useState({ fogacho: 5, sono: 5, energia: 5, humor: 5 });
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
+  const [selectedProtocol, setSelectedProtocol] = useState<typeof STATIC_PROTOCOLS[string] | null>(null);
 
   const completedCount = entries.filter(e => e.completed).length;
   const progressPct = entries.length > 0 ? (completedCount / entries.length) * 100 : 0;
@@ -117,6 +149,8 @@ export default function Dashboard() {
               : entries.map(entry => {
                   const isRecipe = entry.task_id.includes('::');
                   const recipeId = isRecipe ? entry.task_id.split('::')[1].split('_')[0] : null;
+                  const rawTaskId = entry.task_id.replace(/_\d+$/, '');
+                  const staticProtocol = STATIC_PROTOCOLS[rawTaskId];
 
                   return (
                     <div
@@ -127,6 +161,8 @@ export default function Dashboard() {
                           const r = RECIPES.find(x => x.id === recipeId);
                           if (r) setSelectedRecipe(r);
                           else toggleTask(entry.task_id, entry.completed);
+                        } else if (staticProtocol) {
+                          setSelectedProtocol(staticProtocol);
                         } else {
                           toggleTask(entry.task_id, entry.completed);
                         }
@@ -151,6 +187,11 @@ export default function Dashboard() {
                         {isRecipe && (
                            <button style={{ background: 'rgba(200,88,122,0.1)', border: 'none', color: 'var(--brand-rose)', padding: '6px 10px', borderRadius: '100px', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>
                              Receita
+                           </button>
+                        )}
+                        {!isRecipe && staticProtocol && (
+                           <button style={{ background: 'rgba(74,155,142,0.1)', border: 'none', color: 'var(--brand-teal)', padding: '6px 10px', borderRadius: '100px', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>
+                             Como fazer
                            </button>
                         )}
                       </div>
@@ -369,6 +410,49 @@ export default function Dashboard() {
               <span>⏱ Tempo: {selectedRecipe.prepTime} min</span>
               <span>•</span>
               <span>🎯 Dificuldade: {selectedRecipe.difficulty}</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL DE PROTOCOLO ESTÁTICO */}
+      {selectedProtocol && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(5px)',
+          zIndex: 1000, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end'
+        }} onClick={() => setSelectedProtocol(null)}>
+          <div style={{
+            background: 'var(--bg-card)', width: '100%', maxWidth: '430px', margin: '0 auto',
+            borderTopLeftRadius: '24px', borderTopRightRadius: '24px',
+            padding: '24px', paddingBottom: 'calc(24px + env(safe-area-inset-bottom))',
+            maxHeight: '85vh', overflowY: 'auto',
+            borderTop: '1px solid var(--border)'
+          }} onClick={e => e.stopPropagation()}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
+              <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(74,155,142,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px', flexShrink: 0 }}>
+                  {selectedProtocol.emoji}
+                </div>
+                <div>
+                  <h2 style={{ fontSize: '18px', fontWeight: '800', marginBottom: '4px' }}>{selectedProtocol.name}</h2>
+                  <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Protocolo Terapêutico</p>
+                </div>
+              </div>
+              <button onClick={() => setSelectedProtocol(null)} style={{ background: 'rgba(255,255,255,0.1)', border: 'none', color: 'var(--text-muted)', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+                ✕
+              </button>
+            </div>
+
+            <p style={{ fontSize: '14px', color: '#F0EAF5', lineHeight: '1.6', marginBottom: '20px', background: 'rgba(255,255,255,0.04)', padding: '12px', borderRadius: '10px' }}>
+              {selectedProtocol.forWhat}
+            </p>
+
+            <p style={{ fontSize: '12px', fontWeight: '700', color: 'var(--text-muted)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>📝 Passo a Passo</p>
+            <p style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '20px', whiteSpace: 'pre-wrap' }}>{selectedProtocol.instructions}</p>
+
+            <div style={{ display: 'flex', gap: '12px', marginTop: '20px', color: 'var(--text-muted)', fontSize: '12px', fontWeight: '600' }}>
+              <span>⏱ Tempo: {selectedProtocol.time}</span>
             </div>
           </div>
         </div>
