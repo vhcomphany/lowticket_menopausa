@@ -1,45 +1,58 @@
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
-import { ChevronDown, ChevronUp, RefreshCw, Calendar, Clock, Zap } from 'lucide-react';
+import { ChevronDown, ChevronUp, ChevronRight, RefreshCw, Calendar, Clock, Zap } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
 import { RECIPES, CATEGORIES, SYMPTOM_LABELS, generateWeeklyPlan, type RecipeCategory, type Symptom, type Recipe } from '@/data/recipes';
 import { useProfile } from '@/hooks/useSupabase';
 
 const PLAN_LEVELS = [
-  { key: 'adaptativo', label: 'Adaptativo 🌱', desc: 'Mudanças suaves, resultado gradual' },
-  { key: 'intermediario', label: 'Intermediário ⚡', desc: 'Sem açúcar/farinha, -1-2kg/sem' },
-  { key: 'avancado', label: 'Avançado 🔥', desc: 'Low Carb total, -2-4kg/2sem' },
+  { key: 'adaptativo', label: 'Adaptativo', desc: 'Mudanças suaves, resultado gradual' },
+  { key: 'intermediario', label: 'Intermediário', desc: 'Sem açúcar/farinha, -1-2kg/sem' },
+  { key: 'avancado', label: 'Avançado', desc: 'Low Carb total, -2-4kg/2sem' },
 ] as const;
 
 type PlanLevel = 'adaptativo' | 'intermediario' | 'avancado';
 
+const IMAGE_MAP: Record<RecipeCategory, string> = {
+  shot: 'https://images.unsplash.com/photo-1542282811-943ef1a977f5?q=80&w=400&h=400&fit=crop',
+  suco: 'https://images.unsplash.com/photo-1622597467836-f30b912c9b2d?q=80&w=400&h=400&fit=crop',
+  cha: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?q=80&w=400&h=400&fit=crop',
+  vitamina: 'https://images.unsplash.com/photo-1623065422900-30fc0406c1fa?q=80&w=400&h=400&fit=crop',
+  comida: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=400&h=400&fit=crop',
+  lanche: 'https://images.unsplash.com/photo-1559561853-08451507cbe7?q=80&w=400&h=400&fit=crop',
+  caldo: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?q=80&w=400&h=400&fit=crop',
+};
+
 function RecipeCard({ recipe }: { recipe: Recipe }) {
   const [open, setOpen] = useState(false);
+  const imageUrl = IMAGE_MAP[recipe.category];
+
   return (
     <div
       className="card"
       style={{ padding: 0, overflow: 'hidden', cursor: 'pointer', border: open ? '1px solid var(--brand-rose)' : '1px solid var(--border)', transition: 'border 0.2s' }}
       onClick={() => setOpen(v => !v)}
     >
-      <div style={{ padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-          <div style={{ width: '46px', height: '46px', borderRadius: '12px', background: 'rgba(200,88,122,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', flexShrink: 0 }}>
-            {recipe.emoji}
+      <div style={{ position: 'relative', height: '140px', width: '100%' }}>
+        <img src={imageUrl} alt={recipe.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <div className="image-overlay-dark" />
+        <div style={{ position: 'absolute', bottom: '16px', left: '16px', right: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', zIndex: 1 }}>
+          <div style={{ color: 'white' }}>
+            <p style={{ fontWeight: '800', fontSize: '18px', marginBottom: '2px', fontFamily: '"Playfair Display", serif', textShadow: '0 2px 8px rgba(0,0,0,0.4)' }}>{recipe.name}</p>
+            <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.9)', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>{recipe.subtitle}</p>
           </div>
-          <div>
-            <p style={{ fontWeight: '700', fontSize: '14px', marginBottom: '2px' }}>{recipe.name}</p>
-            <p style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{recipe.subtitle}</p>
-            <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginTop: '4px' }}>
-              {recipe.symptoms.map(s => (
-                <span key={s} style={{ fontSize: '9px', padding: '2px 6px', borderRadius: '100px', background: 'rgba(200,88,122,0.15)', color: 'var(--brand-rose)', fontWeight: '600' }}>
-                  {SYMPTOM_LABELS[s]}
-                </span>
-              ))}
-            </div>
+          <div style={{ background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(8px)', width: '32px', height: '32px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            {open ? <ChevronUp size={20} color="white" /> : <ChevronDown size={20} color="white" />}
           </div>
         </div>
-        {open ? <ChevronUp size={16} color="var(--brand-rose)" /> : <ChevronDown size={16} color="var(--text-muted)" />}
+        <div style={{ position: 'absolute', top: '12px', left: '12px', display: 'flex', gap: '6px', flexWrap: 'wrap', zIndex: 1 }}>
+          {recipe.symptoms.slice(0, 2).map(s => (
+            <span key={s} style={{ fontSize: '10px', padding: '4px 10px', borderRadius: '100px', background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)', color: 'white', border: '1px solid rgba(255,255,255,0.2)', fontWeight: '600' }}>
+              {SYMPTOM_LABELS[s].replace(/[^a-zA-ZÀ-ÿ\s]/g, '').trim()}
+            </span>
+          ))}
+        </div>
       </div>
 
       {open && (
@@ -234,10 +247,10 @@ export default function ReceitasPage() {
                         <div key={label} onClick={(e) => { e.stopPropagation(); setSelectedRecipe(recipe); }} style={{ display: 'flex', gap: '10px', alignItems: 'center', cursor: 'pointer', padding: '6px 0', borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
                           <span style={{ fontSize: '18px', width: '28px', textAlign: 'center', flexShrink: 0 }}>{icon}</span>
                           <div style={{ flex: 1 }}>
-                            <p style={{ fontSize: '10px', color: 'var(--text-muted)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.3px' }}>{label}</p>
+                            <p style={{ fontSize: '10px', color: 'var(--text-muted)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.3px', marginBottom: '2px' }}>{label.replace(/[^a-zA-ZÀ-ÿ\s]/g, '').trim()}</p>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                              <p style={{ fontSize: '13px', fontWeight: '600' }}>{recipe.emoji} {recipe.name}</p>
-                              <ChevronDown size={14} color="var(--brand-rose)" style={{ transform: 'rotate(-90deg)' }} />
+                              <p style={{ fontSize: '13px', fontWeight: '600', color: 'var(--text-primary)' }}>{recipe.name}</p>
+                              <ChevronRight size={14} color="var(--brand-rose)" />
                             </div>
                           </div>
                         </div>
@@ -262,10 +275,10 @@ export default function ReceitasPage() {
             </div>
 
             {/* Filtro por categoria */}
-            <div style={{ display: 'flex', gap: '6px', overflowX: 'auto', paddingBottom: '2px' }}>
-              <button onClick={() => setActiveCategory('todos')} style={{ whiteSpace: 'nowrap', padding: '7px 14px', borderRadius: '100px', fontSize: '12px', fontWeight: '600', border: activeCategory === 'todos' ? 'none' : '1px solid var(--border)', background: activeCategory === 'todos' ? 'rgba(200,88,122,0.15)' : 'transparent', color: activeCategory === 'todos' ? 'var(--brand-rose)' : 'var(--text-muted)', cursor: 'pointer', flexShrink: 0 }}>📋 Todas</button>
+            <div className="horizontal-scroll" style={{ padding: '0 20px 10px', margin: '0 -20px', display: 'flex', gap: '8px' }}>
+              <button onClick={() => setActiveCategory('todos')} style={{ whiteSpace: 'nowrap', padding: '8px 16px', borderRadius: '100px', fontSize: '12px', fontWeight: '600', border: activeCategory === 'todos' ? 'none' : '1px solid var(--border)', background: activeCategory === 'todos' ? 'linear-gradient(135deg, var(--brand-rose), var(--brand-purple))' : 'var(--bg-card)', color: activeCategory === 'todos' ? 'white' : 'var(--text-secondary)', cursor: 'pointer', flexShrink: 0 }}>Todas</button>
               {CATEGORIES.map(c => (
-                <button key={c.key} onClick={() => setActiveCategory(c.key)} style={{ whiteSpace: 'nowrap', padding: '7px 14px', borderRadius: '100px', fontSize: '12px', fontWeight: '600', border: activeCategory === c.key ? 'none' : '1px solid var(--border)', background: activeCategory === c.key ? 'rgba(200,88,122,0.15)' : 'transparent', color: activeCategory === c.key ? 'var(--brand-rose)' : 'var(--text-muted)', cursor: 'pointer', flexShrink: 0 }}>{c.emoji} {c.label}</button>
+                <button key={c.key} onClick={() => setActiveCategory(c.key)} style={{ whiteSpace: 'nowrap', padding: '8px 16px', borderRadius: '100px', fontSize: '12px', fontWeight: '600', border: activeCategory === c.key ? 'none' : '1px solid var(--border)', background: activeCategory === c.key ? 'linear-gradient(135deg, var(--brand-rose), var(--brand-purple))' : 'var(--bg-card)', color: activeCategory === c.key ? 'white' : 'var(--text-secondary)', cursor: 'pointer', flexShrink: 0 }}>{c.label}</button>
               ))}
             </div>
 
@@ -292,20 +305,17 @@ export default function ReceitasPage() {
             maxHeight: '85vh', overflowY: 'auto',
             borderTop: '1px solid var(--border)'
           }} onClick={e => e.stopPropagation()}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
-              <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(200,88,122,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px', flexShrink: 0 }}>
-                  {selectedRecipe.emoji}
-                </div>
-                <div>
-                  <h2 style={{ fontSize: '18px', fontWeight: '800', marginBottom: '4px' }}>{selectedRecipe.name}</h2>
-                  <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{selectedRecipe.subtitle}</p>
+              <div style={{ position: 'relative', height: '200px', margin: '-24px -24px 20px -24px', flexShrink: 0 }}>
+                <img src={IMAGE_MAP[selectedRecipe.category]} alt={selectedRecipe.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <div className="image-overlay-dark" />
+                <button onClick={() => setSelectedRecipe(null)} style={{ position: 'absolute', top: '24px', right: '24px', background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.2)', color: 'white', borderRadius: '50%', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', zIndex: 10 }}>
+                  ✕
+                </button>
+                <div style={{ position: 'absolute', bottom: '20px', left: '24px', right: '24px', color: 'white', zIndex: 1 }}>
+                  <h2 style={{ fontSize: '24px', fontWeight: '800', marginBottom: '4px', fontFamily: '"Playfair Display", serif', textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>{selectedRecipe.name}</h2>
+                  <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.9)', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>{selectedRecipe.subtitle}</p>
                 </div>
               </div>
-              <button onClick={() => setSelectedRecipe(null)} style={{ background: 'var(--bg-glass2)', border: 'none', color: 'var(--text-muted)', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-                ✕
-              </button>
-            </div>
 
             <p style={{ fontSize: '14px', color: 'var(--text-primary)', lineHeight: '1.6', marginBottom: '20px', background: 'var(--bg-glass)', padding: '12px', borderRadius: '10px' }}>
               {selectedRecipe.description}
