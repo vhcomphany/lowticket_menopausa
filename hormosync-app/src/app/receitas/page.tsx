@@ -96,12 +96,39 @@ export default function ReceitasPage() {
   const [activeCategory, setActiveCategory] = useState<RecipeCategory | 'todos'>('todos');
   const [activeSymptom, setActiveSymptom] = useState<Symptom | 'todos'>('todos');
   const [planLevel, setPlanLevel] = useState<PlanLevel>('intermediario');
-  const [weeklyPlan, setWeeklyPlan] = useState(() => generateWeeklyPlan(mainSymptom, 'intermediario'));
   const [expandedDay, setExpandedDay] = useState<number | null>(0);
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
+
+  // Carrega cardápio salvo se houver, ou gera um inicial baseado no sintoma
+  const [weeklyPlan, setWeeklyPlan] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('hormosync_weekly_plan');
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (e) {}
+      }
+    }
+    return generateWeeklyPlan(mainSymptom, 'intermediario');
+  });
 
   const regen = useCallback(() => {
-    setWeeklyPlan(generateWeeklyPlan(mainSymptom, planLevel));
+    if (confirm('Deseja realmente gerar um novo cardápio da semana? (Isso vai substituir o seu cardápio atual)')) {
+      const newPlan = generateWeeklyPlan(mainSymptom, planLevel);
+      setWeeklyPlan(newPlan);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('hormosync_weekly_plan', JSON.stringify(newPlan));
+      }
+    }
   }, [mainSymptom, planLevel]);
+
+  // Salva no localStorage na montagem se acabou de gerar
+  import { useEffect } from 'react';
+  useEffect(() => {
+    if (typeof window !== 'undefined' && weeklyPlan) {
+      localStorage.setItem('hormosync_weekly_plan', JSON.stringify(weeklyPlan));
+    }
+  }, [weeklyPlan]);
 
   const filtered = RECIPES.filter(r => {
     const catOk = activeCategory === 'todos' || r.category === activeCategory;
@@ -143,6 +170,12 @@ export default function ReceitasPage() {
                 </div>
               </div>
             )}
+            
+            <div style={{ background: 'rgba(212,165,106,0.1)', border: '1px solid rgba(212,165,106,0.3)', borderRadius: '12px', padding: '12px' }}>
+              <p style={{ fontSize: '12px', lineHeight: '1.5', color: '#F0EAF5' }}>
+                💡 <strong>Dica Médica:</strong> O seu cardápio abaixo foi montado para dar resultados rápidos para <strong>{mainSymptom}</strong>. Siga-o por 7 dias antes de mudar para que o corpo se adapte à nova rotina hormonal!
+              </p>
+            </div>
 
             {/* Nível */}
             <div>
@@ -199,11 +232,14 @@ export default function ReceitasPage() {
                         { icon: '🌙', label: 'Jantar', recipe: day.jantar },
                         { icon: '🫖', label: 'Chá Noturno', recipe: day.cha },
                       ].map(({ icon, label, recipe }) => recipe && (
-                        <div key={label} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                        <div key={label} onClick={(e) => { e.stopPropagation(); setSelectedRecipe(recipe); }} style={{ display: 'flex', gap: '10px', alignItems: 'center', cursor: 'pointer', padding: '6px 0', borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
                           <span style={{ fontSize: '18px', width: '28px', textAlign: 'center', flexShrink: 0 }}>{icon}</span>
                           <div style={{ flex: 1 }}>
                             <p style={{ fontSize: '10px', color: 'var(--text-muted)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.3px' }}>{label}</p>
-                            <p style={{ fontSize: '13px', fontWeight: '600' }}>{recipe.emoji} {recipe.name}</p>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <p style={{ fontSize: '13px', fontWeight: '600' }}>{recipe.emoji} {recipe.name}</p>
+                              <ChevronDown size={14} color="var(--brand-rose)" style={{ transform: 'rotate(-90deg)' }} />
+                            </div>
                           </div>
                         </div>
                       ))}
@@ -242,6 +278,77 @@ export default function ReceitasPage() {
           </>
         )}
       </div>
+
+      {/* MODAL DA RECEITA (QUANDO CLICADA NO CARDÁPIO) */}
+      {selectedRecipe && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(5px)',
+          zIndex: 1000, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end'
+        }} onClick={() => setSelectedRecipe(null)}>
+          <div style={{
+            background: 'var(--bg-card)', width: '100%', maxWidth: '430px', margin: '0 auto',
+            borderTopLeftRadius: '24px', borderTopRightRadius: '24px',
+            padding: '24px', paddingBottom: 'calc(24px + env(safe-area-inset-bottom))',
+            maxHeight: '85vh', overflowY: 'auto',
+            borderTop: '1px solid var(--border)'
+          }} onClick={e => e.stopPropagation()}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
+              <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(200,88,122,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px', flexShrink: 0 }}>
+                  {selectedRecipe.emoji}
+                </div>
+                <div>
+                  <h2 style={{ fontSize: '18px', fontWeight: '800', marginBottom: '4px' }}>{selectedRecipe.name}</h2>
+                  <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{selectedRecipe.subtitle}</p>
+                </div>
+              </div>
+              <button onClick={() => setSelectedRecipe(null)} style={{ background: 'rgba(255,255,255,0.1)', border: 'none', color: 'var(--text-muted)', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+                ✕
+              </button>
+            </div>
+
+            <p style={{ fontSize: '14px', color: '#F0EAF5', lineHeight: '1.6', marginBottom: '20px', background: 'rgba(255,255,255,0.04)', padding: '12px', borderRadius: '10px' }}>
+              {selectedRecipe.description}
+            </p>
+
+            <p style={{ fontSize: '12px', fontWeight: '700', color: 'var(--text-muted)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>🥣 Ingredientes</p>
+            <ul style={{ paddingLeft: '20px', marginBottom: '20px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              {selectedRecipe.ingredients.map((ing, i) => <li key={i} style={{ fontSize: '14px', lineHeight: '1.5' }}>{ing}</li>)}
+            </ul>
+
+            <p style={{ fontSize: '12px', fontWeight: '700', color: 'var(--text-muted)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>📝 Como Fazer</p>
+            <p style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: selectedRecipe.substitutions ? '20px' : '0' }}>{selectedRecipe.instructions}</p>
+
+            {selectedRecipe.substitutions && (
+              <div style={{ background: 'rgba(212,165,106,0.1)', borderLeft: '3px solid var(--brand-gold)', padding: '12px 14px', borderRadius: '0 8px 8px 0', marginBottom: selectedRecipe.scienceNote ? '16px' : '0' }}>
+                <p style={{ fontSize: '12px', fontWeight: '700', color: 'var(--brand-gold)', marginBottom: '4px' }}>🔄 Substituições</p>
+                <p style={{ fontSize: '13px', lineHeight: '1.5', color: '#F0EAF5' }}>{selectedRecipe.substitutions}</p>
+              </div>
+            )}
+
+            {selectedRecipe.scienceNote && (
+              <div style={{ background: 'rgba(126,92,142,0.1)', borderLeft: '3px solid var(--brand-purple)', padding: '12px 14px', borderRadius: '0 8px 8px 0', marginTop: '12px' }}>
+                <p style={{ fontSize: '12px', fontWeight: '700', color: 'var(--brand-purple)', marginBottom: '4px' }}>🔬 Por que funciona</p>
+                <p style={{ fontSize: '13px', lineHeight: '1.5', color: '#F0EAF5' }}>{selectedRecipe.scienceNote}</p>
+              </div>
+            )}
+
+            {selectedRecipe.restrictions && selectedRecipe.restrictions.length > 0 && (
+              <div style={{ background: 'rgba(200,88,122,0.08)', border: '1px solid rgba(200,88,122,0.3)', borderRadius: '10px', padding: '12px', marginTop: '16px' }}>
+                <p style={{ fontSize: '12px', fontWeight: '700', color: 'var(--brand-rose)', marginBottom: '6px' }}>⛔ Restrições</p>
+                {selectedRecipe.restrictions.map((r, i) => <p key={i} style={{ fontSize: '13px', color: '#F0EAF5' }}>• {r}</p>)}
+              </div>
+            )}
+
+            <div style={{ display: 'flex', gap: '12px', marginTop: '20px', color: 'var(--text-muted)', fontSize: '12px', fontWeight: '600' }}>
+              <span>⏱ Tempo: {selectedRecipe.prepTime} min</span>
+              <span>•</span>
+              <span>🎯 Dificuldade: {selectedRecipe.difficulty}</span>
+            </div>
+          </div>
+        </div>
+      )}
 
       <BottomNav active="protocolos" />
     </div>
