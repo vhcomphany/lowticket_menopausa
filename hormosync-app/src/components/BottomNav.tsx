@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Home, TrendingUp, Book, Headphones, User } from 'lucide-react';
+import { Home, TrendingUp, UtensilsCrossed, Headphones, User } from 'lucide-react';
 
 interface BottomNavProps {
   active: 'home' | 'evolucao' | 'protocolos' | 'audios' | 'perfil';
@@ -10,7 +10,7 @@ interface BottomNavProps {
 const items = [
   { key: 'home', label: 'Início', icon: Home, href: '/dashboard' },
   { key: 'evolucao', label: 'Evolução', icon: TrendingUp, href: '/evolucao' },
-  { key: 'protocolos', label: 'Protocolos', icon: Book, href: '/protocolos' },
+  { key: 'protocolos', label: 'Receitas', icon: UtensilsCrossed, href: '/receitas' },
   { key: 'audios', label: 'Áudios', icon: Headphones, href: '/audios' },
   { key: 'perfil', label: 'Perfil', icon: User, href: '/perfil' },
 ];

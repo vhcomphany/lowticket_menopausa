@@ -1,0 +1,217 @@
+{
+  "name": "HormoSync - Criacao de Usuario Pos-Compra",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "hormosync-compra",
+        "options": {}
+      },
+      "id": "1",
+      "name": "Webhook Checkout",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "gerado-automaticamente-pelo-n8n"
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "email",
+              "value": "={{ $json.body.email }}"
+            },
+            {
+              "name": "name",
+              "value": "={{ $json.body.nome || $json.body.name }}"
+            },
+            {
+              "name": "password",
+              "value": "={{ $json.body.email.split('@')[0] }}123!"
+            },
+            {
+              "name": "perfil",
+              "value": "={{ $json.body.perfil_hormonal || 'Pendente' }}"
+            },
+            {
+              "name": "fase",
+              "value": "={{ $json.body.fase || 'Não informada' }}"
+            },
+            {
+              "name": "sintoma",
+              "value": "={{ $json.body.sintoma_principal || 'Não informado' }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2",
+      "name": "Extrair Dados",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SUPABASE_URL }}/auth/v1/admin/users",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{$env.SUPABASE_SERVICE_ROLE_KEY}}"
+            },
+            {
+              "name": "apikey",
+              "value": "={{$env.SUPABASE_SERVICE_ROLE_KEY}}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "email",
+              "value": "={{ $json.email }}"
+            },
+            {
+              "name": "password",
+              "value": "={{ $json.password }}"
+            },
+            {
+              "name": "email_confirm",
+              "value": "true"
+            },
+            {
+              "name": "user_metadata",
+              "value": "={{ JSON.parse(`{\"name\":\"${$json.name}\"}`) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3",
+      "name": "Criar Auth Supabase",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/profiles",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{$env.SUPABASE_SERVICE_ROLE_KEY}}"
+            },
+            {
+              "name": "apikey",
+              "value": "={{$env.SUPABASE_SERVICE_ROLE_KEY}}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "resolution=merge-duplicates"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "id",
+              "value": "={{ $json.id }}"
+            },
+            {
+              "name": "name",
+              "value": "={{ $('Extrair Dados').item.json.name }}"
+            },
+            {
+              "name": "email",
+              "value": "={{ $('Extrair Dados').item.json.email }}"
+            },
+            {
+              "name": "hormonal_profile",
+              "value": "={{ $('Extrair Dados').item.json.perfil }}"
+            },
+            {
+              "name": "phase",
+              "value": "={{ $('Extrair Dados').item.json.fase }}"
+            },
+            {
+              "name": "main_symptom",
+              "value": "={{ $('Extrair Dados').item.json.sintoma }}"
+            },
+            {
+              "name": "subscription_status",
+              "value": "active"
+            },
+            {
+              "name": "subscription_expires_at",
+              "value": "={{ new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4",
+      "name": "Atualizar Perfil com Quiz",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [850, 300]
+    }
+  ],
+  "connections": {
+    "Webhook Checkout": {
+      "main": [
+        [
+          {
+            "node": "Extrair Dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extrair Dados": {
+      "main": [
+        [
+          {
+            "node": "Criar Auth Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criar Auth Supabase": {
+      "main": [
+        [
+          {
+            "node": "Atualizar Perfil com Quiz",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c47e8c38-8951-460d-a7ca-264dceb0c2e9"
+}
