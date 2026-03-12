@@ -221,7 +221,7 @@ export default function EvolucaoPage() {
               <p style={{ fontSize: '13px', fontWeight: '700', color: 'var(--brand-gold)', marginBottom: '4px' }}>
                 Você esqueceu de registrar alguns dias
               </p>
-              <p style={{ fontSize: '12px', color: '#F0EAF5', marginBottom: '12px', lineHeight: '1.4' }}>
+              <p style={{ fontSize: '12px', color: 'var(--text-primary)', marginBottom: '12px', lineHeight: '1.4' }}>
                 Preencher os dias passados melhora a precisão dos seus gráficos e permite acompanhar o ciclo direitinho. Quer preencher agora?
               </p>
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -245,7 +245,7 @@ export default function EvolucaoPage() {
             + Registrar sintomas de hoje
           </button>
         ) : (
-          <button style={{ background: 'rgba(255,255,255,0.05)', color: 'var(--text-muted)', border: '1px solid var(--border)', padding: '16px', borderRadius: '16px', fontSize: '14px', fontWeight: '700', width: '100%', cursor: 'pointer' }} onClick={() => handleOpenModal(today)}>
+          <button style={{ background: 'var(--bg-glass)', color: 'var(--text-muted)', border: '1px solid var(--border)', padding: '16px', borderRadius: '16px', fontSize: '14px', fontWeight: '700', width: '100%', cursor: 'pointer' }} onClick={() => handleOpenModal(today)}>
             ✓ Você já registrou hoje. Tocar para editar
           </button>
         )}
@@ -263,7 +263,7 @@ export default function EvolucaoPage() {
                 {selectedDate === today ? 'Como você está hoje?' : `Sintomas do dia ${new Date(selectedDate + 'T12:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })}`}
               </h3>
               <input type="date" value={selectedDate} onChange={e => setSelectedDate(e.target.value)} max={today} style={{
-                background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', padding: '6px 10px', borderRadius: '8px', fontSize: '12px', fontWeight: '600'
+                background: 'var(--bg-glass2)', border: 'none', color: 'white', padding: '6px 10px', borderRadius: '8px', fontSize: '12px', fontWeight: '600'
               }} />
             </div>
 

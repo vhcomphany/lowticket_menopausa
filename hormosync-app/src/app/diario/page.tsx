@@ -61,7 +61,7 @@ export default function DiarioPage() {
         <h1 style={{ fontSize: '24px', fontWeight: '800', marginBottom: '16px' }}>Jornada</h1>
 
         {/* Tabs */}
-        <div style={{ display: 'flex', background: 'rgba(255,255,255,0.04)', borderRadius: '12px', padding: '4px', gap: '4px' }}>
+        <div style={{ display: 'flex', background: 'var(--bg-glass)', borderRadius: '12px', padding: '4px', gap: '4px' }}>
           {[['diario', '📔 Diário'], ['desafios', '🏆 Desafios']].map(([key, label]) => (
             <button
               key={key}
@@ -125,7 +125,7 @@ export default function DiarioPage() {
                   <p style={{ fontSize: '12px', color: 'var(--text-muted)', fontStyle: 'italic', marginBottom: '8px' }}>
                     {e.prompt}
                   </p>
-                  <p style={{ fontSize: '14px', color: '#F0EAF5', lineHeight: '1.6' }}>{e.content}</p>
+                  <p style={{ fontSize: '14px', color: 'var(--text-primary)', lineHeight: '1.6' }}>{e.content}</p>
                 </div>
               ))
             )}
@@ -174,7 +174,7 @@ export default function DiarioPage() {
                           key={i}
                           style={{
                             width: `${90 / c.days}%`, minWidth: '8px', height: '8px', borderRadius: '100px',
-                            background: i < currentDay ? c.color : 'rgba(255,255,255,0.1)',
+                            background: i < currentDay ? c.color : 'var(--bg-glass2)',
                             transition: 'background 0.3s',
                           }}
                         />

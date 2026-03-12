@@ -154,7 +154,7 @@ export default function ProtocolosPage() {
             {expanded === p.id && (
               <div style={{ borderTop: '1px solid var(--border)', padding: '20px' }} onClick={e => e.stopPropagation()}>
                 
-                <p style={{ fontSize: '14px', color: '#F0EAF5', marginBottom: '20px', lineHeight: '1.6', background: 'rgba(255,255,255,0.05)', padding: '12px', borderRadius: '8px' }}>
+                <p style={{ fontSize: '14px', color: 'var(--text-primary)', marginBottom: '20px', lineHeight: '1.6', background: 'var(--bg-glass)', padding: '12px', borderRadius: '8px' }}>
                   {p.desc}
                 </p>
                 
@@ -173,7 +173,7 @@ export default function ProtocolosPage() {
 
                 {/* Bloco da Receita Específica (Se existir) */}
                 {p.recipe && (
-                  <div style={{ background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', overflow: 'hidden' }}>
+                  <div style={{ background: 'var(--bg-glass2)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', overflow: 'hidden' }}>
                     
                     {/* Cabeçalho Receita */}
                     <div style={{ background: 'linear-gradient(90deg, rgba(200,88,122,0.15) 0%, rgba(126,92,142,0.15) 100%)', padding: '16px', display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -207,7 +207,7 @@ export default function ProtocolosPage() {
                            <RefreshCw size={12} />
                            OPÇÕES DE SUBSTITUIÇÃO
                         </p>
-                        <p style={{ fontSize: '13px', lineHeight: '1.5', color: '#F0EAF5' }}>
+                        <p style={{ fontSize: '13px', lineHeight: '1.5', color: 'var(--text-primary)' }}>
                           {p.recipe.substitutions}
                         </p>
                       </div>

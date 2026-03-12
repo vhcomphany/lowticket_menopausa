@@ -209,7 +209,7 @@ export default function Dashboard() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {checklistLoading
               ? [1, 2, 3, 4].map(i => (
-                  <div key={i} style={{ height: '64px', background: 'rgba(255,255,255,0.03)', borderRadius: '14px', border: '1px solid var(--border)', animation: 'pulse 1.5s infinite' }} />
+                  <div key={i} style={{ height: '64px', background: 'var(--bg-glass)', borderRadius: '14px', border: '1px solid var(--border)', animation: 'pulse 1.5s infinite' }} />
                 ))
               : entries.map(entry => {
                   const isRecipe = entry.task_id.includes('::');
@@ -297,7 +297,7 @@ export default function Dashboard() {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: s.color }}>
                         {s.icon}
-                        <span style={{ fontSize: '13px', fontWeight: '500', color: '#F0EAF5' }}>{s.label}</span>
+                        <span style={{ fontSize: '13px', fontWeight: '500', color: 'var(--text-primary)' }}>{s.label}</span>
                       </div>
                       <span style={{ fontSize: '13px', color: 'var(--text-muted)', fontWeight: '600' }}>
                         {s.value ?? '—'}/10
@@ -433,12 +433,12 @@ export default function Dashboard() {
                   <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{selectedRecipe.subtitle}</p>
                 </div>
               </div>
-              <button onClick={() => setSelectedRecipe(null)} style={{ background: 'rgba(255,255,255,0.1)', border: 'none', color: 'var(--text-muted)', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+              <button onClick={() => setSelectedRecipe(null)} style={{ background: 'var(--bg-glass2)', border: 'none', color: 'var(--text-muted)', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
                 ✕
               </button>
             </div>
 
-            <p style={{ fontSize: '14px', color: '#F0EAF5', lineHeight: '1.6', marginBottom: '20px', background: 'rgba(255,255,255,0.04)', padding: '12px', borderRadius: '10px' }}>
+            <p style={{ fontSize: '14px', color: 'var(--text-primary)', lineHeight: '1.6', marginBottom: '20px', background: 'var(--bg-glass)', padding: '12px', borderRadius: '10px' }}>
               {selectedRecipe.description}
             </p>
 
@@ -453,21 +453,21 @@ export default function Dashboard() {
             {selectedRecipe.substitutions && (
               <div style={{ background: 'rgba(212,165,106,0.1)', borderLeft: '3px solid var(--brand-gold)', padding: '12px 14px', borderRadius: '0 8px 8px 0', marginBottom: selectedRecipe.scienceNote ? '16px' : '0' }}>
                 <p style={{ fontSize: '12px', fontWeight: '700', color: 'var(--brand-gold)', marginBottom: '4px' }}>🔄 Substituições</p>
-                <p style={{ fontSize: '13px', lineHeight: '1.5', color: '#F0EAF5' }}>{selectedRecipe.substitutions}</p>
+                <p style={{ fontSize: '13px', lineHeight: '1.5', color: 'var(--text-primary)' }}>{selectedRecipe.substitutions}</p>
               </div>
             )}
 
             {selectedRecipe.scienceNote && (
               <div style={{ background: 'rgba(126,92,142,0.1)', borderLeft: '3px solid var(--brand-purple)', padding: '12px 14px', borderRadius: '0 8px 8px 0', marginTop: '12px' }}>
                 <p style={{ fontSize: '12px', fontWeight: '700', color: 'var(--brand-purple)', marginBottom: '4px' }}>🔬 Por que funciona</p>
-                <p style={{ fontSize: '13px', lineHeight: '1.5', color: '#F0EAF5' }}>{selectedRecipe.scienceNote}</p>
+                <p style={{ fontSize: '13px', lineHeight: '1.5', color: 'var(--text-primary)' }}>{selectedRecipe.scienceNote}</p>
               </div>
             )}
 
             {selectedRecipe.restrictions && selectedRecipe.restrictions.length > 0 && (
               <div style={{ background: 'rgba(200,88,122,0.08)', border: '1px solid rgba(200,88,122,0.3)', borderRadius: '10px', padding: '12px', marginTop: '16px' }}>
                 <p style={{ fontSize: '12px', fontWeight: '700', color: 'var(--brand-rose)', marginBottom: '6px' }}>⛔ Restrições</p>
-                {selectedRecipe.restrictions.map((r, i) => <p key={i} style={{ fontSize: '13px', color: '#F0EAF5' }}>• {r}</p>)}
+                {selectedRecipe.restrictions.map((r, i) => <p key={i} style={{ fontSize: '13px', color: 'var(--text-primary)' }}>• {r}</p>)}
               </div>
             )}
 
@@ -504,12 +504,12 @@ export default function Dashboard() {
                   <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Protocolo Terapêutico</p>
                 </div>
               </div>
-              <button onClick={() => setSelectedProtocol(null)} style={{ background: 'rgba(255,255,255,0.1)', border: 'none', color: 'var(--text-muted)', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+              <button onClick={() => setSelectedProtocol(null)} style={{ background: 'var(--bg-glass2)', border: 'none', color: 'var(--text-muted)', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
                 ✕
               </button>
             </div>
 
-            <p style={{ fontSize: '14px', color: '#F0EAF5', lineHeight: '1.6', marginBottom: '20px', background: 'rgba(255,255,255,0.04)', padding: '12px', borderRadius: '10px' }}>
+            <p style={{ fontSize: '14px', color: 'var(--text-primary)', lineHeight: '1.6', marginBottom: '20px', background: 'var(--bg-glass)', padding: '12px', borderRadius: '10px' }}>
               {selectedProtocol.forWhat}
             </p>
 

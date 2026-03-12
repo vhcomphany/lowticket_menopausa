@@ -88,7 +88,7 @@ export default function PremiumPage() {
             R$ 147 não cabe no seu bolso agora?
           </p>
           <button
-            style={{ background: 'none', border: '1px solid var(--border)', borderRadius: '12px', padding: '12px 24px', color: '#F0EAF5', fontSize: '14px', fontWeight: '600', cursor: 'pointer', width: '100%' }}
+            style={{ background: 'none', border: '1px solid var(--border)', borderRadius: '12px', padding: '12px 24px', color: 'var(--text-primary)', fontSize: '14px', fontWeight: '600', cursor: 'pointer', width: '100%' }}
           >
             Pegar apenas a Comunidade VIP por R$ 47
           </button>

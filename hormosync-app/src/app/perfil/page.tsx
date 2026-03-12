@@ -94,7 +94,7 @@ export default function PerfilPage() {
     active: { bg: 'rgba(74,155,142,0.15)', color: 'var(--brand-teal)', label: 'ATIVO' },
     past_due: { bg: 'rgba(212,165,106,0.15)', color: 'var(--brand-gold)', label: 'PAGAMENTO PENDENTE' },
     inactive: { bg: 'rgba(200,88,122,0.15)', color: 'var(--brand-rose)', label: 'INATIVO' },
-    cancelled: { bg: 'rgba(255,255,255,0.1)', color: 'var(--text-muted)', label: 'CANCELADO' },
+    cancelled: { bg: 'var(--bg-glass2)', color: 'var(--text-muted)', label: 'CANCELADO' },
   };
 
   const subStatus = statusColors[profile?.subscription_status || 'active'];
@@ -116,7 +116,7 @@ export default function PerfilPage() {
           
           <button 
             onClick={() => isEditing ? saveProfile() : setIsEditing(true)}
-            style={{ position: 'absolute', top: '16px', right: '16px', background: 'rgba(255,255,255,0.1)', border: 'none', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'white' }}
+            style={{ position: 'absolute', top: '16px', right: '16px', background: 'var(--bg-glass2)', border: 'none', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'white' }}
           >
             {isEditing ? <Check size={16} /> : <Edit2 size={16} />}
           </button>
@@ -144,7 +144,7 @@ export default function PerfilPage() {
               value={editName}
               onChange={e => setEditName(e.target.value)}
               placeholder="Seu nome"
-              style={{ fontSize: '20px', fontWeight: '800', marginBottom: '4px', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--brand-rose)', borderRadius: '8px', padding: '4px 12px', color: 'white', textAlign: 'center', width: '80%' }}
+              style={{ fontSize: '20px', fontWeight: '800', marginBottom: '4px', background: 'var(--bg-glass2)', border: '1px solid var(--brand-rose)', borderRadius: '8px', padding: '4px 12px', color: 'white', textAlign: 'center', width: '80%' }}
             />
           ) : (
             <h2 style={{ fontSize: '20px', fontWeight: '800', marginBottom: '4px' }}>{profile?.name || 'Usuária'}</h2>

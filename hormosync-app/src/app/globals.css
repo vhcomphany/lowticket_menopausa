@@ -590,10 +590,132 @@ p  { color: var(--text-secondary); line-height: 1.6; }
 /* ─── HERO WAVE (SVG decorative) ─────────────────────────── */
 .hero-wave { position: absolute; bottom: 0; left: 0; right: 0; pointer-events: none; }
 
-/* ─── LIGHT-MODE ADJUSTMENTS ─────────────────────────────── */
-[data-theme="light"] .card-glow::before {
-  background: linear-gradient(90deg, transparent, rgba(232,84,122,0.4), transparent);
+/* ─── LIGHT-MODE COMPREHENSIVE OVERRIDES ────────────────────── */
+[data-theme="light"] body {
+  background-color: #F7F2FF;
+  color: #1E0D30;
 }
+
+/* Cards */
+[data-theme="light"] .card {
+  background: rgba(255,255,255,0.95);
+  border-color: rgba(0,0,0,0.07);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04);
+}
+[data-theme="light"] .card-glow {
+  background: rgba(255,255,255,0.95);
+  border-color: rgba(232,84,122,0.25);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08), 0 0 40px rgba(232,84,122,0.08);
+}
+[data-theme="light"] .card-glow::before {
+  background: linear-gradient(90deg, transparent, rgba(232,84,122,0.35), transparent);
+}
+[data-theme="light"] .card-glass {
+  background: rgba(255,255,255,0.7);
+  border-color: rgba(0,0,0,0.06);
+}
+
+/* Glass backgrounds */
+[data-theme="light"] .bg-glass  { background: rgba(0,0,0,0.03); }
+[data-theme="light"] .bg-glass2 { background: rgba(0,0,0,0.06); }
+
+/* Text visibility */
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] h3 { color: #1E0D30; }
+[data-theme="light"] p  { color: #4A3060; }
+
+/* Badges */
+[data-theme="light"] .badge-rose  { background: rgba(232,84,122,0.12); color: #B8305A; }
+[data-theme="light"] .badge-teal  { background: rgba(62,191,170,0.12); color: #1D8F80; }
+[data-theme="light"] .badge-gold  { background: rgba(200,160,60,0.12); color: #8A6010; }
+[data-theme="light"] .badge-mauve { background: rgba(155,106,176,0.12); color: #6A3A90; }
+
+/* Progress */
+[data-theme="light"] .progress-bar { background: rgba(0,0,0,0.08); }
+
+/* Check items */
+[data-theme="light"] .check-item {
+  background: rgba(255,255,255,0.85);
+  border-color: rgba(0,0,0,0.08);
+}
+[data-theme="light"] .check-item:hover {
+  background: rgba(232,84,122,0.05);
+  border-color: rgba(232,84,122,0.2);
+}
+[data-theme="light"] .check-item.checked {
+  background: rgba(62,191,170,0.06);
+  border-color: rgba(62,191,170,0.2);
+}
+[data-theme="light"] .check-circle {
+  border-color: rgba(0,0,0,0.18);
+}
+
+/* Stat cards */
+[data-theme="light"] .stat-card {
+  background: rgba(0,0,0,0.03);
+  border-color: rgba(0,0,0,0.07);
+}
+[data-theme="light"] .stat-card-label { color: #7B6A8E; }
+
+/* Nav */
+[data-theme="light"] .nav-item { color: #9B87B0; }
+[data-theme="light"] .nav-item.active { color: var(--brand-rose); }
+[data-theme="light"] .nav-item:hover:not(.active) {
+  color: #4A3060;
+  background: rgba(0,0,0,0.05);
+}
+
+/* Input */
+[data-theme="light"] .input-field {
+  background: rgba(0,0,0,0.03);
+  border-color: rgba(0,0,0,0.1);
+  color: #1E0D30;
+}
+[data-theme="light"] .input-field::placeholder { color: #9B87B0; }
+
+/* Orbs adjust for light mode */
+[data-theme="light"] .orb-rose  { opacity: 0.25; }
+[data-theme="light"] .orb-mauve { opacity: 0.2; }
+[data-theme="light"] .orb-teal  { opacity: 0.18; }
+
+/* Scrollbar */
 [data-theme="light"] ::-webkit-scrollbar-thumb {
   background: rgba(232,84,122,0.2);
+}
+
+/* Modal sheets */
+[data-theme="light"] .modal-sheet {
+  background: rgba(255,255,255,0.98);
+  border-top-color: rgba(232,84,122,0.2);
+}
+
+/* Lock overlay */
+[data-theme="light"] .lock-overlay::after {
+  background: rgba(248, 244, 255, 0.75);
+}
+
+/* Btn secondary */
+[data-theme="light"] .btn-secondary {
+  background: rgba(232,84,122,0.05);
+  border-color: rgba(232,84,122,0.3);
+  color: #B8305A;
+}
+[data-theme="light"] .btn-secondary:hover {
+  background: rgba(232,84,122,0.1);
+}
+
+/* Section labels */
+[data-theme="light"] .section-label { color: #7B6A8E; }
+
+/* Divider */
+[data-theme="light"] .divider {
+  background: linear-gradient(90deg, transparent, rgba(0,0,0,0.08), transparent);
+}
+
+/* pre/code blocks inside cards */
+[data-theme="light"] pre {
+  background: rgba(0,0,0,0.05) !important;
+  color: #2E1A40 !important;
+  border: 1px solid rgba(0,0,0,0.08);
 }

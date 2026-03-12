@@ -44,7 +44,7 @@ function RecipeCard({ recipe }: { recipe: Recipe }) {
 
       {open && (
         <div style={{ borderTop: '1px solid var(--border)', padding: '16px' }} onClick={e => e.stopPropagation()}>
-          <p style={{ fontSize: '13px', color: '#F0EAF5', lineHeight: '1.6', marginBottom: '16px', background: 'rgba(255,255,255,0.04)', padding: '10px', borderRadius: '8px' }}>
+          <p style={{ fontSize: '13px', color: 'var(--text-primary)', lineHeight: '1.6', marginBottom: '16px', background: 'var(--bg-glass)', padding: '10px', borderRadius: '8px' }}>
             {recipe.description}
           </p>
 
@@ -59,21 +59,21 @@ function RecipeCard({ recipe }: { recipe: Recipe }) {
           {recipe.substitutions && (
             <div style={{ background: 'rgba(212,165,106,0.1)', borderLeft: '3px solid var(--brand-gold)', padding: '10px 12px', borderRadius: '0 8px 8px 0', marginBottom: recipe.scienceNote ? '12px' : '0' }}>
               <p style={{ fontSize: '11px', fontWeight: '700', color: 'var(--brand-gold)', marginBottom: '3px' }}>🔄 Substituições</p>
-              <p style={{ fontSize: '12px', lineHeight: '1.5', color: '#F0EAF5' }}>{recipe.substitutions}</p>
+              <p style={{ fontSize: '12px', lineHeight: '1.5', color: 'var(--text-primary)' }}>{recipe.substitutions}</p>
             </div>
           )}
 
           {recipe.scienceNote && (
             <div style={{ background: 'rgba(126,92,142,0.1)', borderLeft: '3px solid var(--brand-purple)', padding: '10px 12px', borderRadius: '0 8px 8px 0', marginTop: '8px' }}>
               <p style={{ fontSize: '11px', fontWeight: '700', color: 'var(--brand-purple)', marginBottom: '3px' }}>🔬 Por que funciona</p>
-              <p style={{ fontSize: '12px', lineHeight: '1.5', color: '#F0EAF5' }}>{recipe.scienceNote}</p>
+              <p style={{ fontSize: '12px', lineHeight: '1.5', color: 'var(--text-primary)' }}>{recipe.scienceNote}</p>
             </div>
           )}
 
           {recipe.restrictions && recipe.restrictions.length > 0 && (
             <div style={{ background: 'rgba(200,88,122,0.08)', border: '1px solid rgba(200,88,122,0.3)', borderRadius: '8px', padding: '10px', marginTop: '12px' }}>
               <p style={{ fontSize: '11px', fontWeight: '700', color: 'var(--brand-rose)', marginBottom: '4px' }}>⛔ Restrições</p>
-              {recipe.restrictions.map((r, i) => <p key={i} style={{ fontSize: '12px', color: '#F0EAF5' }}>• {r}</p>)}
+              {recipe.restrictions.map((r, i) => <p key={i} style={{ fontSize: '12px', color: 'var(--text-primary)' }}>• {r}</p>)}
             </div>
           )}
 
@@ -171,7 +171,7 @@ export default function ReceitasPage() {
             )}
             
             <div style={{ background: 'rgba(212,165,106,0.1)', border: '1px solid rgba(212,165,106,0.3)', borderRadius: '12px', padding: '12px' }}>
-              <p style={{ fontSize: '12px', lineHeight: '1.5', color: '#F0EAF5' }}>
+              <p style={{ fontSize: '12px', lineHeight: '1.5', color: 'var(--text-primary)' }}>
                 💡 <strong>Dica Médica:</strong> O seu cardápio abaixo foi montado para dar resultados rápidos para <strong>{mainSymptom}</strong>. Siga-o por 7 dias antes de mudar para que o corpo se adapte à nova rotina hormonal!
               </p>
             </div>
@@ -302,12 +302,12 @@ export default function ReceitasPage() {
                   <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{selectedRecipe.subtitle}</p>
                 </div>
               </div>
-              <button onClick={() => setSelectedRecipe(null)} style={{ background: 'rgba(255,255,255,0.1)', border: 'none', color: 'var(--text-muted)', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+              <button onClick={() => setSelectedRecipe(null)} style={{ background: 'var(--bg-glass2)', border: 'none', color: 'var(--text-muted)', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
                 ✕
               </button>
             </div>
 
-            <p style={{ fontSize: '14px', color: '#F0EAF5', lineHeight: '1.6', marginBottom: '20px', background: 'rgba(255,255,255,0.04)', padding: '12px', borderRadius: '10px' }}>
+            <p style={{ fontSize: '14px', color: 'var(--text-primary)', lineHeight: '1.6', marginBottom: '20px', background: 'var(--bg-glass)', padding: '12px', borderRadius: '10px' }}>
               {selectedRecipe.description}
             </p>
 
@@ -322,21 +322,21 @@ export default function ReceitasPage() {
             {selectedRecipe.substitutions && (
               <div style={{ background: 'rgba(212,165,106,0.1)', borderLeft: '3px solid var(--brand-gold)', padding: '12px 14px', borderRadius: '0 8px 8px 0', marginBottom: selectedRecipe.scienceNote ? '16px' : '0' }}>
                 <p style={{ fontSize: '12px', fontWeight: '700', color: 'var(--brand-gold)', marginBottom: '4px' }}>🔄 Substituições</p>
-                <p style={{ fontSize: '13px', lineHeight: '1.5', color: '#F0EAF5' }}>{selectedRecipe.substitutions}</p>
+                <p style={{ fontSize: '13px', lineHeight: '1.5', color: 'var(--text-primary)' }}>{selectedRecipe.substitutions}</p>
               </div>
             )}
 
             {selectedRecipe.scienceNote && (
               <div style={{ background: 'rgba(126,92,142,0.1)', borderLeft: '3px solid var(--brand-purple)', padding: '12px 14px', borderRadius: '0 8px 8px 0', marginTop: '12px' }}>
                 <p style={{ fontSize: '12px', fontWeight: '700', color: 'var(--brand-purple)', marginBottom: '4px' }}>🔬 Por que funciona</p>
-                <p style={{ fontSize: '13px', lineHeight: '1.5', color: '#F0EAF5' }}>{selectedRecipe.scienceNote}</p>
+                <p style={{ fontSize: '13px', lineHeight: '1.5', color: 'var(--text-primary)' }}>{selectedRecipe.scienceNote}</p>
               </div>
             )}
 
             {selectedRecipe.restrictions && selectedRecipe.restrictions.length > 0 && (
               <div style={{ background: 'rgba(200,88,122,0.08)', border: '1px solid rgba(200,88,122,0.3)', borderRadius: '10px', padding: '12px', marginTop: '16px' }}>
                 <p style={{ fontSize: '12px', fontWeight: '700', color: 'var(--brand-rose)', marginBottom: '6px' }}>⛔ Restrições</p>
-                {selectedRecipe.restrictions.map((r, i) => <p key={i} style={{ fontSize: '13px', color: '#F0EAF5' }}>• {r}</p>)}
+                {selectedRecipe.restrictions.map((r, i) => <p key={i} style={{ fontSize: '13px', color: 'var(--text-primary)' }}>• {r}</p>)}
               </div>
             )}
 

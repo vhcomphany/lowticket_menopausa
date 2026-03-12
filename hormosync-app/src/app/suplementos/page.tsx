@@ -47,7 +47,7 @@ function SupplementCard({ sup }: { sup: Supplement }) {
 
       {open && (
         <div style={{ borderTop: '1px solid var(--border)', padding: '16px', display: 'flex', flexDirection: 'column', gap: '14px' }} onClick={e => e.stopPropagation()}>
-          <p style={{ fontSize: '13px', lineHeight: '1.6', color: '#F0EAF5' }}>{sup.forWhat}</p>
+          <p style={{ fontSize: '13px', lineHeight: '1.6', color: 'var(--text-primary)' }}>{sup.forWhat}</p>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
             {[
@@ -55,7 +55,7 @@ function SupplementCard({ sup }: { sup: Supplement }) {
               { label: '⏰ Horário', val: sup.timing },
               { label: '⏱ Resultado em', val: sup.timeToResult },
             ].map(({ label, val }) => (
-              <div key={label} style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '10px', padding: '10px' }}>
+              <div key={label} style={{ background: 'var(--bg-glass)', borderRadius: '10px', padding: '10px' }}>
                 <p style={{ fontSize: '10px', color: 'var(--text-muted)', fontWeight: '600', marginBottom: '4px' }}>{label}</p>
                 <p style={{ fontSize: '12px', lineHeight: '1.4' }}>{val}</p>
               </div>
@@ -69,14 +69,14 @@ function SupplementCard({ sup }: { sup: Supplement }) {
           {sup.safeFor && (
             <div style={{ background: 'rgba(74,155,142,0.1)', borderLeft: '3px solid var(--brand-teal)', padding: '10px 12px', borderRadius: '0 8px 8px 0' }}>
               <p style={{ fontSize: '11px', fontWeight: '700', color: 'var(--brand-teal)', marginBottom: '3px' }}>✅ Segura para</p>
-              <p style={{ fontSize: '12px', color: '#F0EAF5' }}>{sup.safeFor}</p>
+              <p style={{ fontSize: '12px', color: 'var(--text-primary)' }}>{sup.safeFor}</p>
             </div>
           )}
 
           {sup.tip && (
             <div style={{ background: 'rgba(212,165,106,0.1)', borderLeft: '3px solid var(--brand-gold)', padding: '10px 12px', borderRadius: '0 8px 8px 0' }}>
               <p style={{ fontSize: '11px', fontWeight: '700', color: 'var(--brand-gold)', marginBottom: '3px' }}>💡 Dica importante</p>
-              <p style={{ fontSize: '12px', color: '#F0EAF5' }}>{sup.tip}</p>
+              <p style={{ fontSize: '12px', color: 'var(--text-primary)' }}>{sup.tip}</p>
             </div>
           )}
 
@@ -87,9 +87,9 @@ function SupplementCard({ sup }: { sup: Supplement }) {
             </div>
           )}
 
-          <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '12px', padding: '14px' }}>
+          <div style={{ background: 'var(--bg-glass)', borderRadius: '12px', padding: '14px' }}>
             <p style={{ fontSize: '12px', fontWeight: '700', marginBottom: '10px', color: 'var(--text-muted)' }}>📋 FÓRMULA PARA FARMÁCIA DE MANIPULAÇÃO</p>
-            <pre style={{ fontSize: '11px', lineHeight: '1.6', whiteSpace: 'pre-wrap', fontFamily: 'monospace', color: '#F0EAF5', marginBottom: '12px', background: 'rgba(0,0,0,0.2)', padding: '10px', borderRadius: '8px' }}>
+            <pre style={{ fontSize: '11px', lineHeight: '1.6', whiteSpace: 'pre-wrap', fontFamily: 'monospace', color: 'var(--text-primary)', marginBottom: '12px', background: 'var(--bg-glass2)', padding: '10px', borderRadius: '8px' }}>
               {sup.manipulationFormula}
             </pre>
             <CopyButton text={sup.manipulationFormula} />
@@ -123,9 +123,9 @@ function StackCard({ stack }: { stack: typeof SUPPLEMENT_STACKS[number] }) {
           <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '12px' }}>
             💡 <strong>Vantagem do Stack:</strong> Todos os ativos em 1 cápsula diária, facilitando sua rotina hormonal.
           </p>
-          <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '12px', padding: '14px' }}>
+          <div style={{ background: 'var(--bg-glass)', borderRadius: '12px', padding: '14px' }}>
             <p style={{ fontSize: '12px', fontWeight: '700', marginBottom: '10px', color: 'var(--text-muted)' }}>📋 FÓRMULA COMPLETA PARA FARMÁCIA</p>
-            <pre style={{ fontSize: '11px', lineHeight: '1.6', whiteSpace: 'pre-wrap', fontFamily: 'monospace', color: '#F0EAF5', marginBottom: '12px', background: 'rgba(0,0,0,0.2)', padding: '10px', borderRadius: '8px' }}>
+            <pre style={{ fontSize: '11px', lineHeight: '1.6', whiteSpace: 'pre-wrap', fontFamily: 'monospace', color: 'var(--text-primary)', marginBottom: '12px', background: 'var(--bg-glass2)', padding: '10px', borderRadius: '8px' }}>
               {stack.manipulationFormula}
             </pre>
             <CopyButton text={stack.manipulationFormula} />
@@ -153,7 +153,7 @@ export default function SuplementosPage() {
 
       {/* Aviso legal */}
       <div style={{ margin: '16px 20px 0', background: 'rgba(212,165,106,0.1)', border: '1px solid rgba(212,165,106,0.3)', borderRadius: '12px', padding: '12px' }}>
-        <p style={{ fontSize: '12px', lineHeight: '1.5', color: '#F0EAF5' }}>
+        <p style={{ fontSize: '12px', lineHeight: '1.5', color: 'var(--text-primary)' }}>
           ⚠️ <strong>Aviso Médico:</strong> As fórmulas são baseadas em estudos clínicos. Consulte seu médico antes de iniciar, especialmente se usa medicamentos contínuos.
         </p>
       </div>
