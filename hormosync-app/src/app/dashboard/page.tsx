@@ -1,10 +1,32 @@
 'use client';
 
-import { useState } from 'react';
-import { Flame, Moon, Zap, ChevronRight, Star, Lock, Bell, ChevronDown } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Flame, Moon, Zap, ChevronRight, Bell, Sparkles, LockKeyhole } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
 import { useProfile, useTodayChecklist, useTodaySymptoms } from '@/hooks/useSupabase';
 import { RECIPES, type Recipe } from '@/data/recipes';
+
+// Theme toggle logic
+function ThemeToggle() {
+  const [isDark, setIsDark] = useState(true);
+  useEffect(() => {
+    const t = localStorage.getItem('hs_theme');
+    if (t === 'light') setIsDark(false);
+  }, []);
+  const toggle = () => {
+    const next = isDark ? 'light' : 'dark';
+    localStorage.setItem('hs_theme', next);
+    document.documentElement.setAttribute('data-theme', next === 'dark' ? '' : 'light');
+    setIsDark(!isDark);
+  };
+  return (
+    <button onClick={toggle} className={`theme-toggle${isDark ? '' : ' light-on'}`} aria-label="Trocar tema">
+      <div className="theme-toggle-knob" style={{ left: isDark ? '3px' : '27px' }}>
+        {isDark ? '🌙' : '☀️'}
+      </div>
+    </button>
+  );
+}
 
 const getTaskTime = (taskId: string) => {
   if (taskId.startsWith('morning_')) return 'Manhã';
@@ -70,60 +92,103 @@ export default function Dashboard() {
 
   if (profileLoading) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '40px', marginBottom: '16px' }}>🌸</div>
-          <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>Carregando seu painel...</p>
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ position: 'relative', width: '64px', height: '64px' }}>
+          <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'var(--grad-primary)', opacity: 0.2, animation: 'pulse-glow 2s infinite' }} />
+          <div style={{ position: 'absolute', inset: '8px', borderRadius: '50%', background: 'var(--grad-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px' }}>🌸</div>
         </div>
+        <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>Carregando seu painel...</p>
       </div>
     );
   }
 
+  // ─── build score ring ───
+  const scoreRadius = 38;
+  const scoreCircumference = 2 * Math.PI * scoreRadius;
+  const dashOffset = scoreCircumference * (1 - progressPct / 100);
+
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: '90px' }}>
-      {/* Header */}
-      <div style={{ padding: '20px 20px 0' }}>
+    <div style={{ minHeight: '100vh', paddingBottom: '100px', position: 'relative' }}>
+
+      {/* Decorative orbs */}
+      <div className="orb orb-rose" style={{ width: '260px', height: '260px', top: '-80px', right: '-60px', opacity: 0.5 }} />
+      <div className="orb orb-mauve" style={{ width: '200px', height: '200px', top: '140px', left: '-80px', opacity: 0.35 }} />
+
+      {/* ─── HEADER ─────────────────────────────────── */}
+      <div style={{ padding: '56px 20px 20px', position: 'relative', zIndex: 1 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <div>
-            <p style={{ color: 'var(--text-muted)', fontSize: '13px', marginBottom: '4px' }}>Olá, {displayName} 👋</p>
-            <h1 style={{ fontSize: '22px', fontWeight: '800', lineHeight: '1.2' }}>
-              Seu painel de<br />
-              <span className="gradient-text">acompanhamento</span>
+            <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '6px', fontWeight: 500 }}>
+              Olá, {displayName} 👋
+            </p>
+            <h1 style={{ fontSize: '28px', fontWeight: 700, lineHeight: 1.2 }}>
+              Seu painel de{' '}
+              <span className="gradient-text">saúde</span>
             </h1>
           </div>
-          <button style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-            <Bell size={18} color="var(--text-muted)" />
-          </button>
+          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+            <ThemeToggle />
+            <button style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--bg-glass2)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+              <Bell size={17} color="var(--text-muted)" />
+            </button>
+          </div>
         </div>
       </div>
 
-      <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <div style={{ padding: '0 20px', display: 'flex', flexDirection: 'column', gap: '16px', position: 'relative', zIndex: 1 }}>
 
-        {/* Profile Card */}
-        <div className="card-glow" style={{ padding: '20px' }}>
-          <div style={{ display: 'flex', gap: '8px', marginBottom: '10px', flexWrap: 'wrap' }}>
-            <span className="badge badge-rose">Perfil: {displayProfile}</span>
-            {profile?.is_premium && <span className="badge" style={{ background: 'rgba(212,165,106,0.15)', color: 'var(--brand-gold)', border: '1px solid rgba(212,165,106,0.3)' }}>👑 Premium</span>}
-          </div>
-          <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: '1.5', marginBottom: '16px' }}>
-            {profile?.phase
-              ? `Fase atual: ${profile.phase}. Seu protocolo está personalizado para esse momento.`
-              : 'Seu protocolo está personalizado com base no seu diagnóstico hormonal.'}
-          </p>
+        {/* ─── HERO CARD ─────────────────────────────── */}
+        <div className="card-glow stagger-children" style={{ padding: '22px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
 
-          {/* Streak metrics */}
-          <div style={{ display: 'flex', gap: '12px' }}>
-            <div style={{ flex: 1, padding: '14px', background: 'rgba(200,88,122,0.08)', borderRadius: '12px', textAlign: 'center', border: '1px solid rgba(200,88,122,0.2)' }}>
-              <p style={{ fontSize: '24px', fontWeight: '800', color: 'var(--brand-rose)' }}>🔥 {profile?.streak_days ?? 0}</p>
-              <p style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>Dias seguidos</p>
+            {/* Score ring SVG */}
+            <div style={{ position: 'relative', flexShrink: 0 }}>
+              <svg width="90" height="90" viewBox="0 0 90 90">
+                <circle cx="45" cy="45" r={scoreRadius}
+                  fill="none" stroke="var(--bg-glass2)" strokeWidth="6" />
+                <circle cx="45" cy="45" r={scoreRadius}
+                  fill="none"
+                  stroke="url(#ringGrad)"
+                  strokeWidth="6"
+                  strokeLinecap="round"
+                  strokeDasharray={scoreCircumference}
+                  strokeDashoffset={dashOffset}
+                  transform="rotate(-90 45 45)"
+                  className="score-ring"
+                />
+                <defs>
+                  <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#E8547A" />
+                    <stop offset="100%" stopColor="#9B6AB0" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ fontSize: '18px', fontWeight: 800, fontFamily: 'Playfair Display, serif' }}>{Math.round(progressPct)}%</span>
+                <span style={{ fontSize: '9px', color: 'var(--text-muted)', fontWeight: 600 }}>hoje</span>
+              </div>
             </div>
-            <div style={{ flex: 1, padding: '14px', background: 'rgba(126,92,142,0.08)', borderRadius: '12px', textAlign: 'center', border: '1px solid rgba(126,92,142,0.2)' }}>
-              <p style={{ fontSize: '24px', fontWeight: '800', color: 'var(--brand-purple)' }}>{profile?.completed_days ?? 0}</p>
-              <p style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>Dias completados</p>
-            </div>
-            <div style={{ flex: 1, padding: '14px', background: 'rgba(74,155,142,0.08)', borderRadius: '12px', textAlign: 'center', border: '1px solid rgba(74,155,142,0.2)' }}>
-              <p style={{ fontSize: '24px', fontWeight: '800', color: 'var(--brand-teal)' }}>{Math.round(progressPct)}%</p>
-              <p style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>Hoje</p>
+
+            <div style={{ flex: 1 }}>
+              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '10px' }}>
+                {profile?.is_premium && <span className="badge badge-gold">👑 Premium</span>}
+                <span className="badge badge-rose">{displayProfile}</span>
+              </div>
+              <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+                {profile?.phase
+                  ? `Fase: ${profile.phase}`
+                  : 'Protocolo personalizado ativo.'}
+              </p>
+              <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
+                <div className="stat-card">
+                  <div className="stat-card-num" style={{ color: 'var(--brand-rose)' }}>🔥 {profile?.streak_days ?? 0}</div>
+                  <div className="stat-card-label">Dias seguidos</div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-card-num" style={{ color: 'var(--brand-mauve)' }}>{profile?.completed_days ?? 0}</div>
+                  <div className="stat-card-label">Completados</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -278,14 +343,14 @@ export default function Dashboard() {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                   <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(212,165,106,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Star size={20} color="var(--brand-gold)" />
+                    <Sparkles size={20} color="var(--brand-gold)" />
                   </div>
                   <div>
                     <p style={{ fontWeight: '600', fontSize: '15px' }}>Comunidade VIP</p>
                     <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>+1.200 mulheres • Suporte diário</p>
                   </div>
                 </div>
-                <Lock size={18} color="var(--brand-gold)" />
+                <LockKeyhole size={18} color="var(--brand-gold)" />
               </div>
             </div>
             <div
@@ -293,7 +358,7 @@ export default function Dashboard() {
               onClick={() => window.location.href = '/premium'}
             >
               <div style={{ background: 'linear-gradient(135deg, var(--brand-gold), #b8893a)', padding: '10px 20px', borderRadius: '100px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Lock size={14} color="white" />
+                <LockKeyhole size={14} color="white" />
                 <span style={{ color: 'white', fontWeight: '700', fontSize: '13px' }}>Desbloquear Premium</span>
               </div>
             </div>
