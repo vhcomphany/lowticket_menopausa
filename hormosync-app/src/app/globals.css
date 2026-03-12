@@ -690,32 +690,47 @@ p  { color: var(--text-secondary); line-height: 1.6; }
   border-top-color: rgba(232,84,122,0.2);
 }
 
-/* Lock overlay */
-[data-theme="light"] .lock-overlay::after {
-  background: rgba(248, 244, 255, 0.75);
+/* ─── MODERN HORIZONTAL SCROLL (NETFLIX/IG STYLE) ────────── */
+.horizontal-scroll {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  gap: 16px;
+  padding: 8px 20px 24px;
+  background: transparent;
+  -webkit-overflow-scrolling: touch;
+}
+.horizontal-scroll::-webkit-scrollbar { display: none; }
+.horizontal-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+.snap-card {
+  scroll-snap-align: center;
+  flex: 0 0 85%;
+  min-width: 280px;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform;
+}
+.snap-card:active { transform: scale(0.97); }
+
+/* ─── GRADIENT OVERLAYS FOR IMAGES ───────────────────────── */
+.image-overlay-dark {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--bg-base) 0%, transparent 50%, rgba(0,0,0,0.4) 100%);
+  pointer-events: none;
+}
+[data-theme="light"] .image-overlay-dark {
+  background: linear-gradient(to top, var(--bg-base) 0%, transparent 60%, rgba(255,255,255,0.4) 100%);
 }
 
-/* Btn secondary */
-[data-theme="light"] .btn-secondary {
-  background: rgba(232,84,122,0.05);
-  border-color: rgba(232,84,122,0.3);
-  color: #B8305A;
+.frosted-glass {
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
 }
-[data-theme="light"] .btn-secondary:hover {
-  background: rgba(232,84,122,0.1);
-}
-
-/* Section labels */
-[data-theme="light"] .section-label { color: #7B6A8E; }
-
-/* Divider */
-[data-theme="light"] .divider {
-  background: linear-gradient(90deg, transparent, rgba(0,0,0,0.08), transparent);
-}
-
-/* pre/code blocks inside cards */
-[data-theme="light"] pre {
-  background: rgba(0,0,0,0.05) !important;
-  color: #2E1A40 !important;
-  border: 1px solid rgba(0,0,0,0.08);
+[data-theme="light"] .frosted-glass {
+  background: rgba(255,255,255,0.8);
+  border: 1px solid rgba(255,255,255,0.5);
 }

@@ -206,12 +206,12 @@ export default function Dashboard() {
             <div className="progress-bar-fill" style={{ width: `${progressPct}%` }} />
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div className="horizontal-scroll" style={{ margin: '0 -20px' }}>
             {checklistLoading
-              ? [1, 2, 3, 4].map(i => (
-                  <div key={i} style={{ height: '64px', background: 'var(--bg-glass)', borderRadius: '14px', border: '1px solid var(--border)', animation: 'pulse 1.5s infinite' }} />
+              ? [1, 2, 3].map(i => (
+                  <div key={i} className="snap-card" style={{ height: '160px', background: 'var(--bg-glass)', borderRadius: '20px', border: '1px solid var(--border)', animation: 'pulse-glow 2s infinite' }} />
                 ))
-              : entries.map(entry => {
+              : entries.map((entry, i) => {
                   const isRecipe = entry.task_id.includes('::');
                   const recipeId = isRecipe ? entry.task_id.split('::')[1].split('_')[0] : null;
                   const rawTaskId = entry.task_id.replace(/_\d+$/, '');
@@ -220,7 +220,17 @@ export default function Dashboard() {
                   return (
                     <div
                       key={entry.id}
-                      className={`check-item ${entry.completed ? 'checked' : ''}`}
+                      className={`snap-card check-item ${entry.completed ? 'checked' : ''}`}
+                      style={{
+                        flexDirection: 'column',
+                        alignItems: 'flex-start',
+                        padding: '20px',
+                        gap: '16px',
+                        position: 'relative',
+                        overflow: 'hidden',
+                        borderRadius: '20px',
+                        minHeight: '160px'
+                      }}
                       onClick={() => {
                         if (recipeId) {
                           const r = RECIPES.find(x => x.id === recipeId);
@@ -233,32 +243,37 @@ export default function Dashboard() {
                         }
                       }}
                     >
-                      <div className="check-circle" onClick={(e) => { e.stopPropagation(); toggleTask(entry.task_id, entry.completed); }}>
-                        {entry.completed && <span style={{ fontSize: '12px', color: 'white' }}>✓</span>}
-                      </div>
-                      <div style={{ flex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <div>
-                          <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '2px' }}>
-                            {getTaskTime(entry.task_id)}
-                          </p>
-                          <p style={{
-                            fontSize: '14px', fontWeight: '500',
-                            color: entry.completed ? 'var(--text-muted)' : '#F0EAF5',
-                            textDecoration: entry.completed ? 'line-through' : 'none',
-                          }}>
-                            {entry.task_label}
-                          </p>
+                      {/* Decoration orb */}
+                      <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '80px', height: '80px', borderRadius: '50%', background: entry.completed ? 'var(--grad-teal)' : 'var(--grad-primary)', filter: 'blur(30px)', opacity: entry.completed ? 0.1 : 0.15 }} />
+
+                      <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center', zIndex: 1 }}>
+                        <span className="badge badge-mauve" style={{ fontSize: '10px' }}>{getTaskTime(entry.task_id)}</span>
+                        <div className="check-circle" onClick={(e) => { e.stopPropagation(); toggleTask(entry.task_id, entry.completed); }}>
+                          {entry.completed && <span style={{ fontSize: '12px', color: 'white' }}>✓</span>}
                         </div>
-                        {isRecipe && (
-                           <button style={{ background: 'rgba(200,88,122,0.1)', border: 'none', color: 'var(--brand-rose)', padding: '6px 10px', borderRadius: '100px', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>
-                             Receita
-                           </button>
-                        )}
-                        {!isRecipe && staticProtocol && (
-                           <button style={{ background: 'rgba(74,155,142,0.1)', border: 'none', color: 'var(--brand-teal)', padding: '6px 10px', borderRadius: '100px', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>
-                             Como fazer
-                           </button>
-                        )}
+                      </div>
+
+                      <div style={{ marginTop: 'auto', zIndex: 1, width: '100%' }}>
+                        <p style={{
+                          fontSize: '15px', fontWeight: '700', lineHeight: 1.3, marginBottom: '12px',
+                          color: entry.completed ? 'var(--text-muted)' : 'var(--text-primary)',
+                          textDecoration: entry.completed ? 'line-through' : 'none',
+                        }}>
+                          {entry.task_label}
+                        </p>
+                        
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                          {isRecipe && (
+                            <button className="btn-pill btn-pill-rose">
+                               Receita
+                            </button>
+                          )}
+                          {!isRecipe && staticProtocol && (
+                            <button className="btn-pill btn-pill-teal">
+                               Como fazer
+                            </button>
+                          )}
+                        </div>
                       </div>
                     </div>
                   );
