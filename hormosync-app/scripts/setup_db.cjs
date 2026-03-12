@@ -1,6 +1,20 @@
 const https = require('https');
 
-const PAT = 'sbp_6d33718b25ec575997ac04a145604a0472a30a93';
+const fs = require('fs');
+const path = require('path');
+
+try {
+  const envPath = path.resolve(__dirname, '../.env.local');
+  const envContent = fs.readFileSync(envPath, 'utf8');
+  envContent.split('\n').forEach(line => {
+    const [key, val] = line.split('=');
+    if (key && val) process.env[key.trim()] = val.trim();
+  });
+} catch (e) {
+  console.log('Aviso: .env.local não encontrado ou erro ao ler.');
+}
+
+const PAT = process.env.SUPABASE_ACCESS_TOKEN || '';
 const PROJECT = 'wfnkhkarqklddlxymikj';
 
 function query(sql) {

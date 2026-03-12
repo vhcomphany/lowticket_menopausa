@@ -1,8 +1,23 @@
 const https = require('https');
 
-const PAT = 'sbp_6d33718b25ec575997ac04a145604a0472a30a93';
+const fs = require('fs');
+const path = require('path');
+
+// Carrega o .env.local manualmente para os scripts Node puramente se não tiver usando import
+try {
+  const envPath = path.resolve(__dirname, '../.env.local');
+  const envContent = fs.readFileSync(envPath, 'utf8');
+  envContent.split('\n').forEach(line => {
+    const [key, val] = line.split('=');
+    if (key && val) process.env[key.trim()] = val.trim();
+  });
+} catch (e) {
+  console.log('Aviso: .env.local não encontrado ou erro ao ler.');
+}
+
+const PAT = process.env.SUPABASE_ACCESS_TOKEN || '';
 const PROJECT = 'wfnkhkarqklddlxymikj';
-const SERVICE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indmbmtoa2FycWtsZGRseHltaWtqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MzI2ODM3MCwiZXhwIjoyMDg4ODQ0MzcwfQ.Qz5UOr3gUhkmVPj1VXYb4xHAi-bEHZvfWCUb6Q2IJ_w';
+const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
 function apiCall(path, method, body, useServiceKey = false) {
   return new Promise((resolve, reject) => {
