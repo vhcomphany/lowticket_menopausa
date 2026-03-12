@@ -4,8 +4,17 @@ import { useState, useEffect } from 'react';
 import { Flame, Moon, Zap, ChevronRight, Bell, Sparkles, LockKeyhole } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
 import { useProfile, useTodayChecklist, useTodaySymptoms } from '@/hooks/useSupabase';
-import { RECIPES, type Recipe } from '@/data/recipes';
+import { RECIPES, type Recipe, type RecipeCategory } from '@/data/recipes';
 
+const IMAGE_MAP: Record<RecipeCategory, string> = {
+  shot: 'https://images.unsplash.com/photo-1542282811-943ef1a977f5?q=80&w=400&h=400&fit=crop',
+  suco: 'https://images.unsplash.com/photo-1622597467836-f30b912c9b2d?q=80&w=400&h=400&fit=crop',
+  cha: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?q=80&w=400&h=400&fit=crop',
+  vitamina: 'https://images.unsplash.com/photo-1623065422900-30fc0406c1fa?q=80&w=400&h=400&fit=crop',
+  comida: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=400&h=400&fit=crop',
+  lanche: 'https://images.unsplash.com/photo-1559561853-08451507cbe7?q=80&w=400&h=400&fit=crop',
+  caldo: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?q=80&w=400&h=400&fit=crop',
+};
 // Theme toggle logic
 function ThemeToggle() {
   const [isDark, setIsDark] = useState(true);
@@ -438,31 +447,28 @@ export default function Dashboard() {
             maxHeight: '85vh', overflowY: 'auto',
             borderTop: '1px solid var(--border)'
           }} onClick={e => e.stopPropagation()}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
-              <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(200,88,122,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px', flexShrink: 0 }}>
-                  {selectedRecipe.emoji}
-                </div>
-                <div>
-                  <h2 style={{ fontSize: '18px', fontWeight: '800', marginBottom: '4px' }}>{selectedRecipe.name}</h2>
-                  <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{selectedRecipe.subtitle}</p>
-                </div>
-              </div>
-              <button onClick={() => setSelectedRecipe(null)} style={{ background: 'var(--bg-glass2)', border: 'none', color: 'var(--text-muted)', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+            <div style={{ position: 'relative', height: '200px', margin: '-24px -24px 20px -24px', flexShrink: 0 }}>
+              <img src={IMAGE_MAP[selectedRecipe.category]} alt={selectedRecipe.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <div className="image-overlay-dark" />
+              <button onClick={() => setSelectedRecipe(null)} style={{ position: 'absolute', top: '24px', right: '24px', background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.2)', color: 'white', borderRadius: '50%', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', zIndex: 10 }}>
                 ✕
               </button>
+              <div style={{ position: 'absolute', bottom: '20px', left: '24px', right: '24px', color: 'white', zIndex: 1 }}>
+                <h2 style={{ fontSize: '24px', fontWeight: '800', marginBottom: '4px', fontFamily: '"Playfair Display", serif', textShadow: '0 2px 8px rgba(0,0,0,0.5)' }}>{selectedRecipe.name}</h2>
+                <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.9)', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>{selectedRecipe.subtitle}</p>
+              </div>
             </div>
 
             <p style={{ fontSize: '14px', color: 'var(--text-primary)', lineHeight: '1.6', marginBottom: '20px', background: 'var(--bg-glass)', padding: '12px', borderRadius: '10px' }}>
               {selectedRecipe.description}
             </p>
 
-            <p style={{ fontSize: '12px', fontWeight: '700', color: 'var(--text-muted)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>🥣 Ingredientes</p>
+            <p style={{ fontSize: '12px', fontWeight: '700', color: 'var(--text-muted)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>INGREDIENTES</p>
             <ul style={{ paddingLeft: '20px', marginBottom: '20px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
               {selectedRecipe.ingredients.map((ing, i) => <li key={i} style={{ fontSize: '14px', lineHeight: '1.5' }}>{ing}</li>)}
             </ul>
 
-            <p style={{ fontSize: '12px', fontWeight: '700', color: 'var(--text-muted)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>📝 Como Fazer</p>
+            <p style={{ fontSize: '12px', fontWeight: '700', color: 'var(--text-muted)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>COMO FAZER</p>
             <p style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: selectedRecipe.substitutions ? '20px' : '0' }}>{selectedRecipe.instructions}</p>
 
             {selectedRecipe.substitutions && (

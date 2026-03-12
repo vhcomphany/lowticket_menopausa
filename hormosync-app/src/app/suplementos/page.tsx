@@ -34,9 +34,6 @@ function SupplementCard({ sup }: { sup: Supplement }) {
     <div className="card" style={{ padding: 0, overflow: 'hidden', border: open ? '1px solid var(--brand-rose)' : '1px solid var(--border)', transition: 'border 0.2s' }}>
       <div style={{ padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }} onClick={() => setOpen(v => !v)}>
         <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-          <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(200,88,122,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', flexShrink: 0 }}>
-            {sup.emoji}
-          </div>
           <div>
             <p style={{ fontWeight: '700', fontSize: '14px', marginBottom: '2px' }}>{sup.name}</p>
             <p style={{ fontSize: '11px', color: 'var(--text-muted)', lineHeight: '1.4' }}>{sup.forWhat.slice(0, 60)}...</p>
@@ -106,7 +103,6 @@ function StackCard({ stack }: { stack: typeof SUPPLEMENT_STACKS[number] }) {
     <div className="card" style={{ padding: 0, overflow: 'hidden', border: open ? '1px solid var(--brand-purple)' : '1px solid var(--border)' }}>
       <div style={{ padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', background: 'linear-gradient(90deg, rgba(126,92,142,0.08) 0%, transparent 100%)' }} onClick={() => setOpen(v => !v)}>
         <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-          <span style={{ fontSize: '28px' }}>{stack.emoji}</span>
           <div>
             <p style={{ fontWeight: '700', fontSize: '15px' }}>Stack {stack.name}</p>
             <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{stack.description}</p>
@@ -178,7 +174,7 @@ export default function SuplementosPage() {
           <div style={{ display: 'flex', gap: '6px', overflowX: 'auto', paddingBottom: '2px' }}>
             <button onClick={() => setActiveGroup('todos')} style={{ whiteSpace: 'nowrap', padding: '7px 14px', borderRadius: '100px', fontSize: '12px', fontWeight: '600', border: activeGroup === 'todos' ? 'none' : '1px solid var(--border)', background: activeGroup === 'todos' ? 'linear-gradient(135deg, var(--brand-rose), var(--brand-purple))' : 'transparent', color: activeGroup === 'todos' ? 'white' : 'var(--text-muted)', cursor: 'pointer', flexShrink: 0 }}>Todos</button>
             {SUPPLEMENT_GROUPS.map(g => (
-              <button key={g.key} onClick={() => setActiveGroup(g.key)} style={{ whiteSpace: 'nowrap', padding: '7px 14px', borderRadius: '100px', fontSize: '12px', fontWeight: '600', border: activeGroup === g.key ? 'none' : '1px solid var(--border)', background: activeGroup === g.key ? 'linear-gradient(135deg, var(--brand-rose), var(--brand-purple))' : 'transparent', color: activeGroup === g.key ? 'white' : 'var(--text-muted)', cursor: 'pointer', flexShrink: 0 }}>{g.emoji} {g.label}</button>
+              <button key={g.key} onClick={() => setActiveGroup(g.key)} style={{ whiteSpace: 'nowrap', padding: '7px 14px', borderRadius: '100px', fontSize: '12px', fontWeight: '600', border: activeGroup === g.key ? 'none' : '1px solid var(--border)', background: activeGroup === g.key ? 'linear-gradient(135deg, var(--brand-rose), var(--brand-purple))' : 'transparent', color: activeGroup === g.key ? 'white' : 'var(--text-muted)', cursor: 'pointer', flexShrink: 0 }}>{g.label}</button>
             ))}
           </div>
         )}

@@ -3,7 +3,6 @@ export interface Supplement {
   group: 'fogacho' | 'sono' | 'energia' | 'libido' | 'cabelo' | 'ossos' | 'coracao' | 'humor';
   name: string;
   scientificName?: string;
-  emoji: string;
   forWhat: string;
   dose: string;
   timing: string;
@@ -20,7 +19,6 @@ export const SUPPLEMENTS: Supplement[] = [
   {
     id: 'SUP01', group: 'fogacho',
     name: 'Extrato de Amora', scientificName: 'Morus nigra',
-    emoji: '🫐',
     forWhat: 'Reduz intensidade e frequência dos fogachos e suores noturnos.',
     dose: '160mg de extrato seco padronizado, 2x ao dia',
     timing: 'Após o café da manhã e após o almoço',
@@ -43,10 +41,9 @@ Custo estimado: R$40–60
   {
     id: 'SUP02', group: 'fogacho',
     name: 'Isoflavonas de Soja', scientificName: 'Genisteína + Daidzeína',
-    emoji: '🌱',
     forWhat: 'Fitoestrogênio que ocupa receptores de estrogênio — alivia fogachos, secura vaginal e oscilações de humor.',
-    dose: '40–80mg de isoflavonas totais ao dia',
-    timing: '1 cápsula no café da manhã',
+    dose: '',
+    timing: '',
     timeToResult: '4 a 12 semanas',
     whereToBuy: 'Farmácias (Isofitol, Nattoflor) ou manipulação',
     costRange: 'R$30–70/mês',
@@ -65,7 +62,6 @@ Custo estimado: R$35–55
   {
     id: 'SUP03', group: 'fogacho',
     name: 'Extrato de Sálvia',
-    emoji: '🌿',
     forWhat: 'Anti-sudorífero natural. Reduz especificamente os suores noturnos.',
     dose: '280–300mg de extrato seco, 1x ao dia',
     timing: 'À noite, antes de dormir',
@@ -86,7 +82,6 @@ Custo estimado: R$25–45
   {
     id: 'SUP04', group: 'sono',
     name: 'Magnésio Bisglicinato',
-    emoji: '🧘',
     forWhat: 'Regula sono (especialmente acordar às 3h), reduz cãibras, ansiedade e tensão muscular — o "anti-estresse" mineral.',
     dose: '300mg de magnésio elemento à noite. NUNCA usar óxido de magnésio — má absorção.',
     timing: 'Com o jantar ou antes de dormir',
@@ -109,10 +104,9 @@ NÃO substituir por Magnésio Óxido (absorção ruim, causa diarreia)`,
   {
     id: 'SUP05', group: 'sono',
     name: 'Melatonina',
-    emoji: '🌙',
     forWhat: 'Induz o início do sono. Ideal para quem demora para pegar no sono.',
     dose: '0,5mg a 1mg sublingual. Começar com a menor dose.',
-    timing: '30 minutos antes de deitar com a luz baixa',
+    timing: '',
     timeToResult: 'Primeira noite já apresenta resultado',
     whereToBuy: 'Farmácias e manipulação',
     costRange: 'R$15–35/mês',
@@ -131,10 +125,9 @@ Custo estimado: R$15–30
   {
     id: 'SUP06', group: 'sono',
     name: 'Valeriana + Passiflora',
-    emoji: '💤',
     forWhat: 'Para quem acorda de madrugada e não consegue voltar a dormir. Manutenção do sono.',
     dose: 'Valeriana 300mg + Passiflora 150mg antes de dormir',
-    timing: '45-60 minutos antes de dormir',
+    timing: '',
     timeToResult: '2 a 4 semanas de uso contínuo (efeito acumula)',
     whereToBuy: 'Farmácia de manipulação ou Valdispert (pronto)',
     costRange: 'R$30–60/mês',
@@ -153,7 +146,6 @@ Custo estimado: R$35–55
   {
     id: 'SUP07', group: 'energia',
     name: 'Complexo B Ativo',
-    emoji: '⚡',
     forWhat: 'Combate cansaço, depressão leve e névoa mental (brain fog) da menopausa.',
     dose: 'B6: 50mg/dia | B12: 1000mcg sublingual',
     timing: 'Com o café da manhã',
@@ -179,7 +171,6 @@ Custo estimado: R$45–65`,
   {
     id: 'SUP08', group: 'energia',
     name: 'Vitamina D3 + K2 MK7',
-    emoji: '☀️',
     forWhat: 'Essencial para ossos, imunidade, humor e músculos. 80% das brasileiras têm deficiência.',
     dose: '5.000 UI de D3 com 100mcg de K2 MK7 ao dia',
     timing: 'Com a refeição mais gordurosa do dia (vitamina D é lipossolúvel)',
@@ -201,7 +192,6 @@ Custo estimado: R$30–50
   {
     id: 'SUP09', group: 'libido',
     name: 'Maca Peruana Preta',
-    emoji: '💜',
     forWhat: 'Versão mais potente da maca para libido e desejo sexual. Sem estimular o estrogênio diretamente.',
     dose: '500mg de extrato 4:1, 1x ao dia',
     timing: 'Pela manhã (evitar à noite — dá energia)',
@@ -223,9 +213,8 @@ Para libido e memória: pedir Maca PRETA`,
   {
     id: 'SUP10', group: 'libido',
     name: 'Vitamina E (Tocoferóis Mistos)',
-    emoji: '🌻',
     forWhat: 'Hidratação vaginal interna. Melhora mucosa íntima de dentro para fora. Também antioxidante para pele.',
-    dose: '400 UI ao dia',
+    dose: '',
     timing: 'Com a refeição gordurosa',
     timeToResult: '4 a 8 semanas para mucosa vaginal',
     whereToBuy: 'Farmácias e manipulação',
@@ -241,7 +230,6 @@ Custo estimado: R$20–38`,
   {
     id: 'SUP11', group: 'cabelo',
     name: 'Biotina + Zinco + Selênio',
-    emoji: '✨',
     forWhat: 'Combate queda hormonal de cabelo e fragilidade das unhas. Biotina fortalece; zinco inibe DHT; selênio protege o folículo.',
     dose: 'Biotina 10.000mcg + Zinco 15mg + Selênio 100mcg, 1x ao dia',
     timing: 'Com o café da manhã',
@@ -264,9 +252,8 @@ Custo estimado: R$50–75
   {
     id: 'SUP12', group: 'cabelo',
     name: 'Colágeno Hidrolisado Tipo 1 e 3',
-    emoji: '💎',
     forWhat: 'Aminoácidos da matriz do cabelo, pele e unhas. A vitamina C é obrigatória junto!',
-    dose: '10g ao dia de colágeno hidrolisado em pó',
+    dose: '',
     timing: 'No café da manhã misturado no suco de laranja (vitamina C obrigatória)',
     timeToResult: '2 a 4 meses',
     whereToBuy: 'Farmácias e lojas de suplementos (pó ou sachê)',
@@ -285,7 +272,6 @@ Custo estimado: R$60–90/mês
   {
     id: 'SUP13', group: 'ossos',
     name: 'Cálcio Citrato + D3 + K2',
-    emoji: '🦴',
     forWhat: 'Prevenção de osteoporose — risco sobe 50% no primeiro ano de menopausa. A tríade direciona o cálcio ao osso.',
     dose: 'Cálcio citrato 500mg 2x ao dia + D3 5.000UI + K2 100mcg',
     timing: 'Com as refeições (almoço e jantar). Dividir as doses.',
@@ -310,7 +296,6 @@ Custo estimado: R$70–100
   {
     id: 'SUP14', group: 'coracao',
     name: 'Ômega-3 EPA + DHA',
-    emoji: '❤️',
     forWhat: 'Anti-inflamatório sistêmico (articulações, coração, pele), melhora humor, reduz triglicerídeos e ressecamento vaginal.',
     dose: '2–3g de EPA+DHA combinados ao dia. Ler rótulo — não conta o total de óleo de peixe!',
     timing: 'Com as refeições, dividido em 2 doses',
@@ -333,7 +318,6 @@ Custo estimado: R$55–85/mês
   {
     id: 'SUP15', group: 'humor',
     name: 'Ashwagandha KSM-66',
-    emoji: '🧘',
     forWhat: 'Adaptógeno — reduz cortisol estruturalmente. Melhora sono, ansiedade, resistência ao estresse e libido.',
     dose: '300–600mg de extrato KSM-66 ou Sensoril, 1x ao dia',
     timing: 'À noite com o jantar (tem efeito sedativo suave)',
@@ -359,7 +343,6 @@ export const SUPPLEMENT_STACKS = [
   {
     id: 'STACK1',
     name: 'Termostato Hormonal',
-    emoji: '🌡️',
     description: 'Anti-fogacho por 3 vias simultâneas. A combinação mais potente.',
     symptoms: ['fogacho'],
     manipulationFormula: `FÓRMULA PARA MANIPULAÇÃO — STACK TERMOSTATO HORMONAL:
@@ -378,7 +361,6 @@ Ataca fogachos por 3 vias: fitoestrogênio (amora+soja) + anti-sudorese (sálvia
   {
     id: 'STACK2',
     name: 'Noite de Paz',
-    emoji: '🌙',
     description: 'Sono profundo sem acordar de madrugada.',
     symptoms: ['sono'],
     manipulationFormula: `FÓRMULA PARA MANIPULAÇÃO — STACK NOITE DE PAZ:
@@ -399,7 +381,6 @@ Para insônia grave: pode aumentar melatonina para 3mg`,
   {
     id: 'STACK3',
     name: 'Fios de Ouro',
-    emoji: '✨',
     description: 'Cabelo, unhas e pele em 1 cápsula diária.',
     symptoms: ['cabelo'],
     manipulationFormula: `FÓRMULA PARA MANIPULAÇÃO — STACK FIOS DE OURO:
@@ -418,7 +399,6 @@ Custo estimado: R$80–110/mês (cápsula + colágeno)
   {
     id: 'STACK4',
     name: 'Guerreira Total',
-    emoji: '⚡',
     description: 'Energia, memória e humor em 1 cápsula matinal.',
     symptoms: ['energia', 'humor'],
     manipulationFormula: `FÓRMULA PARA MANIPULAÇÃO — STACK GUERREIRA TOTAL:
@@ -435,7 +415,6 @@ Custo estimado: R$90–130/mês`,
   {
     id: 'STACK5',
     name: 'Libido e Vitalidade Íntima',
-    emoji: '💜',
     description: 'Desejo, lubrificação e circulação pélvica.',
     symptoms: ['libido'],
     manipulationFormula: `FÓRMULA PARA MANIPULAÇÃO — STACK LIBIDO:
@@ -453,12 +432,12 @@ Custo estimado: R$80–120/mês
 ];
 
 export const SUPPLEMENT_GROUPS = [
-  { key: 'fogacho', label: 'Fogachos', emoji: '🔥' },
-  { key: 'sono', label: 'Sono', emoji: '🌙' },
-  { key: 'energia', label: 'Energia', emoji: '⚡' },
-  { key: 'libido', label: 'Libido', emoji: '💜' },
-  { key: 'cabelo', label: 'Cabelo e Unhas', emoji: '✨' },
-  { key: 'ossos', label: 'Ossos', emoji: '🦴' },
-  { key: 'coracao', label: 'Coração', emoji: '❤️' },
-  { key: 'humor', label: 'Humor', emoji: '😊' },
+  { key: 'fogacho', label: 'Fogachos', },
+  { key: 'sono', label: 'Sono', },
+  { key: 'energia', label: 'Energia', },
+  { key: 'libido', label: 'Libido', },
+  { key: 'cabelo', label: 'Cabelo e Unhas', },
+  { key: 'ossos', label: 'Ossos', },
+  { key: 'coracao', label: 'Coração', },
+  { key: 'humor', label: 'Humor', },
 ];

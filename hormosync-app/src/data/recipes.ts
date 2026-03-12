@@ -7,7 +7,6 @@ export interface Recipe {
   symptoms: Symptom[];
   name: string;
   subtitle: string;
-  emoji: string;
   description: string;
   ingredients: string[];
   instructions: string;
@@ -23,7 +22,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'S01', category: 'shot', symptoms: ['fogacho'],
     name: 'Shot Termostato', subtitle: 'Alivia o calorão em minutos',
-    emoji: '🌡️',
     description: 'Combinação de fitoestrogênios que "enganam" o hipotálamo reduzindo a frequência e intensidade dos fogachos.',
     ingredients: ['Suco de 1/2 limão', '1 col. chá de linhaça dourada moída na hora', '1 col. café de pó de folha de amora', '60ml de água'],
     instructions: 'Moa a linhaça no momento (linhaça inteira não absorve). Misture tudo num copinho e tome de uma vez em jejum.',
@@ -34,7 +32,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'S02', category: 'shot', symptoms: ['fogacho'],
     name: 'Shot da Sálvia', subtitle: 'Anti-sudorífero natural',
-    emoji: '🌿',
     description: 'A sálvia é o anti-sudorífero natural mais estudado da Europa para menopausa.',
     ingredients: ['5 folhas de sálvia fresca (comum no mercado)', 'Suco de 1 limão', '50ml de água fria'],
     instructions: 'Macere as folhas de sálvia com o suco de limão por 3 minutos. Adicione a água, coe e tome.',
@@ -46,7 +43,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'S03', category: 'shot', symptoms: ['fogacho', 'inchaço'],
     name: 'Shot Gelo Verde', subtitle: 'Frescor imediato de dentro para fora',
-    emoji: '🥒',
     description: 'O mentol da hortelã ativa receptores de frio no corpo dando sensação real de temperatura baixando.',
     ingredients: ['1 pedaço de 4cm de pepino sem casca', '5 folhas de hortelã fresca', 'Suco de 1/2 limão', '1 pitada de sal rosa', '60ml de água gelada'],
     instructions: 'Bata tudo no liquidificador ou bater com um mixer. Coe e tome gelado.',
@@ -55,7 +51,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'S04', category: 'shot', symptoms: ['energia'],
     name: 'Shot Acorda Guerreira', subtitle: 'Energia sem cafeína',
-    emoji: '⚡',
     description: 'Ativa o metabolismo matinal com termogênicos naturais sem provocar palpitações.',
     ingredients: ['Suco de 1 laranja pequena', '1cm de gengibre fresco ralado', '1 pitada de pimenta-do-reino'],
     instructions: 'Esprema a laranja, rale o gengibre e misture com a pimenta. Tome de uma vez.',
@@ -65,7 +60,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'S05', category: 'shot', symptoms: ['energia', 'libido'],
     name: 'Shot Força da Raiz', subtitle: 'Maca pura para disposição',
-    emoji: '🌱',
     description: 'Maca peruana é adaptógeno comprovado: melhora energia e libido sem estimular diretamente o estrogênio.',
     ingredients: ['1 col. chá de maca peruana amarela em pó', 'Suco de 1/2 limão', '50ml de água'],
     instructions: 'Misture bem até dissolver o pó. Tome em jejum pela manhã.',
@@ -76,7 +70,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'S06', category: 'shot', symptoms: ['libido'],
     name: 'Shot Circulação Pélvica', subtitle: 'Lubrificação de dentro para fora',
-    emoji: '💜',
     description: 'O açafrão (crocina) melhora o fluxo sanguíneo na mucosa vaginal promovendo lubrificação natural.',
     ingredients: ['1 col. chá de açafrão em pó', 'Suco de 1/2 limão', '1 col. chá de mel', '60ml de água morna'],
     instructions: 'Dissolva o açafrão e mel na água morna. Adicione o limão. Tome pela manhã.',
@@ -85,7 +78,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'S07', category: 'shot', symptoms: ['inchaço'],
     name: 'Shot Seca Rápido', subtitle: 'Diurético imediato',
-    emoji: '💧',
     description: 'Drena o excesso de líquido ativando os rins de forma natural e segura.',
     ingredients: ['50ml de chá forte de cavalinha (ferver 5min)', 'Suco de 1/2 limão', '1 col. café de vinagre de maçã'],
     instructions: 'Faça o chá de cavalinha concentrado. Deixe esfriar. Adicione limão e vinagre. Tome em jejum.',
@@ -95,7 +87,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'S08', category: 'shot', symptoms: ['humor', 'sono'],
     name: 'Shot Calmante Urgente', subtitle: 'Ansiedade em 10 minutos',
-    emoji: '🕊️',
     description: 'Passiflora tem ação ansiolítica comprovada — equivale a oxazepam em dose baixa sem dependência.',
     ingredients: ['1 col. sopa de xarope ou extrato de maracujá (farmácia)', 'Suco de 1/2 limão', '50ml de água'],
     instructions: 'Misture tudo e tome. Sente o efeito em 10–20 minutos.',
@@ -104,7 +95,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'S09', category: 'shot', symptoms: ['cabelo'],
     name: 'Shot Fio de Aço', subtitle: 'Para queda hormonal de cabelo',
-    emoji: '✨',
     description: 'Zinco da semente de abóbora inibe a enzima que afina e derruba o fio na menopausa.',
     ingredients: ['Suco de 1 laranja', '1 col. sopa de semente de abóbora triturada no liquidificador', '1 col. chá de azeite extra-virgem'],
     instructions: 'Bata tudo no liquidificador. Coe. Tome no café da manhã com o estômago já com alguma coisa.',
@@ -114,7 +104,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'S10', category: 'shot', symptoms: ['fogacho', 'libido'],
     name: 'Shot da Romã', subtitle: 'Fitoestrogênio poderoso',
-    emoji: '🍎',
     description: 'A romã tem o maior teor de fitoestrogênios de qualquer fruta — age nos receptores de estrogênio.',
     ingredients: ['Suco de 1/2 romã fresca espremida (ou 60ml de suco integral sem açúcar)', 'Suco de 1/4 de limão'],
     instructions: 'Misture e tome. Pode adoçar com 1 col. chá de mel se necessário.',
@@ -125,7 +114,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'SU01', category: 'suco', symptoms: ['fogacho'],
     name: 'Suco Freio do Fogacho', subtitle: 'Fitoestrogênio + refrescante',
-    emoji: '🍏',
     description: 'A quercetina da maçã potencializa a ação anti-fogacho da sálvia.',
     ingredients: ['1 maçã verde com casca', '3 folhas de sálvia fresca', '1cm de gengibre', '200ml de água gelada'],
     instructions: 'Bata tudo no liquidificador. Pode coar ou tomar com as fibras. Beba no café da manhã ou lanche.',
@@ -134,7 +122,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'SU02', category: 'suco', symptoms: ['inchaço', 'energia'],
     name: 'Suco Verde Hormonal', subtitle: 'Drenagem e vitalidade',
-    emoji: '🥬',
     description: 'Água de coco repõe potássio do suor; couve tem cálcio para os ossos com baixo teor calórico.',
     ingredients: ['2 folhas de couve-manteiga', '1 pepino pequeno', '1 limão espremido', '200ml de água de coco'],
     instructions: 'Bata tudo sem coar. Se quiser mais doce, adicione 1 col. chá de mel.',
@@ -143,7 +130,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'SU03', category: 'suco', symptoms: ['libido', 'cabelo'],
     name: 'Suco da Vitalidade Íntima', subtitle: 'Lubrificação e força dos fios',
-    emoji: '🥭',
     description: 'Vitamina C da manga + mamão são cofatores essenciais para produção de colágeno das mucosas e dos fios.',
     ingredients: ['1/2 manga madura', '1/4 de mamão', 'Suco de 1 laranja', '1 col. sopa de linhaça moída'],
     instructions: 'Bata tudo. Não coe. A linhaça deve ser moída na hora para liberar lignanas.',
@@ -152,7 +138,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'SU04', category: 'suco', symptoms: ['sono', 'humor'],
     name: 'Suco da Boa Noite', subtitle: 'Prepara o corpo para dormir',
-    emoji: '🥝',
     description: 'Kiwi aumentou qualidade do sono em 42% num estudo clínico — rico em serotonina e antioxidantes naturais.',
     ingredients: ['1 kiwi com casca lavada', '200ml de leite de coco', '1 col. chá de mel'],
     instructions: 'Bata no liquidificador. Beba 1 hora antes de dormir.',
@@ -161,7 +146,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'SU05', category: 'suco', symptoms: ['energia', 'cabelo'],
     name: 'Suco Fio Dourado', subtitle: 'Silício para os fios',
-    emoji: '🥕',
     description: 'Chuchu cru é uma das maiores fontes de silício orgânico — mineral que "ancora" o fio de cabelo no folículo.',
     ingredients: ['1 cenoura pequena', '1/4 de chuchu cru', 'Suco de 1 limão', '200ml de água'],
     instructions: 'Bata tudo com os pedaços crus. Coe. Beba no café da manhã.',
@@ -170,7 +154,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'SU06', category: 'suco', symptoms: ['peso', 'energia'],
     name: 'Suco Queima Gordura Hormonal', subtitle: 'Metabolismo da menopausa',
-    emoji: '🍍',
     description: 'Bromelina do abacaxi ativa o metabolismo tireoidiano, essencial para perda de peso na menopausa.',
     ingredients: ['1/2 fatia de abacaxi', '1cm de gengibre', '1 col. sopa de chia', '200ml de água de coco'],
     instructions: 'Bata tudo. Beba sem coar para aproveitar as fibras da chia que prolongam saciedade.',
@@ -179,7 +162,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'SU07', category: 'suco', symptoms: ['ossos', 'humor'],
     name: 'Suco da Força Óssea', subtitle: 'Cálcio que realmente absorve',
-    emoji: '🌿',
     description: 'A vitamina C da laranja potencializa a absorção do cálcio em até 3x.',
     ingredients: ['200ml de leite de soja sem açúcar', '1 banana madura', '1 col. chá de linhaça moída'],
     instructions: 'Bata tudo. O leite de soja fornece isoflavonas + cálcio; a banana magnésio.',
@@ -188,7 +170,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'SU08', category: 'suco', symptoms: ['humor', 'energia'],
     name: 'Suco do Bom Humor', subtitle: 'Serotonina natural',
-    emoji: '🍌',
     description: 'Triptofano da banana é precursor direto da serotonina. O amendoim adiciona zinco e niacina.',
     ingredients: ['1 banana', '1 col. sopa de pasta de amendoim sem açúcar', '200ml de leite ou bebida vegetal'],
     instructions: 'Bata tudo. Pode servir com gelo. Ideal para tarde ou quando sentir queda de humor.',
@@ -199,7 +180,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'C01', category: 'cha', symptoms: ['fogacho'],
     name: 'Chá Apaga Fogacho', subtitle: 'Amora — o mais estudado',
-    emoji: '🫖',
     description: 'Principal fitoterapêutico para fogachos na medicina europeia. Redução de até 73% com uso regular.',
     ingredients: ['2 col. sopa de folhas secas de amora preta', '300ml de água'],
     instructions: 'Ferva a água com as folhas por 5 minutos. Desligue e deixe em infusão por mais 5 min. Coe e beba. Tome 2x ao dia: manhã e tarde.',
@@ -210,7 +190,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'C02', category: 'cha', symptoms: ['sono', 'humor'],
     name: 'Chá Apaga-Mente', subtitle: 'Desliga o cérebro para dormir',
-    emoji: '🌙',
     description: 'Mulungu + Passiflora: combinação ansiolítica sem dependência. Ativa o receptor GABA como o diazepam.',
     ingredients: ['1 col. sopa de casca de Mulungu', '1 col. sopa de folhas de Passiflora (maracujá)', '250ml de água'],
     instructions: 'Ferva a água com a casca de Mulungu por 4 minutos (casca dura precisa ferver). Desligue, adicione a Passiflora, tampe e aguarde 10 minutos. Coe e beba 40 minutos antes de dormir.',
@@ -221,7 +200,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'C03', category: 'cha', symptoms: ['sono'],
     name: 'Chá da Maçã com Camomila', subtitle: 'Aconchego para dormir',
-    emoji: '🍎',
     description: 'Apigenina da camomila se liga ao receptor GABA-A. A maçã adoça naturalmente e adiciona quercetina calmante.',
     ingredients: ['2 sachês de camomila', 'Cascas de 1 maçã (a maçã você come normal)', '300ml de água'],
     instructions: 'Ferva as cascas de maçã por 5 minutos. Desligue, adicione os sachês de camomila, tampe e espere 7 minutos. Beba 30 min antes de dormir.',
@@ -230,7 +208,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'C04', category: 'cha', symptoms: ['fogacho'],
     name: 'Chá de Sálvia Fresca', subtitle: 'Anti-suor noturno',
-    emoji: '🌿',
     description: 'Sálvia fresca tem mais princípio ativo que a seca. Ótimo para tomar frio ao longo do dia.',
     ingredients: ['6 folhas de sálvia fresca (tempero de supermercado)', '300ml de água quente'],
     instructions: 'Coloque as folhas em água quente (não fervendo!) e deixe em infusão por 10 minutos tapado. Coe. Pode beber quente ou frio. Tome de manhã e à tarde.',
@@ -241,7 +218,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'C05', category: 'cha', symptoms: ['humor', 'sono'],
     name: 'Chá Melissa Sem Estresse', subtitle: 'Erva da calma profunda',
-    emoji: '🌸',
     description: 'Melissa inibe a enzima GABA-transaminase mantendo GABA naturalmente elevado. Efeito ansiolítico moderado.',
     ingredients: ['2 col. sopa de folhas de melissa (erva-cidreira)', '300ml de água'],
     instructions: 'Não ferva — apenas despeje água quente sobre as folhas e tampe por 10 minutos. Coe e beba. Ótimo para a tarde ou antes de dormir.',
@@ -250,7 +226,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'C06', category: 'cha', symptoms: ['inchaço'],
     name: 'Chá Drenante da Cavalinha', subtitle: 'Contra inchaço nos pés e tornozelos',
-    emoji: '💧',
     description: 'Cavalinha é o diurético natural mais potente. Rica em silício também para cabelo e unhas.',
     ingredients: ['2 col. sopa de cavalinha seca', '300ml de água'],
     instructions: 'Ferva a cavalinha por 10 minutos. Coe e beba. Tome pela manhã até o início da tarde (evitar à noite — vai ao banheiro!)',
@@ -260,7 +235,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'C07', category: 'cha', symptoms: ['ossos', 'inchaço'],
     name: 'Chá Hibisco', subtitle: 'Pressão e inchaço',
-    emoji: '🌺',
     description: 'Antocianinas do hibisco reduzem pressão sistólica em 7-8 mmHg — essencial na menopausa onde PA tende a subir.',
     ingredients: ['1 col. sopa de pétalas secas de hibisco', '300ml de água morna (não fervendo)'],
     instructions: 'NUNCA ferva o hibisco — destrói as antocianinas. Despeje água a 80°C (morna) sobre as pétalas. Tampe 10 minutos. Coe e beba.',
@@ -270,7 +244,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'C08', category: 'cha', symptoms: ['ossos', 'humor'],
     name: 'Chá Anti-Dor Articular', subtitle: 'Para dores de menopausa',
-    emoji: '🫚',
     description: 'A tríade cúrcuma + gengibre + pimenta inibe COX-2 como ibuprofeno, mas sem risco gástrico.',
     ingredients: ['2cm de cúrcuma fresca (ou 1 col. chá de pó)', '2cm de gengibre fresco', '1 pitada de pimenta-do-reino', '300ml de água'],
     instructions: 'Ferva tudo por 8 minutos. Coe, adicione mel a gosto. Beba quente.',
@@ -282,7 +255,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'V01', category: 'vitamina', symptoms: ['fogacho', 'humor'],
     name: 'Vitamina Hormonal Master', subtitle: 'Café da manhã completo anti-fogacho',
-    emoji: '🥛',
     description: 'Isoflavonas da soja + lignanas da linhaça + triptofano da banana formam o trio mais poderoso contra fogachos e depressão.',
     ingredients: ['200ml de leite de soja sem açúcar', '1 banana madura congelada', '1 col. sopa de linhaça moída na hora', '1 col. sopa de cacau 100%', 'Mel a gosto'],
     instructions: 'Bata tudo no liquidificador. Não é necessário coar. Beba logo após bater.',
@@ -292,7 +264,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'V02', category: 'vitamina', symptoms: ['sono'],
     name: 'Vitamina do Sono Completo', subtitle: 'Toma 30 min antes de dormir',
-    emoji: '🌙',
     description: 'Magnésio do cacau + triptofano da banana + sedativo da noz-moscada = indução ao sono sem remédio.',
     ingredients: ['200ml de leite de amêndoas (ou de coco)', '1 banana madura', '1 col. sopa de cacau 100%', '1 pitada de noz-moscada', '1 col. chá de mel'],
     instructions: 'Aqueça levemente o leite. Bata tudo. Beba 30 minutos antes de deitar lendo um livro (sem celular).',
@@ -301,7 +272,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'V03', category: 'vitamina', symptoms: ['ossos'],
     name: 'Vitamina Ossos de Cimento', subtitle: 'Cálcio que o corpo absorve de verdade',
-    emoji: '🦴',
     description: 'Gergelim tem o maior teor de cálcio de qualquer alimento vegetal: 100g = 780mg. A banana adiciona magnésio para ativar o cálcio.',
     ingredients: ['200ml de leite (vaca ou vegetal)', '1 col. sopa de tahine (pasta de gergelim)', '1 banana', '1 col. chá de mel'],
     instructions: 'Bata tudo no liquidificador. Pode adicionar 1 pitada de canela para ajudar na absorção.',
@@ -310,7 +280,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'V04', category: 'vitamina', symptoms: ['peso', 'energia'],
     name: 'Vitamina Anti-Barriga', subtitle: 'Saciedade por horas',
-    emoji: '🍏',
     description: 'Beta-glucanas da aveia controlam a glicemia pós-menopausa e prolongam saciedade evitando o pico de insulina que vira gordura abdominal.',
     ingredients: ['200ml de água de coco', '1 col. sopa de aveia em flocos finos', '1 maçã verde cortada (com casca)', 'Canela a gosto'],
     instructions: 'Bata tudo. Tomar no café da manhã. O volume de fibra da maçã segura a fome até o almoço.',
@@ -319,7 +288,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'V05', category: 'vitamina', symptoms: ['cabelo', 'libido'],
     name: 'Vitamina Colágeno Vivo', subtitle: 'Pele, unhas e cabelo',
-    emoji: '🥭',
     description: 'Vitamina C da acerola é cofator obrigatório para síntese de colágeno. Sem ela, o colágeno que você ingere vai embora.',
     ingredients: ['1/2 manga madura', 'Suco de 1 laranja ou 3 acerolas', '1 col. sopa de gelatina incolor dissolvida em água morna', '100ml de água'],
     instructions: 'Dissolva a gelatina em 2 col. sopa de água morna. Bata tudo no liquidificador.',
@@ -328,7 +296,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'V06', category: 'vitamina', symptoms: ['libido', 'humor'],
     name: 'Vitamina do Desejo', subtitle: 'Feniletilamina e maca',
-    emoji: '💜',
     description: 'Cacau libera feniletilamina (hormônio da paixão). Maca amarela é adaptógeno que melhora desejo sexual sem estimular estrogênio.',
     ingredients: ['200ml de leite de amêndoas', '1 col. sopa de cacau 100%', '1 banana', '1 col. chá de maca peruana amarela'],
     instructions: 'Bata tudo. Tome no café da manhã. Efeito cumulativo — melhor com uso diário por 2-4 semanas.',
@@ -340,7 +307,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'CO01', category: 'comida', symptoms: ['peso', 'humor'],
     name: 'Frango Dourado Anti-Inflamatório', subtitle: 'Almoço semanal base',
-    emoji: '🍗',
     description: 'Proteína completa com curcumina anti-inflamatória. Mantém a massa muscular que evita o ganho de peso.',
     ingredients: ['1 filé de frango', '1 col. chá de cúrcuma', '1 dente de alho', '1 col. sopa de azeite', 'Suco de 1/2 limão', 'Sal e ervas'],
     instructions: 'Marine o frango com todos os temperos por 15 min. Grelhe ou asse a 200°C por 20 min. Sirva com legumes.',
@@ -349,7 +315,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'CO02', category: 'comida', symptoms: ['energia', 'ossos'],
     name: 'Omelete Funcional da Guerreira', subtitle: 'Vitamina D + colina para memória',
-    emoji: '🍳',
     description: 'Ovos têm vitamina D2 e colina — essencial para memória e foco que caem na menopausa.',
     ingredients: ['2 ovos inteiros', '1 punhado de espinafre', '4 cogumelos fatiados', '30g de queijo frescal', 'Azeite e sal'],
     instructions: 'Refogue espinafre e cogumelos no azeite. Adicione os ovos batidos, cubra e cozinhe em fogo baixo. Adicione queijo por cima antes de dobrar.',
@@ -358,7 +323,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'CO03', category: 'comida', symptoms: ['libido', 'humor', 'ossos'],
     name: 'Salmão ao Forno com Brócolis', subtitle: 'Ômega-3 para tudo',
-    emoji: '🐟',
     description: 'Ômega-3 do salmão reduz resseamento vaginal, melhora humor e preserva volume cerebral. O brócolis fornece vitamina K para os ossos.',
     ingredients: ['1 posta de salmão (150g)', '1 col. sopa de azeite', '1 dente de alho', 'Suco de 1/2 limão', '1 xícara de brócolis'],
     instructions: 'Tempere o salmão. Asse a 200°C por 18-20 min. Cozinhe o brócolis no vapor por 5 min. Sirva juntos.',
@@ -367,7 +331,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'CO04', category: 'comida', symptoms: ['peso'],
     name: 'Bowl da Guerreira (Low Carb)', subtitle: 'Perda de peso sem passar fome',
-    emoji: '🥗',
     description: 'Zero carboidrato refinado. Proteína + gordura boa = ausência de pico de insulina que gera gordura abdominal.',
     ingredients: ['1 filé de frango grelhado em cubos', 'Folhas verdes à vontade', '1 tomate', '1/4 de pepino', '5 azeitonas', '1 col. sopa de azeite', '1/2 limão'],
     instructions: 'Monte a base de folhas. Adicione os ingredientes em cima. Tempere com azeite, limão, sal e orégano. Simples.',
@@ -376,7 +339,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'CO05', category: 'comida', symptoms: ['fogacho', 'peso'],
     name: 'Tofu Grelhado com Legumes', subtitle: 'Isoflavonas no almoço',
-    emoji: '🫘',
     description: 'Tofu firme = 20mg de isoflavonas por porção. Dose terapêutica comprovada para redução de fogachos.',
     ingredients: ['150g de tofu firme', '1 col. sopa de shoyu', '1cm de gengibre ralado', '1 dente de alho', 'Legumes variados (abobrinha, pimentão, cenoura)'],
     instructions: 'Marine o tofu em cubos com shoyu, gengibre e alho por 15 min. Grelhe até dourar. Salteie os legumes na mesma frigideira.',
@@ -385,7 +347,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'CO06', category: 'comida', symptoms: ['peso'],
     name: 'Pizza de Abobrinha (Zero Farinha)', subtitle: 'Mata vontade sem pico de glicemia',
-    emoji: '🍕',
     description: 'Sem glúten, sem farinha, sem pico de insulina. Elimina a barriga da menopausa enquanto satisfaz.',
     ingredients: ['2 abobrinhas médias raladas', '1 ovo', '3 col. sopa de parmesão ralado', 'Molho de tomate natural', 'Queijo muçarela magra'],
     instructions: 'Rale a abobrinha e esprema bem para tirar o excesso de água. Misture com ovo e parmesão. Espalhe numa forma untada formando um disco. Asse a 200°C por 15min até firmar. Coloque molho e queijo, asse mais 5min.',
@@ -396,7 +357,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'L01', category: 'lanche', symptoms: ['peso', 'humor'],
     name: 'Pão Nuvem (Zero Farinha)', subtitle: 'Mata vontade de pão sem engordar',
-    emoji: '☁️',
     description: 'Zero farinha e zero carboidrato. Pura proteína. Come 4-5 bolinhas e não engorda — e mata a vontade de pão.',
     ingredients: ['3 ovos (separar claras e gemas)', '3 col. sopa de requeijão light', '1 col. chá de fermento em pó'],
     instructions: 'Bata as claras em neve firme. Misture as gemas com requeijão. Incorpore gentilmente às claras. Adicione o fermento. Coloque em colheradas numa forma untada. Asse 20 min a 180°C até dourar levemente.',
@@ -405,7 +365,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'L02', category: 'lanche', symptoms: ['humor', 'energia'],
     name: 'Banana com Pasta de Amendoim', subtitle: 'Clássico anti-ansiedade',
-    emoji: '🍌',
     description: 'Triptofano da banana + zinco e niacina do amendoim = produção de serotonina direta. Simples e poderoso.',
     ingredients: ['1 banana', '1 col. sopa de pasta de amendoim sem açúcar (Goma Zero, Dr. Peanut etc.)'],
     instructions: 'Fatie a banana. Sirva com a pasta de amendoim como molho. Sem segredo.',
@@ -414,7 +373,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'L03', category: 'lanche', symptoms: ['ossos', 'cabelo'],
     name: 'Mix de Castanhas da Rainha', subtitle: 'Tríade mineral hormonal',
-    emoji: '🥜',
     description: 'Selênio (castanha do pará) + Ômega-3 (nozes) + Zinco (caju) = tríade mineral que protege ovários, cabelo e ossos.',
     ingredients: ['1 castanha do pará (não mais que 2 por dia!)', '6 nozes ou amêndoas', '6 castanhas de caju'],
     instructions: 'Monte o mix e guarde em potinhos para ter pronto. Coma no lanche da tarde.',
@@ -424,7 +382,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'L04', category: 'lanche', symptoms: ['peso', 'inchaço'],
     name: 'Palitos de Legumes com Guacamole', subtitle: 'Saciedade sem carboidrato',
-    emoji: '🥑',
     description: 'Fibra dos legumes + gordura boa do abacate = saciedade prolongada sem pico de insulina.',
     ingredients: ['1 cenoura em palitos', '1/4 de pepino em palitos', '1/2 abacate maduro', 'Suco de 1/4 de limão', 'Sal e pimenta'],
     instructions: 'Amasse o abacate com o limão, sal e pimenta. Sirva como pasta para os legumes.',
@@ -433,7 +390,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'L05', category: 'lanche', symptoms: ['humor', 'sono'],
     name: 'Iogurte Grego com Mel e Nozes', subtitle: 'Probiótico + ômega-3',
-    emoji: '🍯',
     description: 'Probióticos do iogurte melhoram o eixo intestino-cérebro aumentando serotonina. Nozes fornecem ômega-3.',
     ingredients: ['3 col. sopa de iogurte grego natural sem açúcar', '1 col. chá de mel', '1 col. sopa de nozes picadas'],
     instructions: 'Monte em camadas num potinho. Consuma em minutos após montar para manter a textura.',
@@ -442,7 +398,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'L06', category: 'lanche', symptoms: ['energia', 'peso'],
     name: 'Bolinho Funcional de Aveia', subtitle: 'Chocolate sem açúcar que alimenta',
-    emoji: '🍫',
     description: 'Sem açúcar, sem farinha. O cacau fornece magnésio e a aveia prolonga saciedade.',
     ingredients: ['1 banana amassada', '2 col. sopa de aveia em flocos finos', '1 col. sopa de cacau 100% em pó'],
     instructions: 'Misture tudo com um garfo. Forme bolinhas. Asse 12 min a 180°C ou micro-ondas 2 minutos. Come quentinho.',
@@ -453,7 +408,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'CA01', category: 'caldo', symptoms: ['peso', 'energia'],
     name: 'Caldo da Noite da Guerreira', subtitle: 'Jantar leve para acordar leve',
-    emoji: '🍲',
     description: 'Proteína de fácil digestão à noite. Não acelera o metabolismo e permite sono tranquilo.',
     ingredients: ['1 xícara de frango cozido desfiado', '1 xícara de caldo de frango caseiro', '2 folhas de couve picadas fino', '1 dente de alho amassado', '1 col. sopa de azeite', 'Sal'],
     instructions: 'Aqueça o caldo. Refogue o alho no azeite, adicione a couve por 1 minuto. Adicione o caldo e o frango desfiado. Aqueça e sirva.',
@@ -462,7 +416,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'CA02', category: 'caldo', symptoms: ['ossos', 'cabelo'],
     name: 'Caldo Dourado Anti-Inflamatório', subtitle: 'Cúrcuma + gengibre = articul. sem dor',
-    emoji: '✨',
     description: 'Anti-inflamatório oral. Serve para dores articulares e musculares comuns na menopausa.',
     ingredients: ['250ml de caldo de frango ou legumes', '1 col. chá de cúrcuma', '1cm de gengibre ralado', '1 pitada de pimenta-do-reino', '2 col. sopa de leite de coco'],
     instructions: 'Aqueça o caldo. Dissolva a cúrcuma e o gengibre. Finalize com o leite de coco e a pimenta. Beba como sopa.',
@@ -471,7 +424,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'CA03', category: 'caldo', symptoms: ['cabelo', 'ossos'],
     name: 'Caldo Ósseo Caseiro (Bone Broth)', subtitle: 'Colágeno do osso',
-    emoji: '🦴',
     description: 'O colágeno hidrolisado do osso é o mais biodisponível. O vinagre de maçã dissolve o cálcio do osso para dentro do caldo.',
     ingredients: ['Ossos de frango (carcaça) ou bovinos', '2 litros de água filtrada', '1 cenoura', '2 dentes de alho', '1 col. sopa de vinagre de maçã', 'Sal e ervas'],
     instructions: 'Coloque tudo na panela de pressão. Cozinhe 2-4 horas (quanto mais, melhor o caldo). Coe, espere esfriar, retire a gordura da superfície. Beba 1 xícara ao dia.',
@@ -480,7 +432,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'CA04', category: 'caldo', symptoms: ['inchaço', 'peso'],
     name: 'Caldo Seca-Barriga', subtitle: 'Jantar detox diurético',
-    emoji: '💧',
     description: 'Diurético natural intenso. Beba no jantar para urinar o inchaço acumulado durante a semana.',
     ingredients: ['1 maço de salsinha fresca', '1/2 cebola', '2 dentes de alho', '1cm de gengibre', 'Suco de 1 limão', '500ml de água', 'Sal'],
     instructions: 'Ferva tudo por 10 minutos. Bata no liquidificador. Coe. Beba morno. Não adicionar sal se o objetivo for drenagem máxima.',
@@ -489,7 +440,6 @@ export const RECIPES: Recipe[] = [
   {
     id: 'CA05', category: 'caldo', symptoms: ['humor', 'energia'],
     name: 'Caldo de Lentilha Vermelho', subtitle: 'Ferro contra o cansaço',
-    emoji: '🫘',
     description: 'Lentilha: ferro + proteína vegetal + ácido fólico. Combate a anemia que imita o cansaço da menopausa.',
     ingredients: ['1/2 xícara de lentilha vermelha', '1 tomate picado', '1 cenoura', '1 col. chá de cominho', '1 dente de alho', 'Suco de 1/2 limão', '400ml de água'],
     instructions: 'Cozinhe a lentilha com cenoura, tomate, alho e cominho em 400ml de água por 15 min (lentilha vermelha cozinha rápido). Bata metade na liquidificador para cremosidade. Finalize com limão.',
@@ -497,26 +447,26 @@ export const RECIPES: Recipe[] = [
   },
 ];
 
-export const CATEGORIES: { key: RecipeCategory; label: string; emoji: string }[] = [
-  { key: 'shot', label: 'Shots', emoji: '💉' },
-  { key: 'suco', label: 'Sucos', emoji: '🥤' },
-  { key: 'cha', label: 'Chás', emoji: '🍵' },
-  { key: 'vitamina', label: 'Vitaminas', emoji: '🥛' },
-  { key: 'comida', label: 'Comidas', emoji: '🍽️' },
-  { key: 'lanche', label: 'Lanches', emoji: '🌮' },
-  { key: 'caldo', label: 'Caldos', emoji: '🍲' },
+export const CATEGORIES: { key: RecipeCategory; label: string }[] = [
+  { key: 'shot', label: 'Shots',},
+  { key: 'suco', label: 'Sucos',},
+  { key: 'cha', label: 'Chás',},
+  { key: 'vitamina', label: 'Vitaminas',},
+  { key: 'comida', label: 'Comidas',},
+  { key: 'lanche', label: 'Lanches',},
+  { key: 'caldo', label: 'Caldos',},
 ];
 
 export const SYMPTOM_LABELS: Record<Symptom, string> = {
-  fogacho: '🔥 Fogachos',
-  sono: '🌙 Sono',
-  inchaço: '💧 Inchaço',
-  libido: '💜 Libido',
-  energia: '⚡ Energia',
-  cabelo: '✨ Cabelo',
-  ossos: '🦴 Ossos',
-  humor: '😊 Humor',
-  peso: '⚖️ Peso',
+  fogacho: 'Fogachos',
+  sono: 'Sono',
+  inchaço: 'Inchaço',
+  libido: 'Libido',
+  energia: 'Energia',
+  cabelo: 'Cabelo',
+  ossos: 'Ossos',
+  humor: 'Humor',
+  peso: 'Peso',
 };
 
 // Gera cardápio semanal baseado no perfil da usuária
