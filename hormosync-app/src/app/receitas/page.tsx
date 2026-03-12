@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { ChevronDown, ChevronUp, RefreshCw, Calendar, Clock, Zap } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
 import { RECIPES, CATEGORIES, SYMPTOM_LABELS, generateWeeklyPlan, type RecipeCategory, type Symptom, type Recipe } from '@/data/recipes';
@@ -100,7 +100,7 @@ export default function ReceitasPage() {
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
 
   // Carrega cardápio salvo se houver, ou gera um inicial baseado no sintoma
-  const [weeklyPlan, setWeeklyPlan] = useState(() => {
+  const [weeklyPlan, setWeeklyPlan] = useState<ReturnType<typeof generateWeeklyPlan>>(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('hormosync_weekly_plan');
       if (saved) {
@@ -123,7 +123,6 @@ export default function ReceitasPage() {
   }, [mainSymptom, planLevel]);
 
   // Salva no localStorage na montagem se acabou de gerar
-  import { useEffect } from 'react';
   useEffect(() => {
     if (typeof window !== 'undefined' && weeklyPlan) {
       localStorage.setItem('hormosync_weekly_plan', JSON.stringify(weeklyPlan));

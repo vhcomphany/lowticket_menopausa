@@ -152,10 +152,10 @@ export function useTodayChecklist(userId: string | undefined) {
   return { entries, loading, toggleTask, defaultTasks };
 }
 
-export function useTodaySymptoms(userId: string | undefined) {
+export function useTodaySymptoms(userId: string | undefined, dateStr?: string) {
   const [symptoms, setSymptoms] = useState<SymptomLog | null>(null);
   const supabase = createClient();
-  const today = new Date().toISOString().split('T')[0];
+  const date = dateStr || new Date().toISOString().split('T')[0];
 
   useEffect(() => {
     if (!userId) return;
@@ -163,16 +163,16 @@ export function useTodaySymptoms(userId: string | undefined) {
       .from('symptom_logs')
       .select('*')
       .eq('user_id', userId)
-      .eq('logged_at', today)
+      .eq('logged_at', date)
       .single()
       .then(({ data }) => setSymptoms(data));
-  }, [userId]);
+  }, [userId, date]);
 
   const saveSymptoms = async (values: { fogacho: number; sono: number; energia: number; humor: number }) => {
     if (!userId) return;
     await supabase
       .from('symptom_logs')
-      .upsert({ user_id: userId, logged_at: today, ...values }, { onConflict: 'user_id,logged_at' });
+      .upsert({ user_id: userId, logged_at: date, ...values }, { onConflict: 'user_id,logged_at' });
     setSymptoms(prev => ({ ...prev, ...values } as SymptomLog));
   };
 

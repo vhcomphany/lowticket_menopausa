@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { TrendingDown, TrendingUp, ChevronRight } from 'lucide-react';
+import { useState, useEffect, useMemo } from 'react';
+import { TrendingDown, TrendingUp, ChevronRight, CalendarClock } from 'lucide-react';
 import BottomNav from '@/components/BottomNav';
 import { useProfile, useSymptomHistory, useTodaySymptoms } from '@/hooks/useSupabase';
 
@@ -22,13 +22,44 @@ type SymptomKey = 'fogacho' | 'sono' | 'energia';
 
 export default function EvolucaoPage() {
   const { user } = useProfile();
-  const { history, loading: historyLoading } = useSymptomHistory(user?.id, 7);
-  const { symptoms: todaySymptoms, saveSymptoms } = useTodaySymptoms(user?.id);
+  const today = new Date().toISOString().split('T')[0];
+  const [selectedDate, setSelectedDate] = useState<string>(today);
+
+  const { history, loading: historyLoading } = useSymptomHistory(user?.id, 14);
+  const { symptoms: selectedSymptoms, saveSymptoms } = useTodaySymptoms(user?.id, selectedDate);
 
   const [activeSymptom, setActiveSymptom] = useState<SymptomKey>('fogacho');
   const [period, setPeriod] = useState('semana');
   const [showRegistro, setShowRegistro] = useState(false);
   const [values, setValues] = useState({ fogacho: 5, sono: 5, energia: 5, humor: 5 });
+
+  // Update slider values when selectedSymptoms changes (i.e. changing the date and pulling from Supabase)
+  useEffect(() => {
+    if (selectedSymptoms) {
+      setValues({
+        fogacho: selectedSymptoms.fogacho || 5,
+        sono: selectedSymptoms.sono || 5,
+        energia: selectedSymptoms.energia || 5,
+        humor: selectedSymptoms.humor || 5,
+      });
+    } else {
+      setValues({ fogacho: 5, sono: 5, energia: 5, humor: 5 });
+    }
+  }, [selectedSymptoms]);
+
+  const missingDays = useMemo(() => {
+    if (historyLoading) return [];
+    const missed = [];
+    for (let i = 1; i <= 6; i++) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const iso = d.toISOString().split('T')[0];
+      if (!history.find(h => h.logged_at === iso)) {
+        missed.push(iso);
+      }
+    }
+    return missed;
+  }, [history, historyLoading]);
 
   const maxVal = 10;
   const symptomColor = symptomsConfig.find(s => s.key === activeSymptom)?.color || '#C8587A';
@@ -47,15 +78,8 @@ export default function EvolucaoPage() {
     { day: 'Qui', val: 0 }, { day: 'Sex', val: 0 }, { day: 'Sab', val: 0 }, { day: 'Dom', val: 0 }
   ];
 
-  const handleOpenModal = () => {
-    if (todaySymptoms) {
-      setValues({
-        fogacho: todaySymptoms.fogacho || 5,
-        sono: todaySymptoms.sono || 5,
-        energia: todaySymptoms.energia || 5,
-        humor: todaySymptoms.humor || 5,
-      });
-    }
+  const handleOpenModal = (dateStr: string = today) => {
+    setSelectedDate(dateStr);
     setShowRegistro(true);
   };
 
@@ -189,19 +213,60 @@ export default function EvolucaoPage() {
           </div>
         </div>
 
-        {/* Botão Registrar */}
-        <button className="btn-primary" onClick={handleOpenModal}>
-          + Registrar sintomas de hoje
-        </button>
+        {/* Missing days reminder */}
+        {missingDays.length > 0 && (
+          <div style={{ background: 'rgba(212,165,106,0.1)', border: '1px solid rgba(212,165,106,0.3)', borderRadius: '16px', padding: '16px', display: 'flex', gap: '12px' }}>
+            <CalendarClock size={20} color="var(--brand-gold)" style={{ flexShrink: 0, marginTop: '2px' }} />
+            <div>
+              <p style={{ fontSize: '13px', fontWeight: '700', color: 'var(--brand-gold)', marginBottom: '4px' }}>
+                Você esqueceu de registrar alguns dias
+              </p>
+              <p style={{ fontSize: '12px', color: '#F0EAF5', marginBottom: '12px', lineHeight: '1.4' }}>
+                Preencher os dias passados melhora a precisão dos seus gráficos e permite acompanhar o ciclo direitinho. Quer preencher agora?
+              </p>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                {missingDays.slice(0, 3).map(iso => {
+                  const brDate = new Date(iso + 'T12:00:00');
+                  const label = brDate.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit' }).replace('.', '');
+                  return (
+                    <button key={iso} onClick={() => handleOpenModal(iso)} style={{ background: 'rgba(212,165,106,0.2)', color: 'var(--brand-gold)', border: 'none', padding: '6px 12px', borderRadius: '100px', fontSize: '11px', fontWeight: '700', cursor: 'pointer' }}>
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Botão Registrar Hoje */}
+        {!history.find(h => h.logged_at === today) ? (
+          <button className="btn-primary" onClick={() => handleOpenModal(today)}>
+            + Registrar sintomas de hoje
+          </button>
+        ) : (
+          <button style={{ background: 'rgba(255,255,255,0.05)', color: 'var(--text-muted)', border: '1px solid var(--border)', padding: '16px', borderRadius: '16px', fontSize: '14px', fontWeight: '700', width: '100%', cursor: 'pointer' }} onClick={() => handleOpenModal(today)}>
+            ✓ Você já registrou hoje. Tocar para editar
+          </button>
+        )}
 
       </div>
 
       {/* Modal Registro */}
       {showRegistro && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', zIndex: 200, display: 'flex', alignItems: 'flex-end' }} onClick={() => setShowRegistro(false)}>
-          <div style={{ background: 'var(--bg-card)', borderRadius: '24px 24px 0 0', padding: '28px', width: '100%', maxWidth: '430px', margin: '0 auto' }} onClick={e => e.stopPropagation()}>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', zIndex: 200, display: 'flex', alignItems: 'flex-end', backdropFilter: 'blur(5px)' }} onClick={() => setShowRegistro(false)}>
+          <div style={{ background: 'var(--bg-card)', borderRadius: '24px 24px 0 0', padding: '28px', width: '100%', maxWidth: '430px', margin: '0 auto', borderTop: '1px solid var(--border)' }} onClick={e => e.stopPropagation()}>
             <div style={{ width: '40px', height: '4px', background: 'var(--border)', borderRadius: '100px', margin: '0 auto 24px' }} />
-            <h3 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '20px' }}>Como você está hoje?</h3>
+            
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <h3 style={{ fontSize: '18px', fontWeight: '800' }}>
+                {selectedDate === today ? 'Como você está hoje?' : `Sintomas do dia ${new Date(selectedDate + 'T12:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })}`}
+              </h3>
+              <input type="date" value={selectedDate} onChange={e => setSelectedDate(e.target.value)} max={today} style={{
+                background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', padding: '6px 10px', borderRadius: '8px', fontSize: '12px', fontWeight: '600'
+              }} />
+            </div>
+
             {[
               { key: 'fogacho', label: '🔥 Intensidade dos Fogachos' },
               { key: 'sono', label: '🌙 Qualidade do Sono ontem' },
